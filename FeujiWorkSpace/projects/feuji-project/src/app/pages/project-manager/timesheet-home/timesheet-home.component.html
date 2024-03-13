@@ -1,0 +1,172 @@
+<div class="container mt-2">
+  <div class="row p-4 text-end">
+    <div class="d-flex justify-content-end">
+      <div class="col-md-2 mb-3 me-3">
+
+
+      </div>
+      <div class="col-md-2 mb-3 me-3">
+
+      </div>
+      <div class="col-md-1 mt-3" >
+        <button class="btn btn-primary float-lg-end" (click)="addTaskRow()"    style="border-radius: 50%;" >
+      <i class="fa-solid fa-plus"></i>
+        </button>
+
+      </div>
+    </div>
+
+    <table class="table table-bordered mt-4">
+      <thead class="table1">
+
+      </thead>
+
+      <tbody>
+        <tr class="row1" style="text-align: center ">
+          <th style="width: 1%;font-family:Arial, Helvetica, sans-serif; font-size: small; "></th>
+          <th style="width: 10%;font-family:Arial, Helvetica, sans-serif; font-size: small;">Project</th>
+          <th style="width: 5%;font-family:Arial, Helvetica, sans-serif; font-size: small;">TaskType</th>
+          <th style="width: 10%;font-family:Arial, Helvetica, sans-serif; font-size: small;" >Task</th>
+          <th style="width: 10%;font-family:Arial, Helvetica, sans-serif; font-size: small;">Atendance Type</th>
+          <th *ngForOf="let day of currentWeek" style="font-family:Arial, Helvetica, sans-serif; font-size: small;">{{ day.startDate }}</th>
+          <th style=" font-family:Arial, Helvetica, sans-serif; font-size: small;">Total</th>
+          <th style="width: 5%;font-family:Arial, Helvetica, sans-serif; font-size: small;">Action</th>
+        </tr>
+
+        <tr *ngForOf="let task of tasks; let i = index">
+          <td class="text-center" >
+            <i class="bi bi-list-ul" style="font-size: 22px"></i>
+          </td>
+          <td >
+            <select  id="project_{{i}}"
+              name="project_{{i}}"
+              class="form-control"
+              (change)="onSelect($event,i)"
+              ngModel="task.project"
+            >
+              <option value="" selected disabled>Select project</option>
+              <option
+                *ngForOf="let pro of projects"
+                value="{{ pro.accountProjectId }}"
+              >
+                {{ pro.projectName }}
+              </option>
+            </select>
+          </td>
+          <td>
+            <select id="tasktype_{{i}}"
+            name="tasktype_{{i}}"
+              class="form-control"
+              (change)="onSelectTaskType($event,i)"
+              ngModel="task.taskType"
+            >
+              <option value="" selected disabled>Select Type</option>
+              <option
+                *ngForOf="let tasktype of projectTaskType[i]"
+                value="{{ tasktype.taskTypeId }}"
+              >
+                {{ tasktype.taskType }}
+              </option>
+            </select>
+          </td>
+          <td>
+            <select class="form-control" ngModel="task.task" id="task_{{i}}"
+            name="task_{{i}}">
+              <option value="" selected disabled>Select Task</option>
+
+              <option *ngForOf="let task of projectTask[i]">{{ task.task }}</option>
+            </select>
+          </td>
+          <td>
+            <select class="form-control" ngModel="task.attendanceType" >
+              <option value="" selected disabled>Attendance Type</option>
+              <option *ngForOf="let bil of attendanceType" [value]="bil">
+                {{bil}}
+              </option>
+            </select>
+          </td>
+           <td >
+            <input class="form-control" id="data1" (change)="onaddingval1($event,i)"  style="width: 65px" />
+          </td>
+          <td>
+            <input class="form-control" id="data2" (change)="onaddingval2($event,i)"  style="width: 65px" />
+          </td>
+
+          <td>
+            <input class="form-control" id="data3"   style="width: 65px" />
+          </td>
+          <td>
+            <input class="form-control" id="data4"   style="width: 65px" />
+          </td>
+          <td>
+            <input class="form-control"  id="data5"  style="width: 55px" />
+          </td>
+          <td>
+            <input class="form-control" id="data6"   style="width: 65px" />
+          </td>
+          <td>
+            <input class="form-control" id="data7"style="width: 65px" />
+          </td>
+          <td>
+            <input class="form-control" id="data8" style="width: 65px" />
+          </td>
+          <!-- <td *ngFor="let value of task.days; let j = index">
+            <input class="form-control" style="width: 65px" [(ngModel)]="task.days[j]" (input)="calculateSums()" />
+          </td> -->
+
+
+          <td>
+            <!-- Add Remove button for each row -->
+
+
+                <i class="fa-regular fa-pen-to-square fa-fw " ></i>
+              <i class="fa-solid fa-trash-can fa-fw "  style="color: red;" (click)="removeTask(i)"></i>
+
+          </td>
+
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td></td>
+          <td colspan="4" >Total</td>
+          <td *ngForOf="let total of totalvalue; let j = index">{{totalvalue[j]}}</td>
+          <td>
+           {{totalvalue}}
+          </td>
+          <td ></td>
+          <td ></td>
+          <td ></td>
+          <td ></td>
+          <td ></td>
+          <td ></td>
+          <td></td>
+
+
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="form-group">
+    <label for="submitButton "></label>
+    <button
+      type="submit"
+      class="btn btn-primary float-lg-end"
+      id="submitButton"
+      style="margin-right: 30px; font-size: medium"
+    >
+      Submit
+    </button>
+
+    <label for="submitButton "></label>
+    <button
+      type="submit"
+      class="btn btn-primary float-lg-end"
+      id="submitButton"
+      style="margin-right: 30px; font-size: medium"
+    >
+      Save
+    </button>
+  </div>
+</div>

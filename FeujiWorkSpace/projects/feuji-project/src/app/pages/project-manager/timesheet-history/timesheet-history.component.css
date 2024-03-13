@@ -1,0 +1,35 @@
+.container-fluid {
+  position:absolute;
+  top: 20%;
+  left: 23%;
+  width: 75%;
+  border: 1px solid black;
+}
+
+.container{
+  display: flex;
+  justify-content: space-between;
+}
+
+.submenu {
+  display: none;
+}
+
+.submenu.show {
+  display: block;
+}
+
+.custom-row {
+  height: 80px;
+
+}
+
+.custom-table tbody tr:nth-child(odd) {
+  background-color: #f8f9fa;
+  /* Light gray background for odd rows */
+}
+
+.custom-table tbody tr:nth-child(even) {
+  background-color: #e9ecef;
+  /* Lighter gray background for even rows */
+}

@@ -1,0 +1,37 @@
+<div class="container-fluid ">
+   
+    <h1 class="text-center p-3 mb-3 holidaycalendor"> All Holidays</h1>
+    <!-- <div>
+        <button type="button" class="btn btn add"  routerLink="/addholidaycalendar">
+           <i class="fas fa-plus-circle" >Add</i> 
+            <i class="fa-solid fa-plus"></i>
+          </button>
+    </div> -->
+
+    <table  class="tablebox table-borderless " style="border-collapse: collapse; ">
+        
+        <tr class="rows   head">
+        <th class="  text-center table-borderless ">Date</th>
+        <th  class=" text-center table-borderless" >Holiday Name</th>
+        <th  class="  text-center table-borderless">Week Of The Day</th>
+        <!-- <th  class="  text-center table-borderless"><span class="text">Action</span></th> -->
+    </tr>
+    <tr *ngFor="let holiday of holidays " class="rows">
+        
+        <td class="text1" >{{holiday.holidayDate|date:'dd-MMM-yyyy'}}</td>
+        <td  class="text1"  >{{holiday.holidayName}}</td>
+        <td   class="text1" >{{holiday.holidayDay}}</td>
+        <!-- <td ><button  (click)="navigateeditholiday(holiday)" class="btn"> <i class="fas fa-edit"></i> </button>
+            
+            <button (click)="delete(holiday.holidayId)"><i class="fa-solid fa-trash-can fa-fw "  style="color: red;"></i></button>
+
+            </td> -->
+
+   
+       
+
+</table>
+<!-- 
+<router-outlet></router-outlet> -->
+</div>
+

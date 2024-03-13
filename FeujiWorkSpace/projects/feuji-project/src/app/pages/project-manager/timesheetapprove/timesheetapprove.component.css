@@ -1,0 +1,62 @@
+.custom-select {
+
+  border-radius: 5px;
+  background-color: rgb(229, 233, 234) ;
+  display: flex;
+  justify-content: space evenly;
+  padding: 8px;
+  color: black;
+}
+/*
+.weekDropDown{
+  display: flex;
+  justify-content: space evenly;
+  margin-left: -250%;
+}
+
+.project{
+  margin-right: 50%;
+} */
+
+.input-group-append{
+  justify-content: space-evenly;
+}
+.table tr th{
+  text-align:center;
+  font-size: 15px;
+  background-color: rgb(229, 233, 234);
+  color: black;
+}
+
+.table{
+  width: 95%;
+  margin-left: 4%;
+}
+
+.btn
+{
+background-color: rgb(164, 164, 236);
+
+border-color: rgb(229, 233, 234);
+color: black;
+margin-left: 30%;
+}
+.tbody tr td{
+text-align: center;
+}
+
+.Rejected {
+color: red;
+text-size-adjust :bold;
+}
+
+.Approved {
+font-weight: bold;
+color: green;
+}
+
+.Pending{
+font-weight: bold;
+color: 	rgb(252, 191, 11)
+
+}

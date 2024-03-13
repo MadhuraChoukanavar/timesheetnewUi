@@ -1,0 +1,34 @@
+
+<!-- combined-sidemenu.component.html -->
+<div class="container-fluid">
+    <div class="bg-light" style="overflow-x: auto;">
+      <div class="bg-light p-2">
+        <a class="d-flex text-decoration-none mt-1 align-items-center">
+          <span class="fs-4 d-none d-sm-inline"></span>
+        </a>
+        <ng-container *ngFor="let menuItem of menuOptions">
+          <!-- Main Menu Option -->
+          <button class="nav-link" aria-current="page" (click)="toggleSubmenu(menuItem.mainOption)" class="mainButton" [class.active]="isActive(menuItem.mainOption)">
+            <span class="d-none d-sm-flex align-items-lg-start" style="font-size: 20px; color: rgb(0, 0, 0);" class="mainMenu">
+              <i [class]="menuItem.icon" style="margin-right: 8px;"></i>{{ menuItem.mainOption }}
+            </span>
+          </button>
+          <!-- Sub-menu Options -->
+          <ul class="nav nav-pills flex-column mt-2" class="submenu"[class.active]="isActive(menuItem.mainOption)">
+            <li class="nav-item" *ngFor="let subOption of menuItem.subOptions">
+              <button class="nav-link" aria-current="page" (click)="toggleSubmenu(subOption)"  [routerLink]="subOption.link">
+                <span class="ms-2 d-none d-sm-inline" style="font-size: 18px; color: rgb(0,0,0);">
+                  {{ subOption.label}}
+                </span>
+              </button>
+
+            </li>
+          </ul>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+

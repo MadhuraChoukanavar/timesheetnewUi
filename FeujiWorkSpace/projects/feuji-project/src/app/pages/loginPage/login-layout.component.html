@@ -1,0 +1,19 @@
+
+<div   class="login-container">
+  <h2>Login Page</h2>
+  <form  [formGroup]="formData" (ngSubmit)="login()">
+    <label for="username">Username<span style=color:red>*</span></label>
+    <input type="text"  formControlName="userEmail"  required>
+
+    <label for="password">Password<span style=color:red>*</span></label>
+    <input type="password" formControlName="userPassword" required>
+
+    <span><a href="">Forget Password</a></span>
+
+    <div class="container mt-5" style="color: blue;">
+      <button type="submit" class="btn btn-primary">Login</button>
+    </div>
+
+  </form>
+</div>
+

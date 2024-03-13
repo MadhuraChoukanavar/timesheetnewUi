@@ -1,0 +1,46 @@
+.container-fluid {
+  width: 100%;
+  /* border: 1px solid pink; */
+  position: absolute;
+  top:0px;
+  /* box-sizing: border-box; */
+}
+
+.employecolor {
+  color: rgb(243, 117, 46);
+}
+
+.formborderbox {
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.input {
+  height: 35px;
+  width: 200px;
+  border-radius: 6px;
+  border: 1px solid #333;
+}
+
+.w-30 {
+  width: 45%;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.btnbg {
+  background-color: rgb(243, 117, 46);
+  border-radius: 5px;
+  height: 35px;
+  font-size: 20px;
+}
+
+.text {
+  font-size: 20px;
+  font-weight: 500px;
+}
