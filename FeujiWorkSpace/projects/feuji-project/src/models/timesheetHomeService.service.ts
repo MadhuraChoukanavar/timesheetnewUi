@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { TimesheetWeekDayBean, WeekAndDayDto } from './timesheethomebean.model';
+import { SaveAndEditRecords, TimesheetWeekDayBean, WeekAndDayDto } from './timesheethomebean.model';
 import { DatePipe } from '@angular/common';
 
 @Injectable({
@@ -54,14 +54,15 @@ export class TimesheetHomeService {
   }
 
   sendDataToBackend1(
-    data: TimesheetWeekDayBean[]
-  ): Observable<TimesheetWeekDayBean[]> {
-    const url = `${this.dataUrl}/saveall`;
+    data:SaveAndEditRecords, weekStartDate:string
+  ): Observable<SaveAndEditRecords> {
+    const url = `${this.dataUrl}/saveedit/${weekStartDate}`;
     console.log(url + '--URL--');
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     console.log(data);
+    
     //const dataArray = Array.isArray(data) ? data : (data as { timesheetData: TimesheetWeekDayBean[] }).timesheetData;
-    return this.http.post<TimesheetWeekDayBean[]>(url, data, { headers });
+    return this.http.post<SaveAndEditRecords>(url, data, { headers });
   }
   updateDetails( data: TimesheetWeekDayBean): Observable<TimesheetWeekDayBean> {
     console.log(data);
@@ -82,6 +83,8 @@ console.log(url)
 
   deleteRecord(weekdayDto: WeekAndDayDto): Observable<WeekAndDayDto> {
     const url = `${this.deleteUrl}/delete`;
+    console.log(weekdayDto);
+    
     return this.http.post<any>(url, weekdayDto);
   }
 

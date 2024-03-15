@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { AfterViewChecked} from '@angular/core';
+import { AfterViewChecked } from '@angular/core';
 
 import { DatePipe } from '@angular/common';
 import { TimesheetHomeService } from '../../../../models/timesheetHomeService.service';
-import { WeekAndDayDto } from '../../../../models/timesheethomebean.model';
+import {
+  SaveAndEditRecords,
+  WeekAndDayDto,
+} from '../../../../models/timesheethomebean.model';
 
 import { TimesheetWeekDayBean } from '../../../../models/timesheethomebean.model';
-import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-timesheet-home',
   templateUrl: './timesheet-home.component.html',
   styleUrl: './timesheet-home.component.css',
 })
-export class TimesheetHomeComponent implements OnInit,AfterViewChecked {
+export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
   constructor(
     private timesheetHomeService: TimesheetHomeService,
     private datePipe: DatePipe
@@ -29,19 +31,19 @@ export class TimesheetHomeComponent implements OnInit,AfterViewChecked {
     },
   ];
   defaultAccountId: number = 0; // Set the default account ID here
-  selectedAccount: number =0;
+  selectedAccount: number = 0;
   currentDate: Date = new Date();
   //currentWeek: any[]= [];
   currentWeek: { startDate: string | null; endDate: string | null }[] = [];
-  accounts:any[]=[];
+  accounts: any[] = [];
   projects: any[] = [];
   projectTaskType: any[] = [];
   projectTask: any[] = [];
   attendanceTypeArr: any[] = [];
   startDate: any = '';
-
+  saveAndEditRecords: SaveAndEditRecords = new SaveAndEditRecords([], []);
   lastDate: any = '';
-  
+
   selectedProjectId: number = 0;
   selectedProjecttaskId: number = 0;
   selectedAttendanceType: any;
@@ -49,18 +51,16 @@ export class TimesheetHomeComponent implements OnInit,AfterViewChecked {
   employeeId: number = 108;
   everyRowRecord: any[] = [];
 
- 
-
   rownum: number = 1;
   current: number = 0;
   addTaskRow() {
-    console.log("addTaskRowNew "+this.rownum);
+    console.log('addTaskRowNew ' + this.rownum);
     this.addDataToAllarows();
 
     this.rownum++;
-    console.log("addTaskRow "+this.rownum);
+    console.log('addTaskRow ' + this.rownum);
     // Add a new task with default values
-    
+
     this.tasks.push({
       project: '',
       taskType: '',
@@ -68,7 +68,6 @@ export class TimesheetHomeComponent implements OnInit,AfterViewChecked {
       attendanceType: '',
       days: Array(7).fill(0),
     });
-    
   }
 
   valuee: number = 0;
@@ -94,50 +93,40 @@ export class TimesheetHomeComponent implements OnInit,AfterViewChecked {
     // Handle the form submission
   }
   ngOnInit(): void {
-   
-// this.fetcWeekDayData(108)
- 
-  this.timesheetHomeService.getAccounts().subscribe
-  (
-    (resp)=>
-    {
-      this.accounts=resp as any[];
-      console.log(this.accounts)
-    },
-    (error)=>
-    {
-      console.error(error)
-    } 
-  );
-      
-   
+    // this.fetcWeekDayData(108)
+
+    this.timesheetHomeService.getAccounts().subscribe(
+      (resp) => {
+        this.accounts = resp as any[];
+        console.log(this.accounts);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+
     this.onSelectAttendanceType();
     this.calculateCurrentWeek();
-    
   }
 
+  OnSelectAccount(account: any) {
+    this.selectedAccount = account.target.value;
+    //========================================================
+    this.everyRowRecord[(this.rownum, 21)] = Number(this.selectedAccount);
+    //===
+    this.timesheetHomeService.getproject(this.selectedAccount).subscribe(
+      (resp) => {
+        this.projects = resp as any[];
+        console.log(this.projects);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
 
-  OnSelectAccount(account:any)
-{
- this.selectedAccount= account.target.value;
-  //========================================================
-  this.everyRowRecord[(this.rownum, 21)] =  Number(this.selectedAccount);
-  //===
-  this.timesheetHomeService.getproject( this.selectedAccount).subscribe(
-    (resp) => {
-      this.projects = resp as any[];
-      console.log(this.projects)
-    },
-    (error) => {
-      console.error(error);
-    }
-  );
-}
-
-  ngAfterViewChecked(){
-
-      this.columnsumnew();
-
+  ngAfterViewChecked() {
+    this.columnsumnew();
   }
   onSelect(projects: any, i: number) {
     //========================================================
@@ -167,18 +156,20 @@ export class TimesheetHomeComponent implements OnInit,AfterViewChecked {
       .subscribe((restask) => {
         console.log(this.selectedTasks);
         console.log(restask);
-        
+
         // const filteredTasks = restask.filter(task =>!this.selectedTasks.includes(task.taskId)) as any[];
-        const filteredTasks = restask.filter(task => !this.selectedTasks.some(selectedTask => Number(selectedTask) === task.taskId)) as any[];
+        const filteredTasks = restask.filter(
+          (task) =>
+            !this.selectedTasks.some(
+              (selectedTask) => Number(selectedTask) === task.taskId
+            )
+        ) as any[];
 
         console.log(filteredTasks);
 
-
         this.projectTask[i] = filteredTasks;
-
       });
-}
-
+  }
 
   onSelectingTask(projectTask: any, i: number) {
     this.selectedTaskId = projectTask.target.value;
@@ -187,16 +178,16 @@ export class TimesheetHomeComponent implements OnInit,AfterViewChecked {
     this.everyRowRecord[(this.rownum, 3)] = Number(this.selectedTaskId);
     //========================================================
     console.log(this.selectedTaskId);
-//     for(let j=0;j<=this.fetchedDetails.length;j++)
-//     {
-//       this.selectedTasksFromFetch[j]=this.fetchedDetails[j].taskId
-// }
-  
-    this.selectedTasks[i]= this.selectedTaskId
+    //     for(let j=0;j<=this.fetchedDetails.length;j++)
+    //     {
+    //       this.selectedTasksFromFetch[j]=this.fetchedDetails[j].taskId
+    // }
+
+    this.selectedTasks[i] = this.selectedTaskId;
 
     console.log(this.selectedTasks);
-    
-    console.log( this.selectedTasks+" nnnnnnnnnnnselected")
+
+    console.log(this.selectedTasks + ' nnnnnnnnnnnselected');
   }
   onSelectAttendanceType() {
     this.timesheetHomeService.getBillingType().subscribe((bill) => {
@@ -270,91 +261,107 @@ export class TimesheetHomeComponent implements OnInit,AfterViewChecked {
   }
   showNextWeek() {
     this.calculateWeek(++this.current);
-    
+    // const accountId = this.selectedAccount || this.defaultAccountId;
+    this.fetchWeekDayData(108, this.selectedAccount,this.startDate,this.lastDate);
   }
 
   showPreviousWeek() {
     this.calculateWeek(--this.current);
+    this.fetchWeekDayData(108, this.selectedAccount,this.startDate,this.lastDate);
   }
 
-  // getMondayDate() {
-  //   const currentDay = this.currentWeek[0].startDate;
-  // const formattedMonday = this.datePipe.transform(currentDay, 'dd-MM-yyyy');
-  // console.log(formattedMonday);
-  // return formattedMonday;
-    
-  // }
-
-  // getEndDate() {
-  //   const lastDay = this.currentWeek[6].endDate;
-
-  //   return lastDay;
-  // }
 
   totalvalue: number[] = [0, 0, 0, 0, 0, 0, 0];
-
- 
-
+  newrowTotal:number[]=[];
   columnsumnew() {
-    //console.log("Rownum::"+this.limitRow);
+    this.totalvalue=[];
+   // let previousSum = [];
     for (let columnCount = 4; columnCount < 11; columnCount++) {
       let sum: number = 0;
 
       for (let rowCount = 0; rowCount < this.limitRow; rowCount++) {
-        const inputValue = (document.getElementById( 'data_' + rowCount + columnCount) as HTMLInputElement ).innerText;
-       // console.log('data_' + rowCount + columnCount + "value"+inputValue)
-        sum += Number(inputValue);
+        const inputElement = document
+          .getElementById('data_' + rowCount + columnCount)
+          ?.querySelector('input');
+        if (inputElement instanceof HTMLInputElement) {
+          const inputValue = inputElement.value;
+
+          sum += Number(inputValue);
+        }
       }
-      this.totalvalue[columnCount-4] = sum;
+
+      this.totalvalue[columnCount - 4] = sum;
     }
+    this.columnsum();
     this.rowsumnew();
+   
     return this.totalvalue;
   }
   rowsumnew() {
     for (let rowCount = 0; rowCount < this.limitRow; rowCount++) {
       let sum: number = 0;
       for (let columnCount = 4; columnCount < 11; columnCount++) {
-        const inputValue = (
-          document.getElementById( 'data_' +  rowCount+columnCount  ) as HTMLInputElement
-        ).innerText;
-        //console.log(' data_' + rowCount + columnCount + " value "+inputValue)      
+        // const inputValue = (
+        //   document.getElementById(
+        //     'data_' + rowCount + columnCount
+        //   ) as HTMLInputElement
+        // ).innerText;
+        
+       const inputElement=document.getElementById('data_'+rowCount+columnCount)?.querySelector('input');
+       if(inputElement instanceof HTMLInputElement)
+       {
+        const inputValue=inputElement.value;
         sum += Number(inputValue);
+       }
+       
       }
-      (document.getElementById('data_' +rowCount+ 11 ) as HTMLInputElement).innerText = String(sum);
+      // (
+      //   document.getElementById('data_' + rowCount + 11) as HTMLInputElement
+      // ).innerText = String(sum);
+
+   this.newrowTotal[rowCount]=sum;
+   
+
+   
+      
       //(document.getElementById('data_' +rowCount+ 11 ) as HTMLInputElement).value= String(sum);
     }
-  }
- 
-  columnsum() {
-   console.log(this.rownum);
-    for (let rowCount = 0; rowCount < this.rownum; rowCount++) {
-    let sum: number = 0;
-    for (let columnCount = 0; columnCount < 7; columnCount++) {
-      console.log("Input "+columnCount + " - "+rowCount);
-     const inputValue = ( document.getElementById( 'input_' + rowCount + columnCount) as HTMLInputElement ).value;
-     this.totalvalue[columnCount] += Number(inputValue);
-         
-    }
-    this.rowsum(rowCount);  
-   }
- 
-   return this.totalvalue;
+   
   }
 
-  rowsum(count : number) {
-    let sum :number =0;
-     for (let columnCount = 0; columnCount < 7; columnCount++) {
-      const inputValue = ( document.getElementById( 'input_' + count + columnCount) as HTMLInputElement ).value;
-      sum += Number(inputValue);
-      this.everyRowRecord[(this.rownum, 12 + columnCount)] =
-     Number(inputValue);
-     }
-     (
-      document.getElementById('input_' + count +7 ) as HTMLInputElement
-     ).value = String(sum);
-     
+  columnsum() {
+
+    for (let rowCount = 0; rowCount < this.rownum; rowCount++) {
+      let sum: number = 0;
+      for (let columnCount = 0; columnCount < 7; columnCount++) {
+       
+        const inputValue = (
+          document.getElementById(
+            'input_' + rowCount + columnCount
+          ) as HTMLInputElement
+        ).value;
+        this.totalvalue[columnCount] += Number(inputValue);
+      }
+      this.rowsum(rowCount);
     }
-   
+
+    return this.totalvalue;
+  }
+
+  rowsum(count: number) {
+    let sum: number = 0;
+    for (let columnCount = 0; columnCount < 7; columnCount++) {
+      const inputValue = (
+        document.getElementById(
+          'input_' + count + columnCount
+        ) as HTMLInputElement
+      ).value;
+      sum += Number(inputValue);
+      this.everyRowRecord[(this.rownum, 12 + columnCount)] = Number(inputValue);
+    }
+    (document.getElementById('input_' + count + 7) as HTMLInputElement).value =
+      String(sum);
+  }
 
   getComment(comments: any) {
     const comment = comments.target.value;
@@ -364,47 +371,49 @@ export class TimesheetHomeComponent implements OnInit,AfterViewChecked {
     //========================================================
   }
 
-
-
   //public timesheetWeekDayBean:any=new TimesheetWeekDayBean(0,0,0,0,0,new Date,new Date,new Date,new Date,new Date,new Date,new Date,0,0,0,0,0,0,0,"");
 
   timesheetStatus: any[] = [];
-  
 
   allRows: TimesheetWeekDayBean[] = [];
 
   saveWeekTableData() {
+  
+
     const saveId =
       Number(
         this.timesheetStatus.find(
           (status) => status.referenceDetailValue === 'saved'
         )?.referenceDetailId
       ) ?? 0;
-    console.log(typeof saveId);
-    console.log(saveId);
+  
     //========================================================
     this.everyRowRecord[(this.rownum, 20)] = 57;
     //========================================================
 
     this.addDataToAllarows();
+  
+    this.saveAndEditRecords.timesheetWeekDayDetailDto = this.allRows;
+    this.saveAndEditRecords.weekAndDayDto = this.editedArray;
+          console.log(this.startDate);
+          
 
+    this.timesheetHomeService
+      .sendDataToBackend1(this.saveAndEditRecords,this.startDate)
+      .subscribe(
+        (response) => {
+          console.log('Backend response:', response);
 
-    this.timesheetHomeService.sendDataToBackend1(this.allRows).subscribe(
-      (response) => {
-        console.log('Backend response:', response);
-   
-      //  this.fetcWeekDayData( 108, '2024-03-04 00:00:00') ;
-   
-    
-      },
-      (error) => {
-        console.error('Error sending data to backend:', error);
-      }
-    );
+          //   //  this.fetcWeekDayData( 108, '2024-03-04 00:00:00') ;
+        },
+        (error) => {
+          console.error('Error sending data to backend:', error);
+        }
+      );
   }
 
   addDataToAllarows() {
-    let index :number =0;
+    let index: number = 0;
     let timesheetWeekDayBean: any = new TimesheetWeekDayBean(
       0,
       0,
@@ -426,12 +435,12 @@ export class TimesheetHomeComponent implements OnInit,AfterViewChecked {
       0,
       0,
       '',
-      0,0
-
+      0,
+      0
     );
     timesheetWeekDayBean.employeeId = this.everyRowRecord[index++];
-    timesheetWeekDayBean.projectId = this.everyRowRecord[index++];
-    
+    timesheetWeekDayBean.accountProjectId = this.everyRowRecord[index++];
+
     timesheetWeekDayBean.taskTypeId = this.everyRowRecord[index++];
     timesheetWeekDayBean.taskId = this.everyRowRecord[index++];
     timesheetWeekDayBean.attendanceType = this.everyRowRecord[index++];
@@ -458,36 +467,38 @@ export class TimesheetHomeComponent implements OnInit,AfterViewChecked {
     timesheetWeekDayBean.hoursSun = this.everyRowRecord[index++];
     timesheetWeekDayBean.comments = this.everyRowRecord[index++];
     timesheetWeekDayBean.timesheetStatus = this.everyRowRecord[index++];
-    timesheetWeekDayBean.accountId=this.everyRowRecord[index++];
-    this.allRows[this.rownum - 1] = timesheetWeekDayBean;
-   
+    timesheetWeekDayBean.accountId = this.everyRowRecord[index++];
+
+    if (timesheetWeekDayBean.accountProjectId != undefined) {
+      this.allRows[this.rownum - 1] = timesheetWeekDayBean;
+    }
   }
 
-  limitRow : number=0;
+  limitRow: number = 0;
   fetchedDetails: WeekAndDayDto[] = [];
   deetails: WeekAndDayDto[] = [];
 
-// getCurrentWeekStartDate(): string {
-//   const today = new Date();
-//   const currentDay = today.getDay();
-//   const daysUntilMonday = currentDay === 0 ? 6 : currentDay - 1; // Adjust for Sunday
-//   const startDate = new Date(today);
-//   startDate.setDate(today.getDate() - daysUntilMonday);
+  // getCurrentWeekStartDate(): string {
+  //   const today = new Date();
+  //   const currentDay = today.getDay();
+  //   const daysUntilMonday = currentDay === 0 ? 6 : currentDay - 1; // Adjust for Sunday
+  //   const startDate = new Date(today);
+  //   startDate.setDate(today.getDate() - daysUntilMonday);
 
-//   // Format the date as 'yyyy-MM-dd HH:mm:ss'
-//   const formattedStartDate = this.formatDate(startDate);
-//   return formattedStartDate;
-// }
-formatDate(date: Date): string {
-  const year = date.getFullYear();
-  const month = ('0' + (date.getMonth() + 1)).slice(-2);
-  const day = ('0' + date.getDate()).slice(-2);
-  const hours = ('0' + date.getHours()).slice(-2);
-  const minutes = ('0' + date.getMinutes()).slice(-2);
-  const seconds = ('0' + date.getSeconds()).slice(-2);
+  //   // Format the date as 'yyyy-MM-dd HH:mm:ss'
+  //   const formattedStartDate = this.formatDate(startDate);
+  //   return formattedStartDate;
+  // }
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    const hours = ('0' + date.getHours()).slice(-2);
+    const minutes = ('0' + date.getMinutes()).slice(-2);
+    const seconds = ('0' + date.getSeconds()).slice(-2);
 
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-}
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
   // fetcWeekDayData(employeeId: 108) {
   //   const currentWeekStartDate = this.getCurrentWeekStartDate();
   //  this.timesheetHomeService
@@ -496,51 +507,48 @@ formatDate(date: Date): string {
   //    this.fetchedDetails = fetched as WeekAndDayDto[];
   //    this.limitRow=fetched.length;
   //    console.log("Limit Row "+this.limitRow);
-     
-  //   });
- 
-  // }
-  formattedDate: string='';
-  fetchWeekDayData(employeeId: number,accountId: number): void {
-   const startDate1=this.startDate;
-   const lastDate=this.lastDate;
-   
 
-   console.log("''''''''''''''''''''''''''''"+startDate1)
-   alert("madhura "+lastDate)
+  //   });
+
+  // }
+ 
+  formattedDate: string = '';
+  fetchWeekDayData(employeeId: number, accountId: number ,startDate:string,endDate:string): void {
+    // const startDate1 = this.startDate;
+    // const lastDate = this.lastDate;
+
+    console.log("''''''''''''''''''''''''''''" + startDate);
+    alert('madhura ' + endDate);
     this.timesheetHomeService
-      .getWeekDayDetails(accountId,  employeeId,startDate1, lastDate)
+      .getWeekDayDetails(accountId, employeeId, startDate, endDate)
       .subscribe((fetched) => {
         this.fetchedDetails = fetched as WeekAndDayDto[];
         this.limitRow = fetched.length;
-        console.log("Limit Row " + this.limitRow);
+        console.log('Limit Row ' + this.limitRow);
       });
   }
-  
 
   loadTimesheetData(): void {
     const accountId = this.selectedAccount || this.defaultAccountId;
-    this.fetchWeekDayData(108,accountId)
-    
+    this.fetchWeekDayData(108, accountId,this.startDate,this.lastDate);
   }
- 
+
   deleteselected(index: number) {
-    alert
-   ("Are you really want to delete")
-    const selectedRowData = this.fetchedDetails[index];  
-    console.log(selectedRowData)// Assuming fetchedDetails is your array of data
+    alert('Are you really want to delete');
+    const selectedRowData = this.fetchedDetails[index];
+    console.log(selectedRowData); // Assuming fetchedDetails is your array of data
     const weekAndDayDto: WeekAndDayDto = {
       timesheetWeekId: selectedRowData.timesheetWeekId,
-     accountId:selectedRowData.accountId,
+      accountId: selectedRowData.accountId,
       employeeId: selectedRowData.employeeId,
-      projectId: selectedRowData.projectId,
+      accountProjectId: selectedRowData.accountProjectId,
       projectName: selectedRowData.projectName,
       taskTypeId: selectedRowData.taskTypeId,
       taskTypeName: selectedRowData.taskTypeName,
       taskId: selectedRowData.taskId,
       taskName: selectedRowData.taskName,
       attendanceType: selectedRowData.attendanceType,
-      attendanceTypeName:selectedRowData.attendanceTypeName,
+      attendanceTypeName: selectedRowData.attendanceTypeName,
       weekStartDate: selectedRowData.weekStartDate,
       dateMon: selectedRowData.dateMon,
       dateTue: selectedRowData.dateTue,
@@ -557,246 +565,259 @@ formatDate(date: Date): string {
       hoursSat: selectedRowData.hoursSat,
       hoursSun: selectedRowData.hoursSun,
       comments: selectedRowData.comments,
-       timesheetStatus: 57,
-     };
-console.log(weekAndDayDto);
+      timesheetStatus: 57,
+    };
+    console.log(weekAndDayDto);
+    this.removeTask(index)
 
-this.timesheetHomeService.deleteRecord(weekAndDayDto).subscribe(
-  response => {
-   
-    console.log('Record deleted successfully:', response);
-    // this.fetcWeekDayData( 108);
-   
-    
-  },
-  error => {
-   
-    console.error('Error deleting record:', error);
-   
-  }
-);
-
-
-
-   }
-   convertedDate: string='';
-   onSubmit()
-   {
-    const currentWeekStartDate = this.startDate;
-  const timesheetStatus = 58;
-
-  const datePipe = new DatePipe('en-US');
-
-// Format the date using the desired format
-const formattedDatee: string = currentWeekStartDate
-  ? datePipe.transform(currentWeekStartDate, 'yyyy-MM-dd HH:mm:ss') || ''
-  : '';
-  console.log(formattedDatee)
-
-
-    this.timesheetHomeService.submitData(formattedDatee, timesheetStatus).subscribe(
-      response => {
-        console.log("submitted successfully " + response);
+    this.timesheetHomeService.deleteRecord(weekAndDayDto).subscribe(
+      (response) => {
+        console.log('Record deleted successfully:', response);
+        // this.fetcWeekDayData( 108);
       },
-      error => {
-        console.log("error in submitting " + error);
+      (error) => {
+        console.error('Error deleting record:', error);
       }
     );
   }
-   
+  convertedDate: string = '';
+  onSubmit() {
+    const currentWeekStartDate = this.startDate;
+    const timesheetStatus = 58;
 
- 
-  
- 
- isEditModee: boolean = false;
-editModes: boolean[] = [];
-//editMode: boolean = false;
-editedRow: TimesheetWeekDayBean=new TimesheetWeekDayBean(  0,
-  0,
-  0,
-  0,
-  0,
-  new Date(),
-  new Date(),
-  new Date(),
-  new Date(),
-  new Date(),
-  new Date(),
-  new Date(),
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  '',
-  0,0);
+    const datePipe = new DatePipe('en-US');
 
-  isEditMode(index: number): boolean {
-    return this.editModes[index];
+    // Format the date using the desired format
+    const formattedDatee: string = currentWeekStartDate
+      ? datePipe.transform(currentWeekStartDate, 'yyyy-MM-dd HH:mm:ss') || ''
+      : '';
+    console.log(formattedDatee);
+
+    this.timesheetHomeService
+      .submitData(formattedDatee, timesheetStatus)
+      .subscribe(
+        (response) => {
+          console.log('submitted successfully ' + response);
+        },
+        (error) => {
+          console.log('error in submitting ' + error);
+        }
+      );
   }
-  
+
+  editedArray: WeekAndDayDto[] = [];
+  //  isEditModee: boolean = false;
+  // editModes: boolean[] = [];
+  // //editMode: boolean = false;
+  editedRow: WeekAndDayDto = new WeekAndDayDto(
+    0,
+    0,
+    0,
+    0,
+    '',
+    0,
+    '',
+    0,
+    '',
+    0,
+    '',
+    new Date(),
+    new Date(),
+    new Date(),
+    new Date(),
+    new Date(),
+    new Date(),
+    new Date(),
+    new Date(),
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    '',
+    0
+  );
+
+  //   isEditMode(index: number): boolean {
+  //     return this.editModes[index];
+  //   }
+
+  editMode: boolean = false;
+  existingRows: number[] = [];
+  flag: boolean = false;
   onEditMode(index: number, data: any) {
-    console.log("before onedit");
-    
-    console.log(this.isEditModee);
-    
- 
-    if (this.isEditModee) {
-   
-      console.log("entering save");
-      
-      this.saveRowChanges();
-      this.exitEditMode();
+    const indexExists = this.existingRows
+      .map((row) => Number(row))
+      .includes(index);
+    if (!indexExists) {
+      this.existingRows.push(index);
+      if (!this.editMode) {
+        console.log(this.editedArray.length);
+        this.editedArray.push(data);
+        console.log(this.editedArray.length);
+      }
     } else {
-      console.log("toggle mode");
-      
-     
-      this.toggleEditMode(index);
-      this.editedRow = data;
     }
+    //  this.editMode=true;
   }
-  
-  toggleEditMode(index: number) {
-    this.isEditModee = !this.isEditModee;
-    this.editModes.fill(this.isEditModee);
-    this.editModes[index] = !this.editModes[index];
+
+  // editModeIndex: number = -1; // Initialize with -1 to indicate no active edit mode
+
+  // onEditMode(index: number, data: any) {
+  //   console.log("before onedit");
+  //   console.log(data);
+
+  //   // If already in edit mode for another record, exit edit mode for that record
+  //   if (this.editModeIndex !== -1) {
+  //     this.editedArray.splice(this.editModeIndex, 1); // Remove from editedArray
+  //   }
+
+  //   // If not already in edit mode for this record, enter edit mode
+  //   if (this.editModeIndex !== index) {
+  //     console.log(this.editedArray.length);
+  //     this.editedArray.push(data);
+  //     this.editModeIndex = index;
+  //   } else { // If already in edit mode for this record, exit edit mode
+  //     this.editModeIndex = -1;
+  //   }
+  // }
+
+  // toggleEditMode(index: number) {
+  //   this.isEditModee = !this.isEditModee;
+  //   this.editModes.fill(this.isEditModee);
+  //   this.editModes[index] = !this.editModes[index];
+  // }
+
+  // exitEditMode() {
+  //   // Reset edit mode
+  //   this.isEditModee = false;
+  //   this.editModes.fill(false);
+  // }
+
+  editedHoursMonArray: { [key: number]: number } = {};
+
+  editedHoursTueArray: { [key: number]: number } = {};
+
+  editedHoursWedArray: { [key: number]: number } = {};
+
+  editedHoursThuArray: { [key: number]: number } = {};
+
+  editedHoursFriArray: { [key: number]: number } = {};
+
+  monvar: boolean = false;
+  tuevar: boolean = false;
+  wedvar: boolean = false;
+  thuvar: boolean = false;
+  frivar: boolean = false;
+
+  geteditedHoursMon(event: any, j: number) {
+    this.monvar = true;
+    const newHoursMon = event.target.value;
+
+    if (newHoursMon !== this.fetchedDetails[j].hoursMon) {
+      this.editedHoursMonArray[j] = newHoursMon;
+    } else {
+      this.editedHoursMonArray[j] = this.fetchedDetails[j].hoursMon;
+    }
+    this.fetchedDetails[j].hoursMon = Number(newHoursMon);
+    this.columnsumnew();
+    console.log(
+      `Value for hoursMon in item ${j}:`,
+      this.editedHoursMonArray[j]
+    );
   }
-  
-  exitEditMode() {
-    // Reset edit mode
-    this.isEditModee = false;
-    this.editModes.fill(false);
+
+  geteditedHoursTue(event: any, j: number) {
+    this.tuevar = true;
+    const newHoursTue = event.target.value;
+
+    if (newHoursTue !== this.fetchedDetails[j].hoursTue) {
+      this.editedHoursTueArray[j] = newHoursTue;
+    } else {
+      this.editedHoursTueArray[j] = this.fetchedDetails[j].hoursTue;
+    }
+
+    this.fetchedDetails[j].hoursTue = Number(newHoursTue);
+
+    this.columnsumnew();
+    console.log(
+      `Value for hoursTue in item ${j}:`,
+      this.editedHoursTueArray[j]
+    );
   }
-  
 
+  geteditedHoursWed(event: any, j: number) {
+    this.wedvar = true;
+    const newHoursWed = event.target.value;
 
-
-editedHoursMonArray: { [key: number]: number } = {};
-
-editedHoursTueArray: { [key: number]: number } = {};
-
-editedHoursWedArray: { [key: number]: number } = {};
-
-editedHoursThuArray: { [key: number]: number } = {};
-
-editedHoursFriArray: { [key: number]: number } = {};
-
-
-
-
-geteditedHoursMon(event:any,j:number)
-{
-  const newHoursMon = event.target.value;
-
-  if (newHoursMon !== this.fetchedDetails[j].hoursMon) {
-
-    this.editedHoursMonArray[j] = newHoursMon;
-} else {
-    this.editedHoursMonArray[j] = this.fetchedDetails[j].hoursMon;
-}
-this.fetchedDetails[j].hoursMon = Number(newHoursMon);
-
-console.log(`Value for hoursMon in item ${j}:`, this.editedHoursMonArray[j]);
-}
-
-
-
-geteditedHoursTue(event:any,j:number)
-{
-  const newHoursTue = event.target.value;
-
-  if (newHoursTue !== this.fetchedDetails[j].hoursTue) {
-
-    this.editedHoursTueArray[j] = newHoursTue;
-} else {
-
-    this.editedHoursTueArray[j] = this.fetchedDetails[j].hoursTue;
-}
-
-this.fetchedDetails[j].hoursTue = Number(newHoursTue);
-
-
-console.log(`Value for hoursTue in item ${j}:`, this.editedHoursTueArray[j]);
-}
-
-
-geteditedHoursWed(event:any,j:number)
-{
-  const newHoursWed = event.target.value;
-
-  if (newHoursWed !== this.fetchedDetails[j].hoursWed) {
-
-    this.editedHoursWedArray[j] = newHoursWed;
-} else {
-    this.editedHoursWedArray[j] = this.fetchedDetails[j].hoursWed;
-}
-this.fetchedDetails[j].hoursWed = Number(newHoursWed);
-
-console.log(`Value for hoursWed in item ${j}:`, this.editedHoursWedArray[j]);
-}
-
-
-geteditedHoursThu(event:any,j:number)
-{
-  const newHoursThu = event.target.value;
-
-  if (newHoursThu !== this.fetchedDetails[j].hoursThu) {
-
-    this.editedHoursThuArray[j] = newHoursThu;
-} else {
-    this.editedHoursThuArray[j] = this.fetchedDetails[j].hoursThu;
-}
-this.fetchedDetails[j].hoursThu = Number(newHoursThu);
-
-console.log(`Value for hoursThu in item ${j}:`, this.editedHoursThuArray[j]);
-}
-
-geteditedHoursFri(event:any,j:number)
-{
-  const newHoursFri = event.target.value;
-
-  if (newHoursFri !== this.fetchedDetails[j].hoursFri) {
-
-    this.editedHoursFriArray[j] = newHoursFri;
-} else {
-    this.editedHoursFriArray[j] = this.fetchedDetails[j].hoursFri;
-}
-this.fetchedDetails[j].hoursFri = Number(newHoursFri);
-
-console.log(`Value for hoursFri in item ${j}:`, this.editedHoursFriArray[j]);
-}
-
-
-
-
-saveRowChanges()
-{
-
-this.timesheetHomeService.updateDetails(this.editedRow).subscribe(
-  response=>
-  {
-    console.log("data saved successfully ..."+response)
-    //this.isEditModee=!this.isEditModee;
-     // Disable edit mode after successful save
-     this.isEditModee = false;
-    console.log(this.isEditModee)
-
-  },
-  error=>
-  {
-    console.log("error found ......"+error)
- 
+    if (newHoursWed !== this.fetchedDetails[j].hoursWed) {
+      this.editedHoursWedArray[j] = newHoursWed;
+    } else {
+      this.editedHoursWedArray[j] = this.fetchedDetails[j].hoursWed;
+    }
+    this.fetchedDetails[j].hoursWed = Number(newHoursWed);
+    this.columnsumnew();
+    console.log(
+      `Value for hoursWed in item ${j}:`,
+      this.editedHoursWedArray[j]
+    );
   }
-);
 
+  geteditedHoursThu(event: any, j: number) {
+    this.thuvar = true;
+    const newHoursThu = event.target.value;
 
-}
+    if (newHoursThu !== this.fetchedDetails[j].hoursThu) {
+      this.editedHoursThuArray[j] = newHoursThu;
+    } else {
+      this.editedHoursThuArray[j] = this.fetchedDetails[j].hoursThu;
+    }
+    this.fetchedDetails[j].hoursThu = Number(newHoursThu);
 
+    console.log(
+      `Value for hoursThu in item ${j}:`,
+      this.editedHoursThuArray[j]
+    );
+  }
 
-editProject(event: any, index: number) {
-  this.editedRow.projectId = event.target.value
-  console.log(this.editedRow.projectId)
-}
+  geteditedHoursFri(event: any, j: number) {
+    this.frivar = true;
+    const newHoursFri = event.target.value;
+
+    if (newHoursFri !== this.fetchedDetails[j].hoursFri) {
+      this.editedHoursFriArray[j] = newHoursFri;
+    } else {
+      this.editedHoursFriArray[j] = this.fetchedDetails[j].hoursFri;
+    }
+    this.fetchedDetails[j].hoursFri = Number(newHoursFri);
+
+    console.log(
+      `Value for hoursFri in item ${j}:`,
+      this.editedHoursFriArray[j]
+    );
+  }
+
+  addeditedrow() {}
+
+  saveRowChanges() {
+    // this.timesheetHomeService.updateDetails(this.editedRow).subscribe(
+    //   response=>
+    //   {
+    //     console.log("data saved successfully ..."+response)
+    //     //this.isEditModee=!this.isEditModee;
+    //      // Disable edit mode after successful save
+    //   },
+    //   error=>
+    //   {
+    //     console.log("error found ......"+error)
+    //   }
+    // );
+    // }
+    // editProject(event: any, index: number) {
+    //   this.editedRow.projectId = event.target.value
+    //   console.log(this.editedRow.projectId)
+    // }
+  }
 }

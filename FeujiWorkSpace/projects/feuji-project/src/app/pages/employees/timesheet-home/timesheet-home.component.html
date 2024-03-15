@@ -141,32 +141,10 @@
           </th>
         </tr>
         <tr *ngFor="let details of fetchedDetails; let j = index">
-          <ng-container *ngIf="!isEditMode(j); else editModeTemplate">
-          
-            <td class="text-center" id="data_{{ j }}0">{{ details.projectName }}</td>
-            <td class="text-center" id="data_{{ j }}1">{{ details.taskTypeName }}</td>
-            <td class="text-center" id="data_{{ j }}2">{{ details.taskName }}</td>
-            <td class="text-center" id="data_{{ j }}3">{{ details.attendanceTypeName }}</td>
          
-            <td class="text-center" id="data_{{ j }}4">{{ details.hoursMon }}</td>
-            <td class="text-center" id="data_{{ j }}5">{{ details.hoursTue }}</td>
-            
-            <td class="text-center" id="data_{{ j }}6">{{ details.hoursWed }}</td>
-            <td class="text-center" id="data_{{ j }}7">{{ details.hoursThu }}</td>
-            <td class="text-center" id="data_{{ j }}8">{{ details.hoursFri }}</td>
-            <td class="text-center" id="data_{{ j }}9">{{ details.hoursSat }}</td>
-            <td class="text-center" id="data_{{ j }}10">{{ details.hoursSun }}</td>
+         
+         
        
-            <td class="text-center" id="data_{{ j }}11" (change)="columnsumnew()"></td>
-            <!-- Action buttons -->
-            <!-- <td>
-              <i class="fa-regular fa-pen-to-square fa-fw" (click)="toggleEditMode(details)"></i>
-              <i class="fa-solid fa-trash-can fa-fw" style="color: red" (click)="deleteSelected(details)"></i>
-            </td> -->
-          </ng-container>
-
-          <!-- Edit Mode -->
-          <ng-template #editModeTemplate>
             <!-- Edit mode form controls -->
             <!-- <td>
               <select id="project_{{j}}" name="project_{{j}}" class="form-control"  (change)="onSelect(details.accountId, j)"  [(ngModel)]="details.project">
@@ -226,29 +204,27 @@
               </select>
             </td> -->
             <!-- Other form controls for editing -->
-            <td  class="text-center" *ngIf="isEditMode(j)">{{details.projectName}}</td>
-            <td  class="text-center" *ngIf="isEditMode(j)">{{ details.taskTypeName}}</td>
-            <td  class="text-center" *ngIf="isEditMode(j)">{{ details.taskName }}</td>
-            <td  class="text-center" *ngIf="isEditMode(j)">{{  details.attendanceTypeName}}</td>
+            <td  class="text-center">{{details.projectName}}</td>
+            <td  class="text-center" >{{ details.taskTypeName}}</td>
+            <td  class="text-center" >{{ details.taskName }}</td>
+            <td  class="text-center">{{  details.attendanceTypeName}}</td>
            
-            <td class="text-center" id="data_{{ j }}4"><input class="form-control" [value]="details.hoursMon"   (change)="geteditedHoursMon($event,j)"  style="width: 65px" /></td>
+            <td class="text-center" id="data_{{ j }}4"><input class="form-control" [value]="details.hoursMon"  (click)="onEditMode(j,details)" (change)="geteditedHoursMon($event,j)"  style="width: 65px" /></td>
 
-            <td class="text-center" id="data_{{ j }}5"><input  class="form-control"  [value]="details.hoursTue"   (change)="geteditedHoursTue($event,j)"  style="width: 65px" /></td>
-            <td class="text-center" id="data_{{ j }}6"><input class="form-control" [value]="details.hoursWed"  (change)="geteditedHoursWed($event,j)"  style="width: 65px" /></td>
-            <td class="text-center" id="data_{{ j }}7"><input class="form-control" [value]="details.hoursThu"    (change)="geteditedHoursThu($event,j)" style="width: 65px" /></td>
-            <td class="text-center" id="data_{{ j }}8"><input class="form-control" [value]="details.hoursFri"   (change)="geteditedHoursFri($event,j)"  style="width: 65px" /></td>
+            <td class="text-center" id="data_{{ j }}5"><input  class="form-control"  [value]="details.hoursTue"  (click)="onEditMode(j,details)" (change)="geteditedHoursTue($event,j)"  style="width: 65px" /></td>
+            <td class="text-center" id="data_{{ j }}6"><input class="form-control" [value]="details.hoursWed" (click)="onEditMode(j,details)" (change)="geteditedHoursWed($event,j)"   style="width: 65px" /></td>
+            <td class="text-center" id="data_{{ j }}7"><input class="form-control" [value]="details.hoursThu"  (click)="onEditMode(j,details)"  (change)="geteditedHoursThu($event,j)" style="width: 65px" /></td>
+            <td class="text-center" id="data_{{ j }}8"><input class="form-control" [value]="details.hoursFri" (click)="onEditMode(j,details)"  (change)="geteditedHoursFri($event,j)"  style="width: 65px" /></td>
             <td class="text-center" id="data_{{ j }}9"><input class="form-control" [value]="details.hoursSat"  readonly    style="width: 65px" /></td>
             <td class="text-center" id="data_{{ j }}10"><input class="form-control" [value]="details.hoursSun"   readonly  style="width: 65px" /></td>
-            <td *ngIf="isEditMode(j)" class="text-center" id="data_{{ j }}11"   ></td>
+            <td class="text-center" id="data_{{ j }}11"     > {{newrowTotal[j]}}  </td>
          
-          </ng-template>
           <td>
-            <button type="button" class="btn btn btn-sm"  (click)="onEditMode(j,details)">
-              <i [ngClass]="isEditMode(j) ? 'bi bi-check-circle-fill green-icon' : 'fa-regular fa-pen-to-square'"></i>
-            </button>
+        
 
             <button class="btn btn remove-button btn-sm">
-              <i class="fa-solid fa-trash " style="color: red;" ></i>
+              <i class="fa-solid fa-trash " style="color: red;"  (click)="deleteselected(j)"  >
+              </i>
               </button>
           </td>
         </tr>
@@ -404,7 +380,7 @@
           <td>
     
 
-            <i class="fa-regular fa-pen-to-square fa-fw"></i>
+           
             <i
               class="fa-solid fa-trash-can fa-fw"
               style="color: red"
@@ -442,6 +418,7 @@
         type="button"
         class="btn btn-primary"
         (click)="saveWeekTableData()"
+   
         style="
           font-size: medium;
           background-color: rgb(164, 164, 236);

@@ -1,12 +1,12 @@
 export class TimesheetWeekDayBean{
   constructor(
  public employeeId:number,
- public projectId: number,
+ public accountProjectId: number,
  public taskTypeId: number,
  public taskId: number,
 
  public attendanceType:number,
-// Assuming dates are strings in the format 'DD-Mon'
+// Assuming dates are strings in the form   at 'DD-Mon'
 public dateMon: Date,// e.g., '26-Feb'
 public dateTue: Date, // e.g., '27-Feb'
 public dateWed: Date, // e.g., '28-Feb'
@@ -36,7 +36,7 @@ export class WeekAndDayDto
       public   timesheetWeekId:number,
     public accountId:number,
       public employeeId:number,
-      public projectId:number,
+      public accountProjectId:number,
       public  projectName: string,
       public taskTypeId:number,
       public   taskTypeName: string,
@@ -66,3 +66,9 @@ export class WeekAndDayDto
 {
 
 }}
+export class SaveAndEditRecords {
+  constructor(
+      public timesheetWeekDayDetailDto: TimesheetWeekDayBean[],
+      public weekAndDayDto: WeekAndDayDto[]
+  ){}
+}
