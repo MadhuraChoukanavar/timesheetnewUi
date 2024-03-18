@@ -17,23 +17,24 @@
                 style="margin-left: 2%"
               >
                 <select
-                  style="margin-right: 2px"
+                  style="margin-right: 2px ;width: 131px; font-size: 14px; height: 38px; "
                   id="account"
                   (change)="OnSelectAccount($event)"
                   (change)="loadTimesheetData()"
                   class="form-control"
                 >
-                  <option value="" selected disabled>Select account</option>
+                  <option value="" selected disabled style="font-size: 14px;">Select account</option>
                   <option
                     *ngFor="let acc of accounts"
                     value="{{ acc.accountId }}"
+                    style="font-size: 14px;"
                   >
                     {{ acc.accountName }}
                   </option>
                 </select>
 
                 <button
-                  class="btn btn-outline-primary" style="margin-right: 5px;"
+                  class="btn btn-outline-primary" style="margin-right: 5px; ;margin-left: 5px;"
                   (click)="showPreviousWeek()"
                 >
                   <i class="fa-solid fa-angle-left"></i>
@@ -130,7 +131,7 @@
           >
             Total
           </th>
-          <th
+          <th *ngIf="showButtons"
             style="
               width: 5%;
               font-family: Arial, Helvetica, sans-serif;
@@ -222,7 +223,7 @@
           <td>
         
 
-            <button class="btn btn remove-button btn-sm">
+            <button *ngIf="showButtons" class="btn btn remove-button btn-sm">
               <i class="fa-solid fa-trash " style="color: red;"  (click)="deleteselected(j)"  >
               </i>
               </button>
@@ -231,15 +232,15 @@
 
         <tr *ngFor="let task of tasks; let i = index">
           <td >
-            <select 
+            <select  style="font-size: 14px;"
               id="project_{{ i }}"
               name="project_{{ i }}"
               class="form-control"
               (change)="onSelect($event, i)"
               [(ngModel)]="task.project"
             >
-              <option    value="" selected disabled>Select project</option>
-              <option
+              <option    value="" selected disabled style="font-size: 14px;">Select project</option>
+              <option style="font-size: 14px;"
                 *ngFor="let pro of projects"
                 value="{{ pro.accountProjectId }}"
               >
@@ -249,15 +250,15 @@
             
           </td>
           <td>
-            <select
+            <select style="font-size: 14px;"
               id="tasktype_{{ i }}"
               name="tasktype_{{ i }}"
               class="form-control"
               (change)="onSelectTaskType($event, i)"
               [(ngModel)]="task.taskType"
             >
-              <option value="" selected disabled>Select Type</option>
-              <option
+              <option value="" selected disabled style="font-size: 14px;">Select Type</option>
+              <option style="font-size: 14px;"
                 *ngFor="let tasktype of projectTaskType[i]"
                 value="{{ tasktype.taskTypeId }}"
               >
@@ -266,32 +267,33 @@
             </select>
           </td>
           <td>
-            <select
+            <select style="font-size: 14px;"
               class="form-control"
               [(ngModel)]="task.task"
               id="task_{{ i }}"
               name="task_{{ i }}"
               (change)="onSelectingTask($event, i)"
             >
-              <option value="" selected disabled>Select Task</option>
+              <option value="" selected disabled style="font-size: 14px;">Select Task</option>
 
               <option
                 *ngFor="let task of projectTask[i]"
                 value="{{ task.taskId }}"
+                style="font-size: 14px;"
               >
                 {{ task.task }}
               </option>
             </select>
           </td>
           <td>
-            <select
+            <select style="font-size: 14px;"
               class="form-control"
               [(ngModel)]="task.attendanceType"
               id="attendance_{{ i }}"
               (change)="onselectAttendanceType($event, i)"
             >
-              <option value="" selected disabled>Attendance Type</option>
-              <option
+              <option value="" selected disabled style="font-size: 14px;">Attendance Type</option>
+              <option style="font-size: 14px;"
                 *ngFor="let bil of attendanceTypeArr"
                 value="{{ bil.referenceDetailId }}"
               >
@@ -377,7 +379,7 @@
           </td>
          
 
-          <td>
+          <td *ngIf="showButtons">
     
 
            
@@ -414,7 +416,7 @@
     </div>
 
     <div class="col-md-3 text-end">
-      <button
+      <button  *ngIf="showButtons"
         type="button"
         class="btn btn-primary"
         (click)="saveWeekTableData()"
@@ -428,7 +430,7 @@
       >
         Save
       </button>
-      <button
+      <button  *ngIf="showButtons"
         type="submit"
         class="btn btn-primary me-3"
         style="

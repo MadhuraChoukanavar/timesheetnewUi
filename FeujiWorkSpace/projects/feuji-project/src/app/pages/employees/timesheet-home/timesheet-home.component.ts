@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AfterViewChecked } from '@angular/core';
+import { addDays } from 'date-fns';
+
 
 import { DatePipe } from '@angular/common';
 import { TimesheetHomeService } from '../../../../models/timesheetHomeService.service';
@@ -202,8 +204,9 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     this.everyRowRecord[(this.rownum, 4)] = Number(attendanceId);
     //========================================================
   }
-
+  showButtons: boolean = true;
   calculateWeek(offset: number = 0) {
+    this.showButtons = true;
     const today = new Date();
     const currentDay = today.getDay();
     const daysUntilMonday = currentDay === 0 ? 6 : currentDay - 1; // Adjust for Sunday
@@ -260,14 +263,24 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     return weekNumber;
   }
   showNextWeek() {
+  
     this.calculateWeek(++this.current);
     // const accountId = this.selectedAccount || this.defaultAccountId;
     this.fetchWeekDayData(108, this.selectedAccount,this.startDate,this.lastDate);
+    if(this.current!=0)
+    {
+    this.showButtons = false;
+    }
   }
 
   showPreviousWeek() {
+    
     this.calculateWeek(--this.current);
     this.fetchWeekDayData(108, this.selectedAccount,this.startDate,this.lastDate);
+    if(this.current!=0)
+    {
+    this.showButtons = false;
+    }
   }
 
 
@@ -403,11 +416,14 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
       .subscribe(
         (response) => {
           console.log('Backend response:', response);
-
+          const accountId = this.selectedAccount || this.defaultAccountId;
+        this.fetchWeekDayData(108, accountId,this.startDate,this.lastDate);
           //   //  this.fetcWeekDayData( 108, '2024-03-04 00:00:00') ;
         },
         (error) => {
           console.error('Error sending data to backend:', error);
+          const accountId = this.selectedAccount || this.defaultAccountId;
+        this.fetchWeekDayData(108, accountId,this.startDate,this.lastDate);
         }
       );
   }
@@ -522,8 +538,11 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     this.timesheetHomeService
       .getWeekDayDetails(accountId, employeeId, startDate, endDate)
       .subscribe((fetched) => {
+        
         this.fetchedDetails = fetched as WeekAndDayDto[];
         this.limitRow = fetched.length;
+        console.log(this.fetchedDetails);
+        
         console.log('Limit Row ' + this.limitRow);
       });
   }
@@ -540,6 +559,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     const weekAndDayDto: WeekAndDayDto = {
       timesheetWeekId: selectedRowData.timesheetWeekId,
       accountId: selectedRowData.accountId,
+     
       employeeId: selectedRowData.employeeId,
       accountProjectId: selectedRowData.accountProjectId,
       projectName: selectedRowData.projectName,
@@ -568,15 +588,19 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
       timesheetStatus: 57,
     };
     console.log(weekAndDayDto);
-    this.removeTask(index)
 
     this.timesheetHomeService.deleteRecord(weekAndDayDto).subscribe(
       (response) => {
         console.log('Record deleted successfully:', response);
+        const accountId = this.selectedAccount || this.defaultAccountId;
+        this.fetchWeekDayData(108, accountId,this.startDate,this.lastDate);
         // this.fetcWeekDayData( 108);
+      
       },
       (error) => {
         console.error('Error deleting record:', error);
+        const accountId = this.selectedAccount || this.defaultAccountId;
+        this.fetchWeekDayData(108, accountId,this.startDate,this.lastDate);
       }
     );
   }
@@ -722,6 +746,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
       this.editedHoursMonArray[j] = this.fetchedDetails[j].hoursMon;
     }
     this.fetchedDetails[j].hoursMon = Number(newHoursMon);
+    
     this.columnsumnew();
     console.log(
       `Value for hoursMon in item ${j}:`,
@@ -741,6 +766,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
 
     this.fetchedDetails[j].hoursTue = Number(newHoursTue);
 
+
     this.columnsumnew();
     console.log(
       `Value for hoursTue in item ${j}:`,
@@ -758,6 +784,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
       this.editedHoursWedArray[j] = this.fetchedDetails[j].hoursWed;
     }
     this.fetchedDetails[j].hoursWed = Number(newHoursWed);
+    
     this.columnsumnew();
     console.log(
       `Value for hoursWed in item ${j}:`,
@@ -775,6 +802,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
       this.editedHoursThuArray[j] = this.fetchedDetails[j].hoursThu;
     }
     this.fetchedDetails[j].hoursThu = Number(newHoursThu);
+  
 
     console.log(
       `Value for hoursThu in item ${j}:`,
