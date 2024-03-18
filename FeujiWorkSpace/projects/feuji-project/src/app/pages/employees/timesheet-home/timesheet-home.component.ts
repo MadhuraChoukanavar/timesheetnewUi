@@ -418,6 +418,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
           console.log('Backend response:', response);
           const accountId = this.selectedAccount || this.defaultAccountId;
         this.fetchWeekDayData(108, accountId,this.startDate,this.lastDate);
+      this.editedArray=[];
           //   //  this.fetcWeekDayData( 108, '2024-03-04 00:00:00') ;
         },
         (error) => {
@@ -534,7 +535,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     // const lastDate = this.lastDate;
 
     console.log("''''''''''''''''''''''''''''" + startDate);
-    alert('madhura ' + endDate);
+   
     this.timesheetHomeService
       .getWeekDayDetails(accountId, employeeId, startDate, endDate)
       .subscribe((fetched) => {
@@ -553,7 +554,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
   }
 
   deleteselected(index: number) {
-    alert('Are you really want to delete');
+    
     const selectedRowData = this.fetchedDetails[index];
     console.log(selectedRowData); // Assuming fetchedDetails is your array of data
     const weekAndDayDto: WeekAndDayDto = {

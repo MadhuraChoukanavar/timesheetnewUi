@@ -2,34 +2,36 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { SaveAndEditRecords, TimesheetWeekDayBean, WeekAndDayDto } from './timesheethomebean.model';
+import {
+  SaveAndEditRecords,
+  TimesheetWeekDayBean,
+  WeekAndDayDto,
+} from './timesheethomebean.model';
 import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TimesheetHomeService {
-  constructor(private http: HttpClient,
-    private datePipe: DatePipe) {}
-  accurl='http://localhost:8084/api/timesheet/getaccountdetails'
+  constructor(private http: HttpClient, private datePipe: DatePipe) {}
+  accurl = 'http://localhost:8084/api/timesheet/getaccountdetails';
   prourl = 'http://localhost:8084/api/timesheet/getproject';
   tasktypeurl = 'http://localhost:8084/api/timesheet/getprojecttasktype';
   taskurl = 'http://localhost:8084/api/timesheet/getprojecttask';
   billurl = 'http://localhost:8089/api/referencedetails/getref';
   dataUrl = 'http://localhost:8084/api/timesheetdata';
-  fetchUrl="http://localhost:8084/api/timesheetdata/getallweekdayData"
-  deleteUrl="http://localhost:8084/api/timesheetdata"
-  submitUrl="http://localhost:8084/api/timesheetdata/submitAction"
-  
+  fetchUrl = 'http://localhost:8084/api/timesheetdata/getallweekdayData';
+  deleteUrl = 'http://localhost:8084/api/timesheetdata';
+  submitUrl = 'http://localhost:8084/api/timesheetdata/submitAction';
 
-
-
-  getAccounts():Observable<any[]>{
-    const url =`${this.accurl}?userEmpId=${108}`;
-    return this.http.get<any[]>(url)
+  getAccounts(): Observable<any[]> {
+    const url = `${this.accurl}?userEmpId=${108}`;
+    return this.http.get<any[]>(url);
   }
-  public getproject( selectedAccountId:any): Observable<any[]> {
-    const url1 = `${this.prourl}?employeeId=${108}&accountId=${selectedAccountId}`;
+  public getproject(selectedAccountId: any): Observable<any[]> {
+    const url1 = `${
+      this.prourl
+    }?employeeId=${108}&accountId=${selectedAccountId}`;
     return this.http.get<any[]>(url1);
   }
   public getProjectTaskType(selectedProjectId: any): Observable<any[]> {
@@ -54,50 +56,48 @@ export class TimesheetHomeService {
   }
 
   sendDataToBackend1(
-    data:SaveAndEditRecords, weekStartDate:string
+    data: SaveAndEditRecords,
+    weekStartDate: string
   ): Observable<SaveAndEditRecords> {
     const url = `${this.dataUrl}/saveedit/${weekStartDate}`;
     console.log(url + '--URL--');
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     console.log(data);
-    
+
     //const dataArray = Array.isArray(data) ? data : (data as { timesheetData: TimesheetWeekDayBean[] }).timesheetData;
     return this.http.post<SaveAndEditRecords>(url, data, { headers });
   }
-  updateDetails( data: TimesheetWeekDayBean): Observable<TimesheetWeekDayBean> {
+  updateDetails(data: TimesheetWeekDayBean): Observable<TimesheetWeekDayBean> {
     console.log(data);
-    console.log("data is printingS")
-    
+    console.log('data is printingS');
+
     const url = `${this.dataUrl}/editData`;
     return this.http.put<any>(url, data);
   }
 
-
-  
-  getWeekDayDetails(employeeId: number, accountId: number, weekStartDate: string, weekEndDate: string): Observable<WeekAndDayDto[]> {
- 
+  getWeekDayDetails(
+    employeeId: number,
+    accountId: number,
+    weekStartDate: string,
+    weekEndDate: string
+  ): Observable<WeekAndDayDto[]> {
     const url = `${this.fetchUrl}/${employeeId}/${accountId}/${weekStartDate}/${weekEndDate}`;
-console.log(url)
+    console.log(url);
     return this.http.get<WeekAndDayDto[]>(url);
   }
 
   deleteRecord(weekdayDto: WeekAndDayDto): Observable<WeekAndDayDto> {
     const url = `${this.deleteUrl}/delete`;
     console.log(weekdayDto);
-    
+
     return this.http.post<any>(url, weekdayDto);
   }
 
-  submitData( currentWeekStartDate:string ,timesheetStatus:number): Observable<any> {
-    
+  submitData(
+    currentWeekStartDate: string,
+    timesheetStatus: number
+  ): Observable<any> {
     const url = `${this.submitUrl}?weekStartDate=${currentWeekStartDate}&timesheetStatus=${timesheetStatus}`;
     return this.http.post<any>(url, {});
   }
-  
-
-
-
-
 }
-
-
