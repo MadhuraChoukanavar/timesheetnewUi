@@ -93,11 +93,16 @@ export class TimesheetHomeService {
     return this.http.post<any>(url, weekdayDto);
   }
 
-  submitData(
-    currentWeekStartDate: string,
-    timesheetStatus: number
+  submitData(employeeId: number,
+    accountId: number,
+    weekStartDate: string,
+   
   ): Observable<any> {
-    const url = `${this.submitUrl}?weekStartDate=${currentWeekStartDate}&timesheetStatus=${timesheetStatus}`;
+    console.log(employeeId);
+    console.log(accountId);
+    console.log(weekStartDate);
+  
+    const url = `${this.submitUrl}?employeeId=${employeeId}&accountId=${accountId}&weekStartDate=${weekStartDate}`;
     return this.http.post<any>(url, {});
   }
 }

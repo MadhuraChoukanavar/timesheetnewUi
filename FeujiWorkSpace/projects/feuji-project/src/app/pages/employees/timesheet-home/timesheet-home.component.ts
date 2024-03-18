@@ -206,6 +206,8 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
   }
   showButtons: boolean = true;
   calculateWeek(offset: number = 0) {
+      // const accountId = this.selectedAccount || this.defaultAccountId;
+      
     this.showButtons = true;
     const today = new Date();
     const currentDay = today.getDay();
@@ -240,11 +242,14 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
         startDate: formattedDate,
         endDate: formattedDate,
       });
+      
       //========================================================
 
       this.everyRowRecord[(this.rownum, 5 + i)] = formattedDate1;
       //========================================================
     }
+    const accountId = this.selectedAccount || this.defaultAccountId;
+      this.fetchWeekDayData(108, accountId,this.startDate,this.lastDate);
   }
 
   calculateCurrentWeek() {
@@ -265,10 +270,11 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
   showNextWeek() {
   
     this.calculateWeek(++this.current);
-    // const accountId = this.selectedAccount || this.defaultAccountId;
-    this.fetchWeekDayData(108, this.selectedAccount,this.startDate,this.lastDate);
+    const accountId = this.selectedAccount || this.defaultAccountId;
+    this.fetchWeekDayData(108, accountId,this.startDate,this.lastDate);
     if(this.current!=0)
     {
+     
     this.showButtons = false;
     }
   }
@@ -276,9 +282,11 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
   showPreviousWeek() {
     
     this.calculateWeek(--this.current);
-    this.fetchWeekDayData(108, this.selectedAccount,this.startDate,this.lastDate);
+
     if(this.current!=0)
     {
+      const accountId = this.selectedAccount || this.defaultAccountId;
+      this.fetchWeekDayData(108, accountId,this.startDate,this.lastDate);
     this.showButtons = false;
     }
   }
@@ -287,7 +295,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
   totalvalue: number[] = [0, 0, 0, 0, 0, 0, 0];
   newrowTotal:number[]=[];
   columnsumnew() {
-    this.totalvalue=[];
+    this.totalvalue=[0, 0, 0, 0, 0, 0, 0];
    // let previousSum = [];
     for (let columnCount = 4; columnCount < 11; columnCount++) {
       let sum: number = 0;
@@ -314,11 +322,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     for (let rowCount = 0; rowCount < this.limitRow; rowCount++) {
       let sum: number = 0;
       for (let columnCount = 4; columnCount < 11; columnCount++) {
-        // const inputValue = (
-        //   document.getElementById(
-        //     'data_' + rowCount + columnCount
-        //   ) as HTMLInputElement
-        // ).innerText;
+      
         
        const inputElement=document.getElementById('data_'+rowCount+columnCount)?.querySelector('input');
        if(inputElement instanceof HTMLInputElement)
@@ -343,38 +347,39 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
   }
 
   columnsum() {
-
-    for (let rowCount = 0; rowCount < this.rownum; rowCount++) {
+  
+    for (let columnCount = 0; columnCount < 7; columnCount++) {
       let sum: number = 0;
-      for (let columnCount = 0; columnCount < 7; columnCount++) {
+      
+      for (let rowCount = 0; rowCount < this.rownum; rowCount++) {
        
         const inputValue = (
           document.getElementById(
             'input_' + rowCount + columnCount
           ) as HTMLInputElement
         ).value;
-        this.totalvalue[columnCount] += Number(inputValue);
+        sum += Number(inputValue);
+        this.rowsum(rowCount);
       }
-      this.rowsum(rowCount);
+      this.totalvalue[columnCount] += Number(sum);
+     
     }
-
+    
     return this.totalvalue;
   }
-
-  rowsum(count: number) {
-    let sum: number = 0;
-    for (let columnCount = 0; columnCount < 7; columnCount++) {
-      const inputValue = (
-        document.getElementById(
-          'input_' + count + columnCount
-        ) as HTMLInputElement
-      ).value;
+  rowsum(count : number) {
+    let sum :number =0;
+     for (let columnCount = 0; columnCount < 7; columnCount++) {
+      const inputValue = ( document.getElementById( 'input_' + count + columnCount) as HTMLInputElement ).value;
       sum += Number(inputValue);
-      this.everyRowRecord[(this.rownum, 12 + columnCount)] = Number(inputValue);
+      this.everyRowRecord[(this.rownum, 12 + columnCount)] =
+     Number(inputValue);
+     }
+     (
+      document.getElementById('input_' + count +7 ) as HTMLInputElement
+     ).value = String(sum);
+     
     }
-    (document.getElementById('input_' + count + 7) as HTMLInputElement).value =
-      String(sum);
-  }
 
   getComment(comments: any) {
     const comment = comments.target.value;
@@ -419,7 +424,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
           const accountId = this.selectedAccount || this.defaultAccountId;
         this.fetchWeekDayData(108, accountId,this.startDate,this.lastDate);
       this.editedArray=[];
-          //   //  this.fetcWeekDayData( 108, '2024-03-04 00:00:00') ;
+          
         },
         (error) => {
           console.error('Error sending data to backend:', error);
@@ -606,20 +611,27 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     );
   }
   convertedDate: string = '';
-  onSubmit() {
+  onSubmit()
+  {
     const currentWeekStartDate = this.startDate;
-    const timesheetStatus = 58;
-
+    
+  
     const datePipe = new DatePipe('en-US');
+  
+  // Format the date using the desired format
+  const formattedDatee: string = currentWeekStartDate
+    ? datePipe.transform(currentWeekStartDate, 'yyyy-MM-dd HH:mm:ss') || ''
+    : '';
+    console.log(formattedDatee)
 
-    // Format the date using the desired format
-    const formattedDatee: string = currentWeekStartDate
-      ? datePipe.transform(currentWeekStartDate, 'yyyy-MM-dd HH:mm:ss') || ''
-      : '';
-    console.log(formattedDatee);
-
+    this.onSubmit1(108,this.selectedAccount ,formattedDatee);
+  }
+  onSubmit1(employeeId: number, accountId: number ,weekStartDate:string) {
+  
+ 
+ 
     this.timesheetHomeService
-      .submitData(formattedDatee, timesheetStatus)
+      .submitData(employeeId,accountId,weekStartDate)
       .subscribe(
         (response) => {
           console.log('submitted successfully ' + response);
