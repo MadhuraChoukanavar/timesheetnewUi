@@ -41,13 +41,14 @@
       <div class="col-md-4 mb-3">
         <label for="email" class="form-label">Employee Email<span style=color:red>*</span></label>
         <input type="text" class="form-control" id="email" placeholder="Enter employee Email" [(ngModel)]="emp.email"
-          name="email">
+          name="email" required (click)="checkEmailUnique(emp.email)">
       </div>
       <!-- GENDER -->
       <div class="col-md-4 mb-3">
         <label for="gender" class="form-label">Gender<span style=color:red>*</span></label>
         <select class="form-select" id="gender">
           <option hidden>Choose</option>
+          <option *ngFor="let empGender of gender" [value]="empGender.referenceDetailValue">{{ empGender.referenceDetailValue }}</option>
         </select>
       </div>
     </div>
@@ -60,14 +61,6 @@
       </div>
 
       <!-- EMPLOYEEMENT TYPE -->
-      <!-- <div class="col-md-4 mb-3">
-        <label for="employmentType" class="form-label">Employment Type<span style=color:red>*</span></label>
-        <select class="form-select" id="employmentType" [(ngModel)]="selectedEmploymentType" name="employmentType">
-          <option hidden>Choose</option>
-          <option *ngFor="let empType of employmentTypes" [value]="empType.referenceDetailValue">{{ empType.referenceDetailValue }}</option>
-        </select>
-      </div> -->
-
       <div class="col-md-4 mb-3">
         <label for="employmentType" class="form-label">Employment Type<span style=color:red>*</span></label>
         <select class="form-select" id="employmentType" [(ngModel)]="selectedEmploymentType" name="employmentType">
@@ -78,9 +71,8 @@
       <!-- DESIGNATION -->
       <div class="col-md-4 mb-3">
         <label for="designation" class="form-label">Designation<span style=color:red>*</span></label>
-        <select class="form-select" id="designation">
-          <option hidden>Choose</option>
-        </select>
+        <input type="text" class="form-control" id="designation" placeholder="Enter designation"
+               [(ngModel)]="emp.designation" name="designation" required>
       </div>
 
     </div>
@@ -88,9 +80,11 @@
     <div class="row mb-3">
       <!-- REPORTING MANAGER -->
       <div class="col-md-4 mb-3">
-        <label for="dataOfJoining" class="form-label">Reporting Manager<span style=color:red>*</span></label>
-        <select class="form-select" id="employmentType">
-          <option hidden>Choose</option>
+        <label for="reportingManager" class="form-label">Reporting Manager<span style="color:red">*</span></label>
+        <select class="form-select" id="reportingManager">
+            <option hidden>Select reporting manager</option>
+            <option *ngFor="let empReportingManager of reportingManager" [value]="empReportingManager.reportingManagerId">{{empReportingManager.reportingManagerId}}</option>
+
         </select>
       </div>
       <!-- BUSINESS UNIT -->
@@ -98,6 +92,15 @@
         <label for="designation" class="form-label">Business Unit<span style=color:red>*</span></label>
         <select class="form-select" id="designation">
           <option hidden>Choose</option>
+          <option *ngFor="let empBusinessUnit of businessUnit" [value]="empBusinessUnit.referenceDetailValue">{{ empBusinessUnit.referenceDetailValue }}</option>
+        </select>
+      </div>
+      <!-- DELIVERY UNIT -->
+      <div class="col-md-4 mb-3">
+        <label for="designation" class="form-label">Delivery Unit<span style=color:red>*</span></label>
+        <select class="form-select" id="designation">
+          <option hidden>Choose</option>
+          <option *ngFor="let empDeliveryUnit of deliveryUnit" [value]="empDeliveryUnit.referenceDetailValue">{{ empDeliveryUnit.referenceDetailValue }}</option>
         </select>
       </div>
 
@@ -109,6 +112,7 @@
         <label for="status" class="form-label">Status<span style=color:red>*</span></label>
         <select class="form-select" id="status">
           <option hidden>Choose</option>
+          <option *ngFor="let empStatus of status" [value]="empStatus.referenceDetailValue">{{ empStatus.referenceDetailValue }}</option>
         </select>
       </div>
       <!-- EXIT DATE -->

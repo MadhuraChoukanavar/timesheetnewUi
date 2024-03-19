@@ -39,17 +39,17 @@
   </select> -->
         <select class="custom-select account" [(ngModel)]="selectedAccount" (change)="onAccountSelect()">
           <!-- Placeholder option -->
-          <option disabled [selected]="true" [hidden]="false">Select Account</option>
+          <option disabled [selected]="true" [hidden]="true">Select Account</option>
 
           <!-- Loop through accounts and create options -->
           <option *ngFor="let account of accounts" [value]="account.accountId">{{ account.accountName }}</option>
         </select>
 
 
-        <select class="custom-select project" (change)="onProjectSelect($event)">
+        <!-- <select class="custom-select project" (change)="onProjectSelect($event)">
           <option disabled selected hidden>Select Project</option>
           <option *ngFor="let project of projects" [value]="project.accountProjectId">{{ project.projectName }}</option>
-        </select>
+        </select> -->
 
 
 

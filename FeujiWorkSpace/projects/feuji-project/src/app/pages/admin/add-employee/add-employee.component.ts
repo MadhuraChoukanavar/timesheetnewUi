@@ -3,6 +3,7 @@ import { Employee } from '../../../../models/employee.model';
 import { EmployeeService } from '../../../../models/employee.service';
 import { AbstractControl, FormControl, ValidatorFn, Validators } from '@angular/forms';
 import { SaveEmployee } from '../../../../models/saveemployee.model';
+import { SharedService } from '../../../../models/shared.service';
 
 @Component({
   selector: 'app-add-employee',
@@ -10,24 +11,35 @@ import { SaveEmployee } from '../../../../models/saveemployee.model';
   styleUrls:[ './add-employee.component.css']
 })
 export class AddEmployeeComponent implements OnInit{
+  referenceUrl:string;
+  genderReference:any
+  gender:any
+  businessUnitReference:any
+  businessUnit:any
+  deliveryUnitReference:any
+  deliveryUnit:any
+  statusReference:any
+  status:any
+  reportingManager:any
+  reportingManagerReference:any
   public referenceData: SaveEmployee[]=[]
   public employee:any=Employee;
   public employmentTypes: SaveEmployee[]=[]
   public selectedEmploymentType: string = '';
 
+  emp:Employee=new Employee(0,'','','','','','','','',new Date(),0,'','',0,'',new Date(),'','','',0,new Date(),'',new Date(),0,'');
+  employeeTypeReference: any;
 
-  ngOnInit() {
-
-    this.fetchEmploymentTypes(1);
-    // this.fetchReferenceData(1);
-    // this.getEmploymentTypes();
+  constructor(private empService:EmployeeService,private shared : SharedService) {
+    this.getAllReferenceType();
+   this.referenceUrl = this.shared.referenceUrl
   }
 
-  emp:Employee=new Employee(0,'','','','','','','','',new Date(),0,'','',0,'',new Date(),'','','',0,new Date(),'',new Date(),0,'');
-
-  constructor(private empService:EmployeeService) { }
+  ngOnInit() {
+  }
 
   sendEmployee() {
+    console.log('Employee saved:',this.emp);
     this.empService.saveEmployee(this.emp).subscribe(res => {
       console.log('Employee saved:', res);
     },
@@ -49,16 +61,104 @@ export class AddEmployeeComponent implements OnInit{
     };
   }
 
-  // fetchEmploymentTypes(referenceTypeId: number): void {
-  //   this.empService.getEmploymentType(2)
-  //   .subscribe((resp:any)=>{console.log(resp);
-  //   })
-  // }
-
   fetchEmploymentTypes(referenceTypeId: number): void {
-    this.empService.getEmploymentType(referenceTypeId)
+    this.empService.getByReferenceTypeId(referenceTypeId)
       .subscribe((data: SaveEmployee[]) => {
         this.employmentTypes = data;
+
       });
   }
-}
+
+  fetchGender(referenceTypeId: number): void {
+    this.empService.getByReferenceTypeId(referenceTypeId)
+      .subscribe((data: SaveEmployee[]) => {
+        this.gender = data;
+      });
+  }
+
+  fetchBusinessUnit(referenceTypeId: number): void {
+    this.empService.getByReferenceTypeId(referenceTypeId)
+      .subscribe((data: SaveEmployee[]) => {
+        this.businessUnit = data;
+      });
+  }
+
+  fetchDeliveryUnit(referenceTypeId: number): void {
+    this.empService.getByReferenceTypeId(referenceTypeId)
+      .subscribe((data: SaveEmployee[]) => {
+        this.deliveryUnit = data;
+      });
+  }
+
+  fetchStatus(referenceTypeId: number): void {
+    this.empService.getByReferenceTypeId(referenceTypeId)
+      .subscribe((data: SaveEmployee[]) => {
+        this.status = data;
+      });
+  }
+
+  fetchReportingManager(){
+    this.empService.getReportingManager().subscribe((resp:any)=>{
+      this.reportingManager=resp;
+      console.log("RM: ",this.reportingManager);
+    })
+  }
+
+  getAllReferenceType(){
+    this.empService.getAllReferenceType().subscribe((resp:any)=>{
+      this.employeeTypeReference=resp.filter((item:any) => item.referenceTypeName === 'Employee Type').reverse().pop()
+        console.log("employee Type",this.employeeTypeReference);
+        if (this.employeeTypeReference.referenceTypeId) {
+            this.fetchEmploymentTypes(this.employeeTypeReference.referenceTypeId)
+        }
+
+        this.genderReference=resp.filter((item:any) => item.referenceTypeName === 'Gender').reverse().pop()
+        console.log("Gender",this.genderReference);
+        if (this.genderReference.referenceTypeId) {
+            this.fetchGender(this.genderReference.referenceTypeId)
+        }
+
+        this.businessUnitReference=resp.filter((item:any) => item.referenceTypeName === 'Business Unit').reverse().pop()
+        console.log("Business Unit",this.businessUnitReference);
+        if (this.businessUnitReference.referenceTypeId) {
+            this.fetchBusinessUnit(this.businessUnitReference.referenceTypeId)
+        }
+
+        this.deliveryUnitReference=resp.filter((item:any) => item.referenceTypeName === 'Delivery Unit').reverse().pop()
+        console.log("Delivery Unit",this.deliveryUnitReference);
+        if (this.deliveryUnitReference.referenceTypeId) {
+            this.fetchDeliveryUnit(this.deliveryUnitReference.referenceTypeId)
+        }
+        this.statusReference=resp.filter((item:any) => item.referenceTypeName === 'Employee Status').reverse().pop()
+        console.log("Employee Status",this.statusReference);
+        if (this.statusReference.referenceTypeId) {
+            this.fetchStatus(this.statusReference.referenceTypeId)
+        }
+
+        // this.reportingManagerReference=resp.filter((item:any) => item.referenceTypeName === 'Employee Status').reverse().pop()
+        // console.log("Employee Status",this.statusReference);
+        // if (this.statusReference.referenceTypeId) {
+        //     this.fetchStatus(this.statusReference.referenceTypeId)
+        // }
+      })
+    }
+
+    // checkEmailUnique(e:any){
+    //   console.log(e);
+    // }
+
+    checkEmailUnique(email: any) {
+      console.log(email);
+console.log(this.emp.email);
+
+      // this.empService.checkEmployeeEmail(email).subscribe(isUnique => {
+      //   if (isUnique) {
+      //     console.log('Email is unique.');
+      //   } else {
+      //     console.log('Email already exists.');
+      //   }
+      // });
+    }
+
+  }
+

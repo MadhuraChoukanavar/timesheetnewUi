@@ -4,6 +4,7 @@ import { TimesheetHomeComponent } from "./timesheet-home/timesheet-home.componen
 import { EmpViewProfileComponent } from "./emp-view-profile/emp-view-profile.component";
 import { TimesheetHistoryComponent } from "./timesheet-history/timesheet-history.component";
 import { HolidayComponent } from "./holiday/holiday.component";
+import { DatePipe } from "@angular/common";
 
 const routes: Routes = [
   { path: 'emp-profile',component: EmpViewProfileComponent},
@@ -15,6 +16,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class EmployeeRoutingModule { }
