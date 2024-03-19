@@ -93,16 +93,33 @@ export class TimesheetHomeService {
     return this.http.post<any>(url, weekdayDto);
   }
 
-  submitData(employeeId: number,
+
+  submitData(
+    employeeId: number,
     accountId: number,
-    weekStartDate: string,
-   
+    weekStartDate:string,
+  ): Observable<any> {
+
   ): Observable<any> {
     console.log(employeeId);
     console.log(accountId);
     console.log(weekStartDate);
-  
+
     const url = `${this.submitUrl}?employeeId=${employeeId}&accountId=${accountId}&weekStartDate=${weekStartDate}`;
     return this.http.post<any>(url, {});
   }
+  getDayHours(minHoursDay:string):Observable<any>
+  {
+
+    // const url=${this.fetchHoursUrl}/getref/${minHoursDay};
+    return this.http.get<any>(`http://localhost:8084/api/timesheetday/getref/${minHoursDay}`);
+
+  }
+  getHolidays(startdate:string):Observable<any>
+  {
+     return this.http.get<any>(`http://localhost:8084/api/holiday/getWeekHolidaysDayIds/${startdate}`);
+  }
+
+
+
 }

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AfterViewChecked } from '@angular/core';
 import { addDays } from 'date-fns';
-
-
 import { DatePipe } from '@angular/common';
 import { TimesheetHomeService } from '../../../../models/timesheetHomeService.service';
 import {
@@ -11,6 +9,7 @@ import {
 } from '../../../../models/timesheethomebean.model';
 
 import { TimesheetWeekDayBean } from '../../../../models/timesheethomebean.model';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-timesheet-home',
   templateUrl: './timesheet-home.component.html',
@@ -45,7 +44,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
   startDate: any = '';
   saveAndEditRecords: SaveAndEditRecords = new SaveAndEditRecords([], []);
   lastDate: any = '';
-
+  holidays: any[] = [];
   selectedProjectId: number = 0;
   selectedProjecttaskId: number = 0;
   selectedAttendanceType: any;
@@ -70,6 +69,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
       attendanceType: '',
       days: Array(7).fill(0),
     });
+    this.getHolidayDetails(this.startDate);
   }
 
   valuee: number = 0;
@@ -91,9 +91,6 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  submit() {
-    // Handle the form submission
-  }
   ngOnInit(): void {
     // this.fetcWeekDayData(108)
 
@@ -113,6 +110,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
 
   OnSelectAccount(account: any) {
     this.selectedAccount = account.target.value;
+    this.addbutton = true;
     //========================================================
     this.everyRowRecord[(this.rownum, 21)] = Number(this.selectedAccount);
     //===
@@ -131,6 +129,8 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     this.columnsumnew();
   }
   onSelect(projects: any, i: number) {
+    this.saveAndSubmit = true;
+
     //========================================================
     this.everyRowRecord[(this.rownum, 0)] = 108;
     //========================================================
@@ -206,8 +206,9 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
   }
   showButtons: boolean = true;
   calculateWeek(offset: number = 0) {
-      // const accountId = this.selectedAccount || this.defaultAccountId;
-      
+
+   this.saveAndSubmit = false;
+
     this.showButtons = true;
     const today = new Date();
     const currentDay = today.getDay();
@@ -242,19 +243,60 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
         startDate: formattedDate,
         endDate: formattedDate,
       });
-      
+
       //========================================================
 
       this.everyRowRecord[(this.rownum, 5 + i)] = formattedDate1;
       //========================================================
     }
+
+    this.getHolidayDetails(this.startDate);
+
     const accountId = this.selectedAccount || this.defaultAccountId;
       this.fetchWeekDayData(108, accountId,this.startDate,this.lastDate);
+
   }
 
+  // disableNextButton(){
+  //   alert("diss")
+  //    if (this.current != 0) {
+  //     const inputElement = document.getElementById('nextbottonId') as HTMLInputElement;
+
+  //     // Check if the input element exists and disable it
+  //     if (inputElement) {
+  //       alert(inputElement);
+  //       inputElement.disabled = true;
+  //     }else{
+  //       console.log("hello");
+  //       alert("else")
+  //     }
+  //     this.showButtons = false;
+  //   }
+  // }
+
+  disableNextButton(val:number): boolean {
+    const inputElement = document.getElementById('nextbottonId') as HTMLInputElement;
+
+    // Check if the input element exists and disable it
+    if (inputElement) {
+      if(this.current==0){
+        inputElement.disabled = true;
+        this.showButtons = false;
+      }
+      if(this.current!=0){
+        inputElement.disabled = false;
+        this.showButtons = false;
+      }
+    }
+
+    return true; // Always return true
+}
+
   calculateCurrentWeek() {
+    this.disableNextButton(this.current);
     this.current = 0;
-    this.calculateWeek();
+    this.calculateWeek(this.current);
+    this.getHolidayDetails(this.startDate);
   }
   getWeekNumber(date: Date): number {
     const d = new Date(date);
@@ -267,36 +309,79 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
 
     return weekNumber;
   }
+  selectAccount: boolean = false;
+  addbutton: boolean = false;
   showNextWeek() {
-  
     this.calculateWeek(++this.current);
+
+    this.getHolidayDetails(this.startDate);
+    this.tasks=[];
+    // const accountId = this.selectedAccount || this.defaultAccountId;
+    this.fetchWeekDayData(
+      108,
+      this.selectedAccount,
+      this.startDate,
+      this.lastDate
+    );
+    if (this.current != 0) {
+      this.disableNextButton(this.current);
+      this.showButtons = false;
+       this.addbutton = false;
+        this.selectAccount = true;
+      this.saveAndSubmit = false;
+    }else{
+      this.disableNextButton(this.current);
+
     const accountId = this.selectedAccount || this.defaultAccountId;
     this.fetchWeekDayData(108, accountId,this.startDate,this.lastDate);
     if(this.current!=0)
     {
      
     this.showButtons = false;
-    }
-  }
 
+    }
+
+  }
   showPreviousWeek() {
-    
     this.calculateWeek(--this.current);
+
+    this.disableNextButton(this.current);
+    this.tasks=[];
+    console.log("hello");
+
+    this.fetchWeekDayData(
+      108,
+      this.selectedAccount,
+      this.startDate,
+      this.lastDate
+    );
+    if (this.current != 0) {
+      this.showButtons = false;
+      this.addbutton = false;
+      this.selectAccount = true;
+      const accountId = this.selectedAccount || this.defaultAccountId;
+     // this.fetchWeekDayData(108, accountId, this.startDate, this.lastDate);
+      this.saveAndSubmit = false;
 
     if(this.current!=0)
     {
       const accountId = this.selectedAccount || this.defaultAccountId;
       this.fetchWeekDayData(108, accountId,this.startDate,this.lastDate);
     this.showButtons = false;
+
     }
+    this.getHolidayDetails(this.startDate);
   }
 
-
   totalvalue: number[] = [0, 0, 0, 0, 0, 0, 0];
-  newrowTotal:number[]=[];
+  newrowTotal: number[] = [];
   columnsumnew() {
+
+    
+
     this.totalvalue=[0, 0, 0, 0, 0, 0, 0];
    // let previousSum = [];
+
     for (let columnCount = 4; columnCount < 11; columnCount++) {
       let sum: number = 0;
 
@@ -313,16 +398,30 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
 
       this.totalvalue[columnCount - 4] = sum;
     }
-    this.columnsum();
+
     this.rowsumnew();
-   
+
     return this.totalvalue;
   }
   rowsumnew() {
     for (let rowCount = 0; rowCount < this.limitRow; rowCount++) {
       let sum: number = 0;
       for (let columnCount = 4; columnCount < 11; columnCount++) {
-      
+
+        // const inputValue = (
+        //   document.getElementById(
+        //     'data_' + rowCount + columnCount
+        //   ) as HTMLInputElement
+        // ).innerText;
+
+        const inputElement = document
+          .getElementById('data_' + rowCount + columnCount)
+          ?.querySelector('input');
+        if (inputElement instanceof HTMLInputElement) {
+          const inputValue = inputElement.value;
+          sum += Number(inputValue);
+        }
+
         
        const inputElement=document.getElementById('data_'+rowCount+columnCount)?.querySelector('input');
        if(inputElement instanceof HTMLInputElement)
@@ -331,28 +430,25 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
         sum += Number(inputValue);
        }
        
+
       }
       // (
       //   document.getElementById('data_' + rowCount + 11) as HTMLInputElement
       // ).innerText = String(sum);
 
-   this.newrowTotal[rowCount]=sum;
-   
+      this.newrowTotal[rowCount] = sum;
 
-   
-      
       //(document.getElementById('data_' +rowCount+ 11 ) as HTMLInputElement).value= String(sum);
     }
-   
   }
-
-  columnsum() {
+   columnsum() {
+     
   
     for (let columnCount = 0; columnCount < 7; columnCount++) {
       let sum: number = 0;
       
       for (let rowCount = 0; rowCount < this.rownum; rowCount++) {
-       
+
         const inputValue = (
           document.getElementById(
             'input_' + rowCount + columnCount
@@ -361,8 +457,10 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
         sum += Number(inputValue);
         this.rowsum(rowCount);
       }
+
+
       this.totalvalue[columnCount] += Number(sum);
-     
+
     }
     
     return this.totalvalue;
@@ -394,42 +492,45 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
   timesheetStatus: any[] = [];
 
   allRows: TimesheetWeekDayBean[] = [];
-
+  saveAndSubmit: boolean = false;
   saveWeekTableData() {
-  
-
     const saveId =
       Number(
         this.timesheetStatus.find(
           (status) => status.referenceDetailValue === 'saved'
         )?.referenceDetailId
       ) ?? 0;
-  
+
     //========================================================
     this.everyRowRecord[(this.rownum, 20)] = 57;
     //========================================================
 
     this.addDataToAllarows();
-  
+
     this.saveAndEditRecords.timesheetWeekDayDetailDto = this.allRows;
     this.saveAndEditRecords.weekAndDayDto = this.editedArray;
-          console.log(this.startDate);
-          
+    console.log(this.startDate);
 
     this.timesheetHomeService
-      .sendDataToBackend1(this.saveAndEditRecords,this.startDate)
+      .sendDataToBackend1(this.saveAndEditRecords, this.startDate)
       .subscribe(
         (response) => {
           console.log('Backend response:', response);
           const accountId = this.selectedAccount || this.defaultAccountId;
-        this.fetchWeekDayData(108, accountId,this.startDate,this.lastDate);
-      this.editedArray=[];
-          
+
+          this.fetchWeekDayData(108, accountId, this.startDate, this.lastDate);
+          this.saveAndSubmit = true;
+
+          this.editedArray = [];
+          // this.fetcWeekDayData( 108, '2024-03-04 00:00:00') ;
+
+
         },
         (error) => {
           console.error('Error sending data to backend:', error);
           const accountId = this.selectedAccount || this.defaultAccountId;
-        this.fetchWeekDayData(108, accountId,this.startDate,this.lastDate);
+          // this.fetchWeekDayData(108, accountId, this.startDate, this.lastDate);
+          this.saveAndSubmit = true;
         }
       );
   }
@@ -533,39 +634,53 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
   //   });
 
   // }
- 
+
   formattedDate: string = '';
-  fetchWeekDayData(employeeId: number, accountId: number ,startDate:string,endDate:string): void {
+  fetchWeekDayData(
+    employeeId: number,
+    accountId: number,
+    startDate: string,
+    endDate: string
+  ): void {
     // const startDate1 = this.startDate;
     // const lastDate = this.lastDate;
+    this.saveAndSubmit = false;
 
     console.log("''''''''''''''''''''''''''''" + startDate);
-   
+
     this.timesheetHomeService
       .getWeekDayDetails(accountId, employeeId, startDate, endDate)
       .subscribe((fetched) => {
-        
         this.fetchedDetails = fetched as WeekAndDayDto[];
         this.limitRow = fetched.length;
         console.log(this.fetchedDetails);
-        
         console.log('Limit Row ' + this.limitRow);
+        this.getHolidayDetails(this.startDate);
+        this.disableInputField();
       });
   }
 
   loadTimesheetData(): void {
     const accountId = this.selectedAccount || this.defaultAccountId;
-    this.fetchWeekDayData(108, accountId,this.startDate,this.lastDate);
+    this.fetchWeekDayData(108, accountId, this.startDate, this.lastDate);
   }
 
   deleteselected(index: number) {
-    
+ Swal.fire({
+      title: 'Are you sure?',
+      text: 'This action cannot be undone!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it',
+    }).then((result) => {
+      if (result.isConfirmed) {
     const selectedRowData = this.fetchedDetails[index];
     console.log(selectedRowData); // Assuming fetchedDetails is your array of data
     const weekAndDayDto: WeekAndDayDto = {
       timesheetWeekId: selectedRowData.timesheetWeekId,
       accountId: selectedRowData.accountId,
-     
+
       employeeId: selectedRowData.employeeId,
       accountProjectId: selectedRowData.accountProjectId,
       projectName: selectedRowData.projectName,
@@ -595,20 +710,32 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     };
     console.log(weekAndDayDto);
 
-    this.timesheetHomeService.deleteRecord(weekAndDayDto).subscribe(
-      (response) => {
-        console.log('Record deleted successfully:', response);
-        const accountId = this.selectedAccount || this.defaultAccountId;
-        this.fetchWeekDayData(108, accountId,this.startDate,this.lastDate);
-        // this.fetcWeekDayData( 108);
-      
-      },
-      (error) => {
-        console.error('Error deleting record:', error);
-        const accountId = this.selectedAccount || this.defaultAccountId;
-        this.fetchWeekDayData(108, accountId,this.startDate,this.lastDate);
+          this.timesheetHomeService.deleteRecord(weekAndDayDto).subscribe(
+          (response) => {
+            Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
+            const accountId = this.selectedAccount || this.defaultAccountId;
+            this.fetchWeekDayData(
+              108,
+              accountId,
+              this.startDate,
+              this.lastDate
+            );
+          },
+          (error) => {
+            Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
+            const accountId = this.selectedAccount || this.defaultAccountId;
+            this.fetchWeekDayData(
+              108,
+              accountId,
+              this.startDate,
+              this.lastDate
+            );
+          }
+        );
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Do nothing or provide feedback if the user cancels
       }
-    );
+    });
   }
   convertedDate: string = '';
   onSubmit()
@@ -624,6 +751,35 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     : '';
     console.log(formattedDatee)
 
+
+    // Format the date using the desired format
+    const formattedDatee: string = currentWeekStartDate
+      ? datePipe.transform(currentWeekStartDate, 'yyyy-MM-dd HH:mm:ss') || ''
+      : '';
+    console.log(formattedDatee);
+
+    if (!this.getworkingHours()) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'working hour is less than 40 do you want to save',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, submit',
+        cancelButtonText: 'No,dont',
+      }).then((result) => {
+        if (result.isConfirmed) {
+  }
+}
+      );
+
+
+  }
+}
+  onSubmit1(employeeId: number, accountId: number, weekStartDate: string) {
+
+    this.timesheetHomeService
+      .submitData(employeeId, accountId, weekStartDate)
+
     this.onSubmit1(108,this.selectedAccount ,formattedDatee);
   }
   onSubmit1(employeeId: number, accountId: number ,weekStartDate:string) {
@@ -632,11 +788,14 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
  
     this.timesheetHomeService
       .submitData(employeeId,accountId,weekStartDate)
+
       .subscribe(
         (response) => {
+          this.saveAndSubmit = false;
           console.log('submitted successfully ' + response);
         },
         (error) => {
+          this.saveAndSubmit = false;
           console.log('error in submitting ' + error);
         }
       );
@@ -685,6 +844,8 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
   existingRows: number[] = [];
   flag: boolean = false;
   onEditMode(index: number, data: any) {
+
+    this.saveAndSubmit = true;
     const indexExists = this.existingRows
       .map((row) => Number(row))
       .includes(index);
@@ -759,7 +920,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
       this.editedHoursMonArray[j] = this.fetchedDetails[j].hoursMon;
     }
     this.fetchedDetails[j].hoursMon = Number(newHoursMon);
-    
+
     this.columnsumnew();
     console.log(
       `Value for hoursMon in item ${j}:`,
@@ -779,7 +940,6 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
 
     this.fetchedDetails[j].hoursTue = Number(newHoursTue);
 
-
     this.columnsumnew();
     console.log(
       `Value for hoursTue in item ${j}:`,
@@ -797,7 +957,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
       this.editedHoursWedArray[j] = this.fetchedDetails[j].hoursWed;
     }
     this.fetchedDetails[j].hoursWed = Number(newHoursWed);
-    
+
     this.columnsumnew();
     console.log(
       `Value for hoursWed in item ${j}:`,
@@ -815,7 +975,6 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
       this.editedHoursThuArray[j] = this.fetchedDetails[j].hoursThu;
     }
     this.fetchedDetails[j].hoursThu = Number(newHoursThu);
-  
 
     console.log(
       `Value for hoursThu in item ${j}:`,
@@ -842,6 +1001,53 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
 
   addeditedrow() {}
 
+  disableInputField() {
+    setTimeout(() => {
+      // Call your second method here
+      this.disableHolidayInputField();
+    }, 100);
+  }
+  //disbale holidays
+  disableHolidayInputField() {
+    console.log('disabled' + this.holidays.length);
+   // alert('holidays' + this.holidays.length);
+    for (let i = 0; i < this.holidays.length; i++) {
+      const index = this.holidays[i]; //5
+      console.log('holidays index' + index);
+
+      const inputelementId = 'input_' + (this.rownum - 1) + index;
+      //alert(inputelementId);
+      const inputElement = document.getElementById(
+        inputelementId
+      ) as HTMLInputElement;
+
+      // Check if the input element exists and disable it
+      if (inputElement) {
+        // alert(inputelementId);
+        inputElement.disabled = true;
+      }
+      var tempRownum = this.rownum;
+      //this code is for featched details
+      for (let i = 0; i < this.fetchedDetails.length; i++) {
+      const num = Number(index + 4);
+      const inputelementId1 = 'tddata_' + (tempRownum - 1) + num;
+      tempRownum= tempRownum+1;
+
+      const inputElement1 = document.getElementById(
+        inputelementId1
+      ) as HTMLInputElement;
+      if (inputElement1) {
+
+        inputElement1.disabled = true;
+      }
+    }
+
+
+
+
+
+    }
+  }
   saveRowChanges() {
     // this.timesheetHomeService.updateDetails(this.editedRow).subscribe(
     //   response=>
@@ -860,5 +1066,73 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     //   this.editedRow.projectId = event.target.value
     //   console.log(this.editedRow.projectId)
     // }
+  }
+
+  public hoursPerDay: any;
+  public hoursPerWeek: any;
+  getworkingHours() {
+    var flag = true;
+    const minHoursDay = 'MinHoursDay';
+
+    console.log(this.totalvalue);
+    // console.log(this.rowSum);
+
+    this.timesheetHomeService.getDayHours(minHoursDay).subscribe((data) => {
+      const details = data;
+
+      console.log(details);
+
+      const hours = details[0].referenceDetailValue;
+      this.hoursPerDay = Number(hours);
+
+      this.hoursPerWeek = this.hoursPerDay * 5;
+    });
+
+    var result = this.totalvalue.reduce((sum, num) => sum + num, 0);
+    console.log('total value' + result);
+    for (let i = 0; i < this.totalvalue.length; i++) {
+      if (
+        this.totalvalue[i] != this.hoursPerDay &&
+        result != this.hoursPerWeek
+      ) {
+        flag = false;
+
+        break;
+      }
+    }
+
+    return flag;
+  }
+
+  getHolidayDetails(startdate: string) {
+    this.timesheetHomeService.getHolidays(startdate).subscribe((data) => {
+      console.log(data);
+
+      console.log(data.length);
+
+      if (Array.isArray(data) && data.length > 0) {
+        data.forEach((item) => this.holidays.push(item));
+        console.log('dacked holidsy' + this.holidays.length);
+
+        for (let i = 0; i < this.holidays.length; i++) {
+          const index = this.holidays[i] //5
+          const inputelementId = 'input_0' + index;
+          const inputElement = document.getElementById(inputelementId) as HTMLInputElement;
+
+          // Check if the input element exists and disable it
+          if (inputElement) {
+            inputElement.disabled = true;
+          }
+        }
+        // this.disableHolidayInputField();
+      } else {
+        console.error('Data received is not an array:', data);
+        this.holidays=[];
+        console.log('no holidays');
+        console.log(this.holidays.length);
+
+
+      }
+    });
   }
 }
