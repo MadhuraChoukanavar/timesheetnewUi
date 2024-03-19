@@ -18,6 +18,9 @@ import { EmployeeService } from '../models/employee.service';
 import { DatePipe } from '@angular/common';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { LoginLayoutComponent } from './pages/loginPage/login-layout.component';
+
+import { SaveEmployee } from '../models/saveemployee.model';
+
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 @NgModule({
   declarations: [
@@ -41,8 +44,10 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     NgbCollapseModule,
     FormsModule
   ],
+
   providers: [UserService,
   EmployeeService,DatePipe, provideAnimationsAsync()],
+
   bootstrap: [AppComponent],
 
 })

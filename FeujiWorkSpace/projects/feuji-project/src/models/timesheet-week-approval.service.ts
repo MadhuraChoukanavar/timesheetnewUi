@@ -23,6 +23,7 @@ export class TimesheetWeekApprovalService {
     const url = `${this.apiUrl}/projects/${accountId}`;
     return this.http.get<timesheetWeekApproval[]>(url);
   }
+
   getStoredWeekTimesheets(): timesheetWeekApproval[] {
     return this.weekTimeSheet;
   }

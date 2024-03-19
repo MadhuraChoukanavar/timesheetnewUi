@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { AfterViewChecked } from '@angular/core';
 import { addDays } from 'date-fns';
@@ -819,3 +820,4 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     );
   }
 }
+

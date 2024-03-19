@@ -21,7 +21,7 @@ export class UserRepo
 constructor(private userService: UserService) {}
 
   public loggedInuserData: any;
-  empId: Employee = new Employee(0,'','','','','','','','',new Date(),0,'','',0,'',new Date(),'','','',0,new Date(),'',new Date());
+  empId: Employee = new Employee(0,'','','','','','','','',new Date(),0,'','',0,'',new Date(),'','','',0,new Date(),'',new Date(),0,'');
 
   getUserData(data: any) {
     console.log(data);

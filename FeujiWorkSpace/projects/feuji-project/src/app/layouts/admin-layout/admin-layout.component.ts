@@ -19,13 +19,13 @@ export class AdminLayoutComponent implements OnInit {
       { label: 'Update Employee', link: '/admin/update-employee' }
     ] }
     ,
-    { mainOption: 'Account',icon: 'bi bi-people', subOptions: [
+    { mainOption: 'Account',icon: 'fa-solid fa-file-invoice-dollar', subOptions: [
       { label: 'Add account', link: '/admin/add-account' },
       { label: 'Account display', link: '/admin/account-display' },
       { label: 'Update Account', link: '/admin/update-account' }
     ] }
     ,
-    { mainOption: 'Holiday',icon: 'bi bi-people', subOptions: [
+    { mainOption: 'Holiday',icon: 'fas fa-gifts', subOptions: [
       { label: 'Holiday List', link: '/admin/holiday-list' },
       { label: 'Add Holiday', link: '/admin/add-holiday' },
     ] }

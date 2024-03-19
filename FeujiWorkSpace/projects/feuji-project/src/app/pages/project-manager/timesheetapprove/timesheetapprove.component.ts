@@ -27,30 +27,10 @@ export class TimesheetapproveComponent implements OnInit {
   public weeksDropdown: { startDate: string, endDate: string, weekNumber: number }[] = [];
   public selectedWeek: number =0;
 
-
-
-  // onselectedProject(e:any){
-  //   console.log(e.target.value)
-
-  // }
-
   constructor(private timesheetWeekApprovalService:TimesheetWeekApprovalService,private datePipe: DatePipe,private router:Router ){}
   ngOnInit(){
     console.log("loaded");
     this.getAccounts();
-    this.getProjects();
-
-    // this.timesheetHomeService.getproject(this.weekTimeSheet.accountId).subscribe(
-    //   (resp) => {
-
-    //     this.projects = resp as any[];
-
-
-    //   },
-    //   (error) => {
-    //     console.error(error);
-    //   }
-    // );
     this.generateWeeksDropdown(new Date(), 2, 2);
     console.log("dates"+this.weeksDropdown);
     // this.getWeekTimesheets();
@@ -81,26 +61,6 @@ export class TimesheetapproveComponent implements OnInit {
         console.log(this.weekTimeSheet);
       });
     }
-    getProjects() {
-      this.timesheetWeekApprovalService.getProjects(this.selectedAccount).subscribe(
-        (resp) => {
-          this.projects = resp;
-        },
-        (error) => {
-          console.error(error);
-        }
-      );
-    }
-
-
-    // onProjectSelect(event: Event) {
-    //   const target = event.target as HTMLSelectElement;
-    //   const accountProjectId = target.value; // Access value property after casting
-    //   this.selectedProjectId = +accountProjectId; // Update the selectedProjectId
-    //   const selectedWeek = this.weekNumber; // Assuming you want to use the current week if no week is selected
-    //   this.getWeekTimesheets(107, +accountProjectId, selectedWeek); // Convert to number using "+" prefix
-    // }
-
 
 
 
@@ -154,66 +114,9 @@ export class TimesheetapproveComponent implements OnInit {
 
 
 
-   
-
-    // onWeekSelect(event: any) {
-    //   const selectedWeek = event.target.value;
-    //   const selectedProjectId = this.selectedProjectId; // Assuming selectedProjectId is updated elsewhere
-    //   this.getWeekTimesheets(107, selectedProjectId, selectedWeek); // Adjust 107 to the appropriate approvedBy value
-    // }
-    // onWeekSelect(event: any) {
-    //   this.selectedWeek = event.target.value;
-    //   if (this.selectedWeek && this.selectedProjectId) {
-    //     this.getWeekTimesheets(107, this.selectedProjectId, this.selectedWeek);
-    //   }
-    // }
-    // onProjectSelect(event: any) {
-    //   this.selectedProjectId = event.target.value;
-    //   if (this.selectedWeek && this.selectedProjectId) {
-    //     this.getWeekTimesheets(107, this.selectedProjectId, this.selectedWeek);
-    //   }
-    // }
-    // onAccountSelect(event: any) {
-    //   this.selectedAccountId = event.target.value;
-    //   if (this.selectedWeek && this.selectedProjectId) {
-    //     this.getWeekTimesheets(107, this.selectedProjectId, this.selectedWeek);
-    //   }
-    // }
 
 
 
-    // onAccountSelect() {
-    //   // Get the selected account ID
-    //   const selectedAccountId = this.selectedAccount;
-
-    //   // Fetch projects based on the selected account
-    //   this.timesheetHomeService.getproject(selectedAccountId).subscribe(data => {
-    //     this.projects = data;
-    //   });
-    // }
-    // onAccountSelect() {
-    //   // Get the selected account ID
-    //   const selectedAccountId = this.selectedAccount;
-
-    //   // Fetch projects based on the selected account
-    //   this.timesheetHomeService.getproject(selectedAccountId).subscribe(data => {
-    //     this.projects = data;
-
-    //     // Check if both week and project are selected, then fetch timesheets
-    //     if (this.selectedWeek && this.selectedProjectId) {
-    //       this.getWeekTimesheets(107, selectedAccountId, this.selectedProjectId, this.selectedWeek);
-    //     }
-    //   });
-    // }
-
-    // onProjectSelect(event: any) {
-    //   this.selectedProjectId = event.target.value;
-
-    //   // Check if both week and account are selected, then fetch timesheets
-    //   if (this.selectedWeek && this.selectedAccount) {
-    //     this.getWeekTimesheets(107, this.selectedAccount, this.selectedProjectId, this.selectedWeek);
-    //   }
-    // }
 
     onWeekSelect(event: any) {
       this.selectedWeek = event.target.value;
@@ -224,28 +127,7 @@ export class TimesheetapproveComponent implements OnInit {
       }
     }
 
-    // onAccountSelect() {
-    //   // Get the selected account ID
-    //   const selectedAccountId = this.selectedAccount;
 
-    //   // Fetch projects based on the selected account
-    //   this.timesheetWeekApprovalService.getProjects(selectedAccountId).subscribe(
-    //     (data) => {
-    //       this.projects = data;
-    //     },
-    //     (error) => {
-    //       console.error('Error fetching projects:', error);
-    //     }
-    //   );
-    // }
-
-    // onProjectSelect(event: any) {
-    //   this.selectedProjectId = event.target.value;
-    //   if (this.selectedWeek !== null && this.selectedAccount !== null && this.selectedProjectId) {
-    //     this.getWeekTimesheets(107, this.selectedAccount, this.selectedProjectId, this.selectedWeek);
-    //   }
-
-    // }
 
     onAccountSelect() {
       // Get the selected account ID
