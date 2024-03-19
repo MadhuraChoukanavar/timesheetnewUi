@@ -18,6 +18,7 @@ import { EmployeeService } from '../models/employee.service';
 import { DatePipe } from '@angular/common';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { LoginLayoutComponent } from './pages/loginPage/login-layout.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 @NgModule({
   declarations: [
   AppComponent,
@@ -41,7 +42,7 @@ import { LoginLayoutComponent } from './pages/loginPage/login-layout.component';
     FormsModule
   ],
   providers: [UserService,
-  EmployeeService,DatePipe],
+  EmployeeService,DatePipe, provideAnimationsAsync()],
   bootstrap: [AppComponent],
 
 })

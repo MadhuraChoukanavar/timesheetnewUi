@@ -45,3 +45,35 @@ background-color: rgb(229, 233, 234);
   font-size: small;
 
 }
+.form-control
+{
+  width: 65px;
+   text-align: center;
+ 
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: small;
+
+}
+
+#con{
+  width: 100%;
+}
+#con1{
+  width: 100%;
+}
+
+.sel-drop {
+  width: 110px;
+  /* Your custom CSS styles for sel-drop class */
+  /* Example styles */
+  background-color: #ffffff;
+  border: 1px solid #cdc7c7;
+  border-radius: 5px;
+  padding: 5px 10px;
+  color: #333;
+  /* Add any additional styles you need */
+}
+#comments
+{
+  width: 50%;
+}
