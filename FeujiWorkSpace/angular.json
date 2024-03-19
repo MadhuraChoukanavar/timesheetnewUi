@@ -35,6 +35,7 @@
               "projects/feuji-project/src/assets"
             ],
             "styles": [
+              "projects/feuji-project/src/custom-theme.scss",
               "projects/feuji-project/src/styles.css"
             ],
             "scripts": []

@@ -4,6 +4,9 @@
   text-overflow: ellipsis;
 }
 
+/* .heading{
+  font-size: 20px;
+} */
 .table1
 {
   background-color: blue;
@@ -45,6 +48,7 @@ background-color: rgb(229, 233, 234);
   font-size: small;
 
 }
+
 .form-control
 {
   width: 65px;
@@ -77,3 +81,4 @@ background-color: rgb(229, 233, 234);
 {
   width: 50%;
 }
+

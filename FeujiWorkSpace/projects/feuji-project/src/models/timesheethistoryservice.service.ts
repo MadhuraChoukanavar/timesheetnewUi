@@ -8,12 +8,13 @@ import { Observable } from 'rxjs';
 })
 export class TimesheethistoryserviceService {
 
-  constructor(private http: HttpClient,
-    private datePipe: DatePipe) {}
+  constructor(private http: HttpClient
+    ) {}
 
 
     taskHistoryUrl="http://localhost:8084/api/timesheet/gettimeSheetHistory"
   accounturl="http://localhost:8083/api/AccountProjectResourceMapping/accountdetails"
+  dayaHistory="http://localhost:8084/api/timesheetday"
 
 
   fetchData(month: string, year: number,accountName:string): Observable<any[]> {
@@ -26,11 +27,11 @@ export class TimesheethistoryserviceService {
   }
   fetchAccountBymonthAndYear( month: string,year: number): Observable<any[]> {
     const url = `${this.taskHistoryUrl}/getAccountByMonthAndYear/${month}/${year}/108`;
-    return this.http.get<any[]>(url); 
+    return this.http.get<any[]>(url);
   }
   fetchYear(): Observable<any[]> {
     const url = `${this.taskHistoryUrl}/getYears/108`;
-    return this.http.get<any[]>(url); 
+    return this.http.get<any[]>(url);
   }
 
   public getAccount():Observable<any[]>
@@ -39,4 +40,11 @@ export class TimesheethistoryserviceService {
     const url1=`${this.accounturl}/108`;
     return this.http.get<any[]>(url1)
   }
+
+  getDayHistory(uuId:string): Observable<any[]> {
+    const url = `${this.dayaHistory}/gettimeSheetDayHistory/${uuId}`;
+    return this.http.get<any[]>(url); 
+  }
+
+
 }

@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
-// import { FormsModule } from "@angular/forms";
+import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { EmpLayoutRoutes } from "./employee-layout.routing";
 
@@ -9,17 +9,12 @@ import { EmpLayoutRoutes } from "./employee-layout.routing";
   imports: [
     CommonModule,
     RouterModule.forChild(EmpLayoutRoutes),
-    // FormsModule,
+    FormsModule,
     HttpClientModule,
 
 
   ],
   declarations: [
-    // ViewProfileComponent,
-    // TimesheetHomeComponent,
-    // TimesheetHistoryComponent,
-    // TimesheetapproveComponent
-
   ]
 })
 

@@ -24,8 +24,8 @@ import { HolidayComponent } from "./holiday/holiday.component";
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     FormsModule,
+    ReactiveFormsModule,
     AdminRoutingModule
   ]
 })

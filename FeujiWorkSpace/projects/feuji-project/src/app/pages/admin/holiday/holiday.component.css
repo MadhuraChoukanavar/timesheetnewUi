@@ -1,53 +1,73 @@
 .container-fluid{
-    box-sizing: border-box;
-    margin: auto;
-    padding: 0;
-    width:50%;
-    margin-top: 70px;
+  box-sizing: border-box;
+  margin: auto;
+  padding: 0;
+  width:70%;
+  margin-left: 50px;
+  margin-top: 30px;
 }
- .tablebox{
-    border: 2px solid black;
-    border-radius: 10px;
-    
-    padding: 10px;
-    width: 850px;
-    /* background-image: url("../../assets/./images/final-image-6.jpg"); */
- 
- } 
- 
-  
-   
+.tablebox{
+  /* border: 2px solid black;
+  border-radius: 10px; */
 
- .rows{
-    border-radius: 5px;
-  
-    padding: 200px;
-    /* width: 00px; */
-    height: 45px;
-   
- } 
- 
- .holidaycalendor{
-    color:black;
-   
- }
- .text{
-    font-size: 20px;
-    font-weight: 500px;
-    text-align: center;
-    color:rgb(9, 9, 9);
- }
 
-   .btn{
-    border-radius: 5px;
-  
-    height: 35px;
-    margin-left: 10px;
-   }
-   .add{
-    margin-left: 720px; 
-   background-color:black;
-   color: white;
-   
-   }
- 
+  /* margin-right: 100px; */
+  /* padding: 50px; */
+  width: 800px;
+
+
+
+}
+.head{
+ background-color: rgb(229, 233, 234);
+}
+
+.rows{
+  border-radius: 5px;
+  height: 45px;
+
+  padding: 200px;
+  width: 850px;
+
+
+}
+
+
+.holidaycalendor{
+
+  color: black;
+
+}
+.text{
+  font-size: smaller;
+  /* font-weight: lighter; */
+  /* text-align: center; */
+  /* margin-left: 50px; */
+
+  font-family:Arial, Helvetica, sans-serif ;
+
+  color: black;
+}
+.text1{
+ text-align: center;
+ margin-left: 80px;
+}
+ .btn{
+  border-radius: 50%;
+
+  height: 35px;
+  margin-bottom: 10px;
+  color:rgb(9, 9, 9);
+
+ }
+ .add{
+  margin-left: 720px;
+
+ background-color:rgb(164, 164, 236);
+
+
+
+ }
+ .icon{
+    margin-left: 70px;
+ }
