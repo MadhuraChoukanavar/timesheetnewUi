@@ -1,50 +1,51 @@
 .container-fluid{
-    box-sizing: border-box;
-    margin: auto;
-    padding: 0;
-    width:30%;
-    margin-top: 70px;
-  }
-  .employecolor{
-    color: rgb(243,117,46);
-  }
-  .formborderbox{
-    border-radius: 5px;
-  
-    padding: 15px;
-  
-  }
-  .input{
-    height: 35px;
-    width: 200px;
-    border-radius: 6px;
-   border: 1px solid #333;
-  }
-  /* .w-30{
-    width: 20px;
-  } */
-  .btn {
-  
-    display: flex;
-    justify-content:center ;
-    align-items: center;
-    text-align: center;
-    margin: 30px;
-    padding: 10px;
-  
-  
-  }
-  .btnbg{
-    background-color: rgb(243,117,46);;
-    border-radius: 5px;
-    height: 35px;
-    font-size: 20px;
-  
-  }
-  .text{
-    font-size: 20px;
-    font-weight: 500px;
-  }
-  
-  
-  
+  /* border: 1px solid black; */
+  width:70%;
+  margin-top: 70px;
+}
+.employecolor{
+  color: black
+}
+.formborderbox{
+  border-radius: 5px;
+
+  padding: 15px;
+
+}
+.input{
+  height: 50px;
+  width: 600px;
+  border-radius: 6px;
+ border: 1px solid #333;
+}
+/* .w-30{
+  width: 20px;
+} */
+.btn {
+  display: flex;
+  justify-content:center ;
+  align-items: center;
+  text-align: center;
+  margin: 30px;
+  padding: 10px;
+
+}
+.btnbg{
+  /* display: flex;
+  justify-content:center ; */
+  background-color:rgb(164, 164, 236);
+  border-radius: 5px;
+  height: 35px;
+  font-size: 20px;
+  position: relative;
+  left: 200%;
+}
+.text{
+  font-size: 20px;
+  font-weight:500px;
+}
+
+
+.form-label {
+  font-size: 18px;
+}

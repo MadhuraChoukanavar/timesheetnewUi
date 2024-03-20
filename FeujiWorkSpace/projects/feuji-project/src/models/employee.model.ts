@@ -23,6 +23,8 @@ export class Employee{
      public createdOn:Date,
     public modifiedBy:string,
      public modifiedOn:Date,
+     public referenceDetailId: number,
+     public referenceDetailValue: string
   ){}
 }
 

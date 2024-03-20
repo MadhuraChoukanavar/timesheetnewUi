@@ -2,7 +2,7 @@
 
 export class timesheetWeekApproval{
     constructor(
-      
+
         public TimesheetWeekSummaryId:number=2,
         public employeeId:number,
         public designation:string,
@@ -22,14 +22,7 @@ export class timesheetWeekApproval{
         public plannedStartDate:Date,
         public plannedEndDate:Date,
         public accountId:number
-
-
-
-       
-
-
-
     ){}
     }
-   
+
 

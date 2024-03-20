@@ -29,6 +29,8 @@ export class ManagerLayoutComponent {
       { label: 'New Timesheet', link: '/manager/new-timesheet' },
       { label: 'Timesheet History', link: '/manager/timeshet-history' },
       { label: 'Timesheet Approval', link: '/manager/timesheet-approval' },
+      { link: '/manager/DailyStatusComponent' },
+
     ] },
     { mainOption: 'Skills', icon: 'bi bi-journal-text',subOptions: [
       { label: 'Add Skills', link: '/manager/sub2.1' },

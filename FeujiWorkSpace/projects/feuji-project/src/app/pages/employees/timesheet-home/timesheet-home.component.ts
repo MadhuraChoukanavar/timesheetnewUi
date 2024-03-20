@@ -1,14 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AfterViewChecked } from '@angular/core';
-import { addDays } from 'date-fns';
-
 import { DatePipe } from '@angular/common';
 import { TimesheetHomeService } from '../../../../models/timesheetHomeService.service';
-import {
-  SaveAndEditRecords,
-  WeekAndDayDto,
-} from '../../../../models/timesheethomebean.model';
-
+import {SaveAndEditRecords,WeekAndDayDto} from '../../../../models/timesheethomebean.model';
 import { TimesheetWeekDayBean } from '../../../../models/timesheethomebean.model';
 import Swal from 'sweetalert2';
 @Component({
@@ -21,13 +15,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     private timesheetHomeService: TimesheetHomeService,
     private datePipe: DatePipe
   ) {
-    // this.initializeRowColArray();
-    // const storedUser = localStorage.getItem('user');
-    // const user = storedUser ? JSON.parse(storedUser) : undefined;
-    // if (user !== null) {
-    //   this.currentUser = user;
-    // }
-    // this.id = this.currentUser.userEmpId;
+  
   }
   tasks = [
     {
@@ -161,9 +149,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     this.timesheetHomeService
       .getProjectTask(this.selectedProjecttaskId)
       .subscribe((restask) => {
-        console.log(this.selectedTasks);
-        console.log(restask);
-
+        
         // const filteredTasks = restask.filter(task =>!this.selectedTasks.includes(task.taskId)) as any[];
         const filteredTasks = restask.filter(
           (task) =>
@@ -185,11 +171,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     this.everyRowRecord[(this.rownum, 3)] = Number(this.selectedTaskId);
     //========================================================
     console.log(this.selectedTaskId);
-    //     for(let j=0;j<=this.fetchedDetails.length;j++)
-    //     {
-    //       this.selectedTasksFromFetch[j]=this.fetchedDetails[j].taskId
-    // }
-
+    
     this.selectedTasks[i] = this.selectedTaskId;
 
     console.log(this.selectedTasks);
@@ -391,13 +373,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
   allRows: TimesheetWeekDayBean[] = [];
   saveAndSubmit: boolean = false;
   saveWeekTableData() {
-    const saveId =
-      Number(
-        this.timesheetStatus.find(
-          (status) => status.referenceDetailValue === 'saved'
-        )?.referenceDetailId
-      ) ?? 0;
-
+    
     //========================================================
     this.everyRowRecord[(this.rownum, 20)] = 57;
     //========================================================
@@ -415,7 +391,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
           console.log('Backend response:', response);
           const accountId = this.selectedAccount || this.defaultAccountId;
           this.fetchWeekDayData(108, accountId, this.startDate, this.lastDate);
-          this.saveAndSubmit = true;
+          this.saveAndSubmit = false;
 
           this.editedArray = [];
         },
@@ -423,7 +399,8 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
           console.error('Error sending data to backend:', error);
           const accountId = this.selectedAccount || this.defaultAccountId;
           this.fetchWeekDayData(108, accountId, this.startDate, this.lastDate);
-          this.saveAndSubmit = true;
+          this.saveAndSubmit = false;
+          this.editedArray = [];
         }
       );
   }
@@ -528,6 +505,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
 
   // }
  fetchedtask:number[]=[];
+ count:number=0;
    formattedDate: string = '';
   fetchWeekDayData(
     employeeId: number,
@@ -535,8 +513,8 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     startDate: string,
     endDate: string
   ): void {
-    // const startDate1 = this.startDate;
-    // const lastDate = this.lastDate;
+  
+ 
     this.saveAndSubmit = false;
 
     console.log("''''''''''''''''''''''''''''" + startDate);
@@ -547,8 +525,12 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
         this.fetchedDetails = fetched as WeekAndDayDto[];
         this.limitRow = fetched.length;
         console.log(this.fetchedDetails);
-
+        this.fetchedtask[this.count++]=this.fetchedDetails[this.count].taskId;
         console.log('Limit Row ' + this.limitRow);
+        console.log("fetched id");
+        console.log(this.fetchedtask);
+        
+        
       });
   }
 
@@ -657,9 +639,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
   }
 
   editedArray: WeekAndDayDto[] = [];
-  //  isEditModee: boolean = false;
-  // editModes: boolean[] = [];
-  // //editMode: boolean = false;
+
   editedRow: WeekAndDayDto = new WeekAndDayDto(
     0,
     0,
@@ -691,9 +671,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     0
   );
 
-  //   isEditMode(index: number): boolean {
-  //     return this.editModes[index];
-  //   }
+  
 
   editMode: boolean = false;
   existingRows: number[] = [];

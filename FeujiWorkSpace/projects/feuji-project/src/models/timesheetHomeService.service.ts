@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { timesheetWeekApproval } from './timesheet-week-approval.model';
 import {
   SaveAndEditRecords,
   TimesheetWeekDayBean,
   WeekAndDayDto,
 } from './timesheethomebean.model';
-import { DatePipe } from '@angular/common';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class TimesheetHomeService {
-  constructor(private http: HttpClient, private datePipe: DatePipe) {}
+
+  constructor(private http: HttpClient) {}
   accurl = 'http://localhost:8084/api/timesheet/getaccountdetails';
   prourl = 'http://localhost:8084/api/timesheet/getproject';
   tasktypeurl = 'http://localhost:8084/api/timesheet/getprojecttasktype';
@@ -23,6 +24,7 @@ export class TimesheetHomeService {
   fetchUrl = 'http://localhost:8084/api/timesheetdata/getallweekdayData';
   deleteUrl = 'http://localhost:8084/api/timesheetdata';
   submitUrl = 'http://localhost:8084/api/timesheetdata/submitAction';
+  updateurl='http://localhost:8084/api/timesheet/update';
 
   getAccounts(): Observable<any[]> {
     const url = `${this.accurl}?userEmpId=${108}`;
@@ -104,5 +106,9 @@ export class TimesheetHomeService {
   
     const url = `${this.submitUrl}?employeeId=${employeeId}&accountId=${accountId}&weekStartDate=${weekStartDate}`;
     return this.http.post<any>(url, {});
+  }
+  updateTimesheetStatus(employeeId:number,accountProjectId:number,weekNumber:number):Observable<any>{
+    const url=`${this.updateurl}/${employeeId}/${accountProjectId}/${weekNumber}`;
+    return this.http.put<any>(url,timesheetWeekApproval)
   }
 }
