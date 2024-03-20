@@ -45,11 +45,13 @@ background-color: rgb(229, 233, 234);
   font-size: small;
 
 }
+
 .form-control
 {
   width: 65px;
    text-align: center;
  
+
   font-family: Arial, Helvetica, sans-serif;
   font-size: small;
 
@@ -77,3 +79,5 @@ background-color: rgb(229, 233, 234);
 {
   width: 50%;
 }
+
+
