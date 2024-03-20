@@ -93,14 +93,20 @@ export class TimesheetHomeService {
     return this.http.post<any>(url, weekdayDto);
   }
 
+
   submitData(
     employeeId: number,
     accountId: number,
     weekStartDate:string,
-  ): Observable<any> {
+  ): Observable<any> {{
+    console.log(employeeId);
+    console.log(accountId);
+    console.log(weekStartDate);
+
     const url = `${this.submitUrl}?employeeId=${employeeId}&accountId=${accountId}&weekStartDate=${weekStartDate}`;
     return this.http.post<any>(url, {});
   }
+}
   getDayHours(minHoursDay:string):Observable<any>
   {
 
