@@ -19,7 +19,7 @@ export class EmployeeLayoutComponent  implements OnInit{
       { label: 'Timesheet History', link: '/employee/timsheet-history' },
     ] },
     { mainOption: 'Holiday',icon: 'fas fa-gifts', subOptions: [
-      { label: 'All Holiday List', link: '/employee/all-holiday-list' },
+      { label: 'All Holiday List', link: '/employee/holiday-list' },
     ] },
     { mainOption: 'Skills', icon: 'fa-solid fa-fill-drip',subOptions: [
       { label: 'Add Employee', link: '/employee/sub2.1' },

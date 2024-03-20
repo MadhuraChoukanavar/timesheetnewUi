@@ -17,7 +17,7 @@ export class HolidayComponent  implements OnInit
 
   constructor(private repository:holidayRepo,private data:HolidayService,private router:Router){}
 
-  
+
   ngOnInit(): void {
       this.getholiday()
   }
@@ -31,7 +31,7 @@ this.data.getholiday().subscribe(d=>{
 navigateeditholiday(holiday:Holiday){
   console.log(holiday);
   this.router.navigate(["/editholiday"],{state:{holiday:holiday}})
-  
+
 }
 
 

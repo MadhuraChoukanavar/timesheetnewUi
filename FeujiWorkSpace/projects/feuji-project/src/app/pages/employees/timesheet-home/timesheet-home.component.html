@@ -13,8 +13,9 @@
           <th colspan="14">
             <div class="mt-3 d-flex">
               <div
-                class="col-md-3 d-flex justify-content-between"
-                style="margin-left: 2%"
+                class="col-md-4 d-flex justify-content-between"
+                style="margin-left: 2% ; font-family: Arial, Helvetica, sans-serif;
+                font-size: small;"
               >
                 <select
                   style="
@@ -22,11 +23,13 @@
                     width: 131px;
                     font-size: 14px;
                     height: 38px;
+                    font-family: Arial, Helvetica, sans-serif;
+          font-size: small;
                   "
                   id="account"
                   (change)="OnSelectAccount($event)"
                   (change)="loadTimesheetData()"
-                  class="form-control"
+                 class="sel-drop"
                 >
                   <option value="" selected disabled style="font-size: 14px">
                     Select account
@@ -49,7 +52,8 @@
                 </button>
                 <button
                   class="btn btn-outline-primary"
-                  style="margin-right: 5px"
+                  style="margin-right: 5px;  font-family: Arial, Helvetica, sans-serif;
+                  font-size: small"
                   (click)="calculateCurrentWeek()"
                 >
                   Current
@@ -63,7 +67,7 @@
                   <i class="fa-solid fa-angle-right"></i>
                 </button>
               </div>
-              <div class="col-md-4 d-flex justify-content-center">
+              <div class="col-md-5 d-flex justify-content-center">
                 <h6
                   style="
                     font-family: Arial, Helvetica, sans-serif;
@@ -75,7 +79,8 @@
                   {{ startDate }} To {{ lastDate }}
                 </h6>
               </div>
-              <div class="col-md-3 d-flex text-end" style="padding-left: 20%">
+              <div class="col-md-3 d-flex text-end" style="padding-left: 20% ; font-family: Arial, Helvetica, sans-serif;
+              font-size: 25px">
                 <button
                 [disabled]="!addbutton"
                   class="btn float-lg-end"
@@ -303,18 +308,21 @@
         <!-- <tr *ngFor="let task of tasks; let i = index">
           <td>
             <select
-              style="font-size: 14px"
+              style=" font-family: Arial, Helvetica, sans-serif;
+              font-size: small"
               id="project_{{ i }}"
               name="project_{{ i }}"
-              class="form-control"
+              class="sel-drop"
               (change)="onSelect($event, i)"
               [(ngModel)]="task.project"
             >
-              <option value="" selected disabled style="font-size: 14px">
+              <option value="" selected disabled style=" font-family: Arial, Helvetica, sans-serif;
+              font-size: small">
                 Select project
               </option>
               <option
-                style="font-size: 14px"
+                style=" font-family: Arial, Helvetica, sans-serif;
+                font-size: small"
                 *ngFor="let pro of projects"
                 value="{{ pro.accountProjectId }}"
               >
@@ -324,18 +332,21 @@
           </td>
           <td>
             <select
-              style="font-size: 14px"
+              style=" font-family: Arial, Helvetica, sans-serif;
+              font-size: small"
               id="tasktype_{{ i }}"
               name="tasktype_{{ i }}"
-              class="form-control"
+              class="sel-drop"
               (change)="onSelectTaskType($event, i)"
               [(ngModel)]="task.taskType"
             >
-              <option value="" selected disabled style="font-size: 14px">
+              <option value="" selected disabled style=" font-family: Arial, Helvetica, sans-serif;
+              font-size: small">
                 Select Type
               </option>
               <option
-                style="font-size: 14px"
+                style=" font-family: Arial, Helvetica, sans-serif;
+                font-size: small"
                 *ngFor="let tasktype of projectTaskType[i]"
                 value="{{ tasktype.taskTypeId }}"
               >
@@ -345,8 +356,9 @@
           </td>
           <td>
             <select
-              style="font-size: 14px"
-              class="form-control"
+              style=" font-family: Arial, Helvetica, sans-serif;
+              font-size: small"
+              class="sel-drop"
               [(ngModel)]="task.task"
               id="task_{{ i }}"
               name="task_{{ i }}"
@@ -359,7 +371,8 @@
               <option
                 *ngFor="let task of projectTask[i]"
                 value="{{ task.taskId }}"
-                style="font-size: 14px"
+                style=" font-family: Arial, Helvetica, sans-serif;
+                font-size: small"
               >
                 {{ task.task }}
               </option>
@@ -367,17 +380,20 @@
           </td>
           <td>
             <select
-              style="font-size: 14px"
-              class="form-control"
+              style="font-family: Arial, Helvetica, sans-serif;
+              font-size: small"
+              class="sel-drop"
               [(ngModel)]="task.attendanceType"
               id="attendance_{{ i }}"
               (change)="onselectAttendanceType($event, i)"
             >
-              <option value="" selected disabled style="font-size: 14px">
+              <option value="" selected disabled style=" font-family: Arial, Helvetica, sans-serif;
+              font-size: small">
                 Attendance Type
               </option>
               <option
-                style="font-size: 14px"
+                style=" font-family: Arial, Helvetica, sans-serif;
+                font-size: small"
                 *ngFor="let bil of attendanceTypeArr"
                 value="{{ bil.referenceDetailId }}"
               >
@@ -391,7 +407,8 @@
               id="input_{{ i }}0"
               value="0"
               (change)="columnsum()"
-              style="width: 65px; text-align: center"
+              style="width: 65px; text-align: center; font-family: Arial, Helvetica, sans-serif;
+              font-size: small"
             />
           </td>
           <td>
@@ -400,7 +417,8 @@
               id="input_{{ i }}1"
               value="0"
               (change)="columnsum()"
-              style="width: 65px; text-align: center"
+              style="width: 65px; text-align: center; font-family: Arial, Helvetica, sans-serif;
+              font-size: small"
             />
           </td>
 
@@ -763,23 +781,12 @@
       </tbody>
       <tfoot>
         <tr>
-          <td
-            colspan="4"
-            style="
-              text-align: right;
-              font-family: Arial, Helvetica, sans-serif;
-              font-size: small;
-            "
-          >
-            Total
-          </td>
+          <td  colspan="4" style="text-align: right; font-family: Arial, Helvetica, sans-serif;
+          font-size: small;">Total</td>
           <td
             *ngFor="let total of totalvalue; let j = index"
-            style="
-              text-align: center;
-              font-family: Arial, Helvetica, sans-serif;
-              font-size: small;
-            "
+            style="text-align: center ; font-family: Arial, Helvetica, sans-serif;
+            font-size: small;"
           >
             {{ totalvalue[j] }}
           </td>
