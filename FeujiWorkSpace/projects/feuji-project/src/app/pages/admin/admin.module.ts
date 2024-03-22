@@ -10,6 +10,8 @@ import { AccountAddComponent } from './account-add/account-add.component';
 import { UpdateAccountComponent } from './update-account/update-account.component';
 import { AddHolidayComponent } from "./add-holiday/add-holiday.component";
 import { HolidayComponent } from "./holiday/holiday.component";
+import { EditholidayComponent } from './editholiday-component/editholiday-component.component';
+import { UpdateEmlpoyeeComponent } from './update-emlpoyee/update-emlpoyee.component';
 
 @NgModule({
   declarations: [
@@ -20,8 +22,10 @@ import { HolidayComponent } from "./holiday/holiday.component";
     AccountAddComponent,
     UpdateAccountComponent,
     AddHolidayComponent,
-    HolidayComponent
-  ],
+    HolidayComponent,
+     EditholidayComponent,
+     UpdateEmlpoyeeComponent
+    ],
   imports: [
     CommonModule,
     FormsModule,

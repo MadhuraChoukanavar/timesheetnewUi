@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountserviceService } from '../../../../models/accountservice.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-account-display',
@@ -30,6 +31,28 @@ export class AccountDisplayComponent implements OnInit {
 editItem(id: string) {
   console.log(id);
   
-  this.router.navigate(['/updateaccount', id]);
+  this.router.navigate(['/admin/update-account', id]);
+}
+removeTask(accountId:number) {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'You will not be able to recover this holiday!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'No, keep it'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      console.log("component deleted", accountId);
+      this.accountService.deleteEmployee(accountId).subscribe(res => {
+        console.log(res);
+        // Handle success message or any other action after deletion
+        this.getAccount();
+      });
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+      // Handle cancel action
+      // No deletion occurred
+    }
+  });
 }
 }

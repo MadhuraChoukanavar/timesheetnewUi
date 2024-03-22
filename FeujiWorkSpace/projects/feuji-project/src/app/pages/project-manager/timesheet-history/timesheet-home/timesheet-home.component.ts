@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { TimesheetHomeService } from '../../../../models/timesheetHomeService.service';
+import { TimesheetHomeService } from '../../../../../models/timesheetHomeService.service';
 
 @Component({
   selector: 'app-timesheet-home',
@@ -58,7 +58,7 @@ export class TimesheetHomeComponent implements OnInit {
     console.log(this.tasks);
   }
   ngOnInit(): void {
-    this.timesheetHomeService.getproject().subscribe(
+    this.timesheetHomeService.getproject(1).subscribe(
       (resp) => {
         console.log(resp);
         this.projects = resp as any[];

@@ -11,7 +11,9 @@ import { UserRepo } from '../../../../models/user.repo';
 })
 export class ManagerViewProfileComponent implements OnInit {
   employee: Employee | undefined;
-  empId: Employee = new Employee(0, '', '', '', '', '', '', '', '', new Date(), 0, '', '', 0, '', new Date(), '', '', '', 0, new Date(), '', new Date(),0,'');
+  empId: Employee = new Employee(0,'','','','','','','','',new Date(),0,'','',0,'',new Date(),'','',0,new Date(),'',new Date(),0,'');
+
+
   public id: String = "";
   currentUser: any;
   constructor(private route: ActivatedRoute, private userService: UserService, private userRepo: UserRepo) {

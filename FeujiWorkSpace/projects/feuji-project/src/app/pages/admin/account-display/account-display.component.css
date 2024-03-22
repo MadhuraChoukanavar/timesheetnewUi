@@ -6,8 +6,9 @@
     font-size: 15px;
     background-color: rgb(229, 233, 234);
     color: black;
+    position: sticky;
   }
-  
+
   .table{
     width: 95%;
     margin-left: 4%;
@@ -49,3 +50,8 @@
     align-items: center;
     font-weight: 900;
   }
+  
+.rowbutton{
+  display: flex;
+  justify-content: space-evenly;
+}

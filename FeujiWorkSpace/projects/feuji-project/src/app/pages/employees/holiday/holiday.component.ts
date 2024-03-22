@@ -3,6 +3,8 @@ import { HolidayService } from '../../../../models/holidayservice.service';
 import { holidayRepo } from '../../../../models/holiday.repo';
 import { Holiday } from '../../../../models/holiday.model';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+
 
 
 
@@ -13,46 +15,42 @@ import { Router } from '@angular/router';
 })
 export class HolidayComponent  implements OnInit
 {
-  public holidays:Holiday[]=[];
+  public holidays: Holiday[] = [];
+  public defaultYear: number;
+  holidayYears: number[] = [2022, 2023, 2024]; // Example years
+  public selectedYear!: number;
+  public holidayDetails: Holiday[] = [];
+  public selectedmonth!: string;
 
-  constructor(private repository:holidayRepo,private data:HolidayService,private router:Router){}
-
-  
-  ngOnInit(): void {
-      this.getholiday()
+  constructor(private repository: holidayRepo, private data: HolidayService, private router: Router) {
+    const currentDate = new Date();
+    this.defaultYear = currentDate.getFullYear(); // Set the default year to the current year
+    this.selectedYear = this.defaultYear;
   }
-  getholiday(){
-this.data.getholiday().subscribe(d=>{
-  this.holidays=d;
-})
-}
 
 
-navigateeditholiday(holiday:Holiday){
-  console.log(holiday);
-  this.router.navigate(["/editholiday"],{state:{holiday:holiday}})
+
+
+  ngOnInit(): void {
+    // this.getholiday()
+    this.HolidaysByYear()
+  }
+
+ 
+
+
   
-}
 
 
-delete(index:any){
-const isConfirm=confirm("are you sure you want to delete")
-if(isConfirm){
-  console.log("component deleted",index);
-  console.log("component deleted",this.holidays[index]);
-  this.data.deleteRow(index).subscribe(res=>{
-    console.log(res);
-    const reponse:any=res;
-    if(reponse.deleted==true){
-      console.log(reponse.deleted)
-      this.data.getholiday().subscribe(d=>{
-        this.holidays=d;
-        console.log(d)
-      })
-    }
-  })
+  HolidaysByYear() {
+    this.data.getHolidayByYear(this.selectedYear).subscribe(res => {
 
-}
-  console.log(this.holidays)
-}
+
+      this.holidayDetails = res;
+
+      console.log(this.holidayDetails);
+
+    })
+  }
+ 
 }

@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map } from 'rxjs';
-import { Employee } from './employee.model';
+import { Employee, EmployeeSaving } from './employee.model';
 import { SaveEmployee } from './saveemployee.model';
 import { SharedService } from './shared.service';
 
@@ -20,11 +20,13 @@ export class EmployeeService {
   }
 
   private apiUrl = this.shared.employeeUrl;
+  private empUrl ='http://localhost:8082/api/employee';
+  private  billurl="http://localhost:8089/api/referencedetails/getref"
 
   //  Method to Save Employment
-  saveEmployee(employeeData: Employee): Observable<Employee> {
+  saveEmployee(employeeData: EmployeeSaving): Observable<EmployeeSaving> {
     console.log(employeeData + "service method");
-    return this.http.post<Employee>(`${this.apiUrl}/save`, employeeData);
+    return this.http.post<EmployeeSaving>(`${this.apiUrl}/save`, employeeData);
   }
 
   //  Method to check EmployeCode
@@ -52,7 +54,40 @@ getAllReferenceType():Observable<any>{
   return this.http.get<any>(`${this.referenceUrl}/all`)
 }
 //   // Service method to retrieve employment types
-// getEmploymentType(referenceTypeId: number): Observable<SaveEmployee[]> {
-//   return this.http.get<SaveEmployee[]>(`${this.apiUrl}/EmploymentType/${referenceTypeId}`);
-// }
+getEmploymentType(referenceTypeId: number): Observable<SaveEmployee[]> {
+  return this.http.get<SaveEmployee[]>(`${this.apiUrl}/EmploymentType/${referenceTypeId}`);
+}
+getEmployeeDetails():Observable<any>{
+  return this.http.get<any>(`${this.empUrl}/getEmployeeDetails`)
+}
+
+
+getEmployeeDetailByUuId(uuid: string):Observable<any>{
+  return this.http.get<any>(`${this.empUrl}/getEmployeeDetailByUUiD/${uuid}`)
+}
+
+public getBusinessUnitType():Observable<any[]>
+  {
+
+    return this.http.get<any[]>(`${this.billurl}/Business Unit`);
+
+  }
+
+  public getStatusType():Observable<any[]>
+  {
+    return this.http.get<any[]>(`${this.billurl}/Account Status`);
+
+  }
+
+getUpdateEmployee(empData:EmployeeSaving):Observable<any>{
+  console.log(empData);
+  const headers=new HttpHeaders("application/json");
+ 
+  
+  return this.http.put<any>(`${this.empUrl}/updateEmployee`,empData,{headers})
+}
+deleteEmployee(employeeId:number):Observable<any>{
+  
+  return this.http.delete<any>(`${this.empUrl}/deleteEmp/${employeeId}`)
+}
 }

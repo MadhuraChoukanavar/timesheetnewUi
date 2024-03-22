@@ -1,17 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { Employee, EmployeeSaving } from '../../../../models/employee.model';
+import { ActivatedRoute } from '@angular/router';
 import { EmployeeService } from '../../../../models/employee.service';
-import { AbstractControl, FormControl, ValidatorFn, Validators } from '@angular/forms';
-import { SaveEmployee } from '../../../../models/saveemployee.model';
+import { EmployeeSaving } from '../../../../models/employee.model';
 import { SharedService } from '../../../../models/shared.service';
+import { SaveEmployee } from '../../../../models/saveemployee.model';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-add-employee',
-  templateUrl: './add-employee.component.html',
-  styleUrls:[ './add-employee.component.css']
+  selector: 'app-update-emlpoyee',
+  templateUrl: './update-emlpoyee.component.html',
+  styleUrl: './update-emlpoyee.component.css'
 })
-export class AddEmployeeComponent implements OnInit{
+export class UpdateEmlpoyeeComponent implements OnInit {
+  constructor(private ref:ActivatedRoute,private empService: EmployeeService,private shared : SharedService){
+    this.referenceUrl = this.shared.referenceUrl
+  }
+  public empuuId:string="";
+  public emp:any;
+  public emp1:any;
   referenceUrl:string;
   genderReference:any
   gender:any
@@ -23,57 +29,63 @@ export class AddEmployeeComponent implements OnInit{
   status:any
   reportingManager:any
   reportingManagerReference:any
-  public referenceData: SaveEmployee[]=[]
-  public employee:any=Employee;
-  public emplyoee1:any=[];
-  public employmentTypes: SaveEmployee[]=[]
-  public selectedEmploymentType: string = '';
-
-
-  public businessUnitType: any[] = [];
-  public statusTypes:any[]=[];
- 
-  emp:EmployeeSaving=new EmployeeSaving(0,'','','','','','','',0,new Date(),0,0,0,0,0,new Date(),'',false,'',new Date(),'',new Date);
   employeeTypeReference: any;
+  public employmentTypes: SaveEmployee[]=[]
 
-  constructor(private empService:EmployeeService,private shared : SharedService) {
+  public employee:any=EmployeeSaving;
+
+  ngOnInit(): void {
+    this.empuuId = "" +this.ref.snapshot.paramMap.get('id');
+    this.send(this.empuuId);
     this.getAllReferenceType();
-   this.referenceUrl = this.shared.referenceUrl
+    this.fetchReportingManager();
   }
 
-  ngOnInit() {
- 
-   this.fetchReportingManager();
-   this.getStatusType();
-    this.getBusinessUnitType();
+
+send(empuuId:string){
+  console.log("asdfghjkl;");
+  console.log(empuuId);
+  
+  this.empService.getEmployeeDetailByUuId(this.empuuId).subscribe(
+  (items)=>{
+  this.emp=items[0];
+  
+  console.log(this.emp);
+  
+  
   }
 
-  sendEmployee() {
-    console.log('Employee saved:', this.emp);
-    this.empService.saveEmployee(this.emp).subscribe({
-      next: (res) => {
-        console.log('Employee saved:', res);
-        Swal.fire('Success', 'Employee saved successfully', 'success');
-      },
-      error: (error) => {
-        console.error('Error saving employee:', error);
-        Swal.fire('Error', 'Failed to save employee: ' + error.message, 'error');
-      }
-    });
-  }
-  employeeCodeControl = new FormControl('', [Validators.required, this.checkForUniqueEmployeeCode()]);
+)
+}
+updateEmployee(emp: any, uuid: any, employeeId: number) {
+  console.log("uuid................" + uuid);
+  
+  emp.uuId = uuid;
+  emp.employeeId = employeeId;
+  console.log(this.emp);
+  console.log(uuid);
+  console.log(emp);
 
-  checkForUniqueEmployeeCode(): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} | null => {
-      const value = control.value; // Get the value of the control
-      // Implement your logic to check for uniqueness here
-      const isNotUnique = false; // Replace this with your actual logic
-      // If the employee code is not unique, return an error object
-      return isNotUnique ? { notUnique: true } : null;
-    };
-  }
-
-  fetchEmploymentTypes(referenceTypeId: number): void {
+  this.empService.getUpdateEmployee(emp).subscribe(
+    (res) => {
+      this.employee = res;
+      Swal.fire({
+        icon: 'success',
+        title: 'Employee Updated Successfully',
+        text: emp.firstName + ' has been updated!',
+      });
+    },
+    (error) => {
+      console.error('Error updating employee:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Update Error',
+        text: 'Failed to update employee. Please try again later.',
+      });
+    }
+  );
+}
+fetchEmploymentTypes(referenceTypeId: number): void {
     this.empService.getByReferenceTypeId(referenceTypeId)
       .subscribe((data: SaveEmployee[]) => {
         this.employmentTypes = data;
@@ -150,48 +162,4 @@ export class AddEmployeeComponent implements OnInit{
        
       })
     }
-
-    // checkEmailUnique(e:any){
-    //   console.log(e);
-    // }
-
-    checkEmailUnique(email: any) {
-      console.log(email);
-console.log(this.emp.email);
-
-      // this.empService.checkEmployeeEmail(email).subscribe(isUnique => {
-      //   if (isUnique) {
-      //     console.log('Email is unique.');
-      //   } else {
-      //     console.log('Email already exists.');
-      //   }
-      // });
-    }
-    getEmployeeDetails(){
-      this.empService.getEmployeeDetails().subscribe(data=>{
-       console.log(data);
-       this.emplyoee1=data;
-       console.log(this.emplyoee1);
-     })
-  }
-
-
-
-  getBusinessUnitType() {
-    this.empService.getBusinessUnitType().subscribe((businessUnit:any[]) => {
-      console.log(businessUnit+":::::::::");
-      this.businessUnitType = businessUnit;
-    });
-  }
-  // ..........................
-  
-  getStatusType() {
-    this.empService.getStatusType().subscribe((status:any[]) => {
-      console.log(status);
-      console.log("status:::::::::");
-      
-      this.statusTypes = status;
-    });
-  }
-  }
-
+}

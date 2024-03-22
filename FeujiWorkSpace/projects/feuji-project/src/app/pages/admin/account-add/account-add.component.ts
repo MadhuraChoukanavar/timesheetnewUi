@@ -32,8 +32,7 @@ export class AccountAddComponent implements OnInit{
  sendAccount(acc: any) {
   console.log(acc);
   this.accountService.saveAccount(acc).subscribe(res=>this.account=res);
-  console.log("inserted");
-  alert("Data inserted")
+  
  }
  getAccount(){
   this.accountService.getAccount().subscribe(data=>{

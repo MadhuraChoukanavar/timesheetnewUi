@@ -1,7 +1,9 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+
+import { Observable, throwError } from "rxjs"; // Import throwError from RxJS
+import { catchError } from 'rxjs/operators'; // Import catchError from RxJS operators
 import { Holiday } from "./holiday.model";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 @Injectable({providedIn: 'root'})
 export class HolidayService {
@@ -16,12 +18,12 @@ export class HolidayService {
   }
   saveholiday(holiday:Holiday):Observable<Holiday>{
     console.log(holiday)
-      return this.http.post<Holiday>(`http://localhost:8084/api/holiday`,holiday);
+      return this.http.post<Holiday>(`http://localhost:8084/api/holiday/save`,holiday);
   }
-  
+    
   updateHoliday(holiday:Holiday):Observable<String>{
     console.log(holiday);
-    return this.http.put(`http://localhost:8084/api/holiday`,holiday,{responseType:'text'});
+    return this.http.put(`http://localhost:8084/api/holiday/update`,holiday,{responseType:'text'});
   }
   
 
@@ -31,4 +33,12 @@ export class HolidayService {
     return this.http.delete<Holiday>(`${this.apiUrl}/${holidayId}`);
     
   }
+
+  getHolidayByYear( year:number):Observable<any>{
+    console.log(year);
+    
+    return this.http.get<any>(`http://localhost:8084/api/holiday/getHolidayByYear/${year}`)
+
+  }
+  
 }

@@ -1,10 +1,8 @@
 <div class="container mt-2">
-  <div class="row p-4 ">
+  <div class="row p-4">
     <div class="">
       <div class="">
-
-
-      <!-- </div>
+        <!-- </div>
       <div class="" style="display:flex;justify-content:space-between">
        <h4>{{employeeName}}</h4>
        <h4>{{Status}}</h4>
@@ -12,87 +10,144 @@
 
       </div> -->
 
-      <div id="details"  style="margin-top: 3%;">
-        <!-- <p style="font-size: 17px;"><b>Employee Details</b></p> -->
-        <p><b> Name : </b>{{ employeeName }}</p>
-        <p><b> Email : </b><a href="mailto:{{ email }}">{{ email }}</a></p>
-        <p><b> Designation : </b> {{ designation}}</p>
-        <p ><b> Status :</b><span class="{{Status}}">{{Status}}</span></p>
+        <div id="details" style="margin-top: 3%">
+          <!-- <p style="font-size: 17px;"><b>Employee Details</b></p> -->
+          <p><b> Name : </b>{{ employeeName }}</p>
+          <p>
+            <b> Email : </b><a href="mailto:{{ email }}">{{ email }}</a>
+          </p>
+          <p><b> Designation : </b> {{ designation }}</p>
+          <p>
+            <b> Status :</b><span class="{{ Status }}">{{ Status }}</span>
+          </p>
+        </div>
       </div>
 
-    </div>
-
-    <table class="table table-borderedless mt-2 b">
-      <thead class="table-borderless">
-       <tr class="table-head">
-        <th colspan="14">
-          <div class=" mt-3 d-flex "  >
-            <!-- <div class=" col-md-2 d-flex justify-content-between " style="margin-left:2%;">
+      <table class="table table-borderedless mt-2 b">
+        <thead class="table-borderless">
+          <tr class="table-head">
+            <th colspan="14">
+              <div class="mt-3 d-flex">
+                <!-- <div class=" col-md-2 d-flex justify-content-between " style="margin-left:2%;">
             <button class="btn btn-outline-primary"  (click)="showPreviousWeek()" ><i class="fa-solid fa-angle-left"></i></button>
             <button  class="btn btn-outline-primary " (click)="calculateCurrentWeek()">Current </button>
 
             <button class="btn btn-outline-primary" (click)="showNextWeek()"><i class="fa-solid fa-angle-right"></i></button>
           </div> -->
-          <!-- <div  class=" col-md-7 d-flex justify-content-center"  >
+                <!-- <div  class=" col-md-7 d-flex justify-content-center"  >
             <h6  style="font-family:Arial, Helvetica, sans-serif; font-size: 25px; font-weight:lighter;">{{startDate}} To {{lastDate}}</h6>
           </div> -->
-          <!-- <div class="col-md-3 d-flex text-end" style="padding-left: 20% ">
+                <!-- <div class="col-md-3 d-flex text-end" style="padding-left: 20% ">
             <button class="btn  float-lg-end " (click)="addTaskRow()"    style="border-radius: 50%; ;background-color:  rgb(164, 164, 236) ; border-color: rgb(164, 164, 236) ;" >
               <i class="fa-solid fa-plus"></i>
                 </button>
                 </div> -->
-          </div>
-        </th>
+              </div>
+            </th>
+          </tr>
+        </thead>
 
-       </tr>
-      </thead>
+        <tbody>
+          <tr class="row1" style="text-align: center">
+            <th
+              style="
+                width: 10%;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: small;
+              "
+            >
+              Project
+            </th>
+            <th
+              style="
+                width: 5%;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: small;
+              "
+            >
+              TaskType
+            </th>
+            <th
+              style="
+                width: 10%;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: small;
+              "
+            >
+              Task
+            </th>
+            <th
+              style="
+                width: 10%;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: small;
+              "
+            >
+              Atendance Type
+            </th>
+            <!-- <th *ngFor="let day of currentWeek" style="font-family:Arial, Helvetica, sans-serif; font-size: small;">{{ day.startDate }}</th> -->
+            <!-- <th *ngFor="let day of currentWeek1" style="font-family: Arial, Helvetica, sans-serif; font-size: small;">{{ day | date:'dd-MMM EEE' }}</th> -->
 
-      <tbody >
-        <tr class="row1" style="text-align: center ">
+            <th
+              style="
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: small;
+              "
+            >
+              Total
+            </th>
+            <!-- <th style="width: 5%;font-family:Arial, Helvetica, sans-serif; font-size: small;">Action</th> -->
+          </tr>
+          <tr *ngFor="let details of fetchedDetails; let j = index">
+            <td class="text-center" id="data_{{ j }}0">
+              {{ details.projectName }}
+            </td>
+            <td class="text-center" id="data_{{ j }}1">
+              {{ details.taskTypeName }}
+            </td>
+            <td class="text-center" id="data_{{ j }}2">
+              {{ details.taskName }}
+            </td>
+            <td class="text-center" id="data_{{ j }}3">
+              {{ details.attendanceTypeName }}
+            </td>
+            <td class="text-center" id="data_{{ j }}4">
+              {{ details.hoursMon }}
+            </td>
+            <td class="text-center" id="data_{{ j }}5">
+              {{ details.hoursTue }}
+            </td>
+            <td class="text-center" id="data_{{ j }}6">
+              {{ details.hoursWed }}
+            </td>
+            <td class="text-center" id="data_{{ j }}7">
+              {{ details.hoursThu }}
+            </td>
+            <td class="text-center" id="data_{{ j }}8">
+              {{ details.hoursFri }}
+            </td>
+            <td class="text-center" id="data_{{ j }}9">
+              {{ details.hoursSat }}
+            </td>
+            <td class="text-center" id="data_{{ j }}10">
+              {{ details.hoursSun }}
+            </td>
 
-          <th style="width: 10%;font-family:Arial, Helvetica, sans-serif; font-size: small;">Project</th>
-          <th style="width: 5%;font-family:Arial, Helvetica, sans-serif; font-size: small;">TaskType</th>
-          <th style="width: 10%;font-family:Arial, Helvetica, sans-serif; font-size: small;" >Task</th>
-          <th style="width: 10%;font-family:Arial, Helvetica, sans-serif; font-size: small;">Atendance Type</th>
-          <!-- <th *ngFor="let day of currentWeek" style="font-family:Arial, Helvetica, sans-serif; font-size: small;">{{ day.startDate }}</th> -->
-          <!-- <th *ngFor="let day of currentWeek1" style="font-family: Arial, Helvetica, sans-serif; font-size: small;">{{ day | date:'dd-MMM EEE' }}</th> -->
+            <td
+              class="text-center"
+              id="data_{{ j }}11"
+              (change)="columnsumnew()"
+            >
+              0
+            </td>
 
-          <th style=" font-family:Arial, Helvetica, sans-serif; font-size: small;">Total</th>
-          <!-- <th style="width: 5%;font-family:Arial, Helvetica, sans-serif; font-size: small;">Action</th> -->
-        </tr>
-        <tr *ngFor="let details of fetchedDetails ;let j=index">
-
-
-          <td class="text-center" id="data_{{j}}0">{{details.projectName}}</td>
-          <td class="text-center" id="data_{{j}}1">{{details.taskTypeName}}</td>
-          <td class="text-center" id="data_{{j}}2">{{details.taskName}}</td>
-          <td class="text-center" id="data_{{j}}3">{{details.attendanceTypeName}}</td>
-          <td class="text-center" id="data_{{j}}4">{{details.hoursMon}}</td>
-          <td class="text-center" id="data_{{j}}5">{{details.hoursTue}}</td>
-          <td class="text-center" id="data_{{j}}6">{{details.hoursWed}}</td>
-          <td class="text-center" id="data_{{j}}7">{{details.hoursThu}}</td>
-          <td class="text-center" id="data_{{j}}8">{{details.hoursFri}}</td>
-          <td class="text-center" id="data_{{j}}9">{{details.hoursSat}}</td>
-          <td class="text-center" id="data_{{j}}10">{{details.hoursSun}}</td>
-
-          <td class="text-center" id="data_{{j}}11" (change)="columnsumnew()">0</td>
-
-
-
-
-          <!-- <i class="fa-regular fa-pen-to-square fa-fw " (click)="onediting(j)" ></i>
+            <!-- <i class="fa-regular fa-pen-to-square fa-fw " (click)="onediting(j)" ></i>
           <i class="fa-solid fa-trash-can fa-fw " (click)="deleteselected(j)" style="color: red;"></i>
            -->
-
-
-
-
           </tr>
 
-
-        <tr *ngFor="let task of tasks; let i = index;">
-
-          <!-- <td >
+          <tr *ngFor="let task of tasks; let i = index">
+            <!-- <td >
             <select  id="project_{{i}}"
               name="project_{{i}}"
               class="form-control"
@@ -108,7 +163,7 @@
               </option>
             </select>
           </td> -->
-          <!-- <td>
+            <!-- <td>
             <select id="tasktype_{{i}}"
             name="tasktype_{{i}}"
               class="form-control"
@@ -124,7 +179,7 @@
               </option>
             </select>
           </td> -->
-          <!-- <td>
+            <!-- <td>
             <select class="form-control" [(ngModel)]="task.task" id="task_{{i}}"
             name="task_{{i}}" (change)="onSelectingTask($event,i)">
               <option value="" selected disabled>Select Task</option>
@@ -132,7 +187,7 @@
               <option *ngFor="let task of projectTask[i]" value="{{task.taskId}}" >{{ task.task }}</option>
             </select>
           </td> -->
-          <!-- <td>
+            <!-- <td>
             <select class="form-control" [(ngModel)]="task.attendanceType" id="attendance_{{i}}" (change)="onselectAttendanceType($event ,i)">
               <option value="" selected disabled>Attendance Type</option>
               <option *ngFor="let bil of attendanceTypeArr" value="{{bil.referenceDetailId}}">
@@ -140,7 +195,7 @@
               </option>
             </select>
           </td> -->
-          <!-- <td >
+            <!-- <td >
             <input class="form-control"  id="input_{{i}}0" value="0" (change)="columnsum()"  style="width: 65px ;" />
           </td>
            <td>
@@ -165,75 +220,72 @@
           <td>
             <input class="form-control" id="input_{{i}}7" value="0"   style="width: 65px ;" readonly/>
           </td>   -->
-           <!-- <td *ngFor="let value of task.days; let j = index">
+            <!-- <td *ngFor="let value of task.days; let j = index">
             <input class="form-control" style="width: 65px" [(ngModel)]="task.days[j]" (input)="calculateSums()" />
           </td>
            -->
 
-          <!-- <td>  -->
+            <!-- <td>  -->
             <!-- Add Remove button for each row -->
 
-<!--
+            <!--
                 <i class="fa-regular fa-pen-to-square fa-fw " ></i>
               <i class="fa-solid fa-trash-can fa-fw "  style="color: red;" (click)="removeTask(i)"></i>
 
           </td> -->
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td class="text-end" colspan="4">Total</td>
+            <td
+              class="text-center"
+              *ngFor="let total of totalvalue; let j = index"
+            >
+              {{ totalvalue[j] }}
+            </td>
+            <td class="text-center">
+              <b>{{ totalHours }}</b>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
 
-        </tr>
-
-
-      </tbody>
-      <tfoot>
-        <tr>
-
-          <td class="text-end"colspan="4" >Total</td>
-          <td class="text-center" *ngFor="let total of totalvalue; let j = index">{{totalvalue[j]}}</td>
-          <td   class="text-center" >
-          <b>{{totalHours}}</b>
-          </td>
-
-
-
-
-
-        </tr>
-      </tfoot>
-    </table>
-  </div>
-
-
-<div class="row buttons justify-content-end" style="display: flex;">
-  <!-- <div class="col-md-9">
+    <div class="row buttons justify-content-end" style="display: flex">
+      <!-- <div class="col-md-9">
     <textarea class="form-control"  id="comments" (change)="getComment($event)" placeholder="Comment"></textarea>
 
 </div> -->
 
-  <div class="col-md-4   text-end">
-    <button
-    type="button"
-    class="btn btn-primary"
-    style="font-size: medium;; margin-right: 10px;"
-    [disabled]="clicked"
-    (click)="timesheetApprove(weekTimesheet)">
-    Approve
-  </button>
-    <button
-      type="submit"
-      class="btn btn-primary me-3"
+      <div class="col-md-4 text-end">
+        <button
+        type="button"
+        class="btn btn-primary"
+        style="font-size: medium; margin-right: 10px"
+        [disabled]="clicked"
+        (click)="timesheetApprove(weekTimesheet)">
+        Approve
+      </button>
+      <!-- (click)="timesheetApprove(weekTimesheet)" -->
+        <button
+          type="submit"
+          class="btn btn-primary me-3"
+          style="font-size: medium"
+        >
+          Reject
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary me-3"
+          style="font-size: medium"
+          routerLink="/timesheetaproval"
+        >
+          Close
+        </button>
+      </div>
 
-      style="font-size: medium;">
-      Reject
-    </button>
-    <button
-    type="submit"
-    class="btn btn-primary me-3"
-
-    style="font-size: medium; " routerLink="/timesheetaproval" >
-     Close
-  </button>
-  </div>
-
-  <!-- <div class="col-md-4 text-end">
+      <!-- <div class="col-md-4 text-end">
     <button
     type="button"
     class="btn btn-primary"
@@ -259,11 +311,6 @@
       Close
     </button>
   </div> -->
-
-
-
-
-
-
-</div>
+    </div>
+  </div>
 </div>

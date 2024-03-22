@@ -19,7 +19,7 @@
             <div class="col-md-4 mb-3">
                 <label for="ownerId" class="form-label">Owner Name:</label>
                 <select class="form-select" id="ownerId" [(ngModel)]="acc.ownerId" name="ownerId">
-				<!-- <option [ngValue]="acc.ownerId">{{acc.ownerName}}</option> -->
+				<option [ngValue]="acc.ownerId">{{acc.ownerName}}</option>
                 <option *ngFor="let employee of emplyoee" [ngValue]="employee.employeeId">{{employee.firstName}}
                     {{employee.lastname}}</option>
                 </select>
@@ -106,12 +106,10 @@
 
         <div class="col-md-4 mb-3">
             <label for="accountStatus" class="form-label">Status:</label> 
-            <select class="form-select" id="accountStatus" placeholder="Enter Status"  [(ngModel)]="acc.accountStatus" name="accountStatus">            
-                <option [ngValue]="acc.statusId">{{acc.statusValue}}
-            </option>
-            <option *ngFor="let status1 of statusTypes" [ngValue]="status1.referenceDetailId">{{ status1.referenceDetailValue}}
-            </option>
-            </select>
+            <select class="form-select" id="accountStatus" placeholder="Enter Status" [(ngModel)]="acc.statusId" name="accountStatus">
+                <option [ngValue]="acc.statusId">{{ acc.statusValue }}</option>
+                <option *ngFor="let status1 of statusTypes" [ngValue]="status1.referenceDetailId">{{ status1.referenceDetailValue }}</option>
+              </select>
         </div>
 
         
@@ -119,7 +117,7 @@
       
         <div class="rowbutton">
             <button type="submit" class="btn btnbg"  >Submit</button>
-            <button type="submit" class="btn btnbg back" routerLink="/accountdisplay" >Back</button>
+            <button type="submit" class="btn btnbg back" routerLink="/admin/account-display" >Back</button>
         </div>
         
     </form>

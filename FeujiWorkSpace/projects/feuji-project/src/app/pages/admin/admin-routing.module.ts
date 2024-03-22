@@ -8,16 +8,21 @@ import { AccountDisplayComponent } from "./account-display/account-display.compo
 import { UpdateAccountComponent } from "./update-account/update-account.component";
 import { AddHolidayComponent } from "./add-holiday/add-holiday.component";
 import { HolidayComponent } from "./holiday/holiday.component";
+import { UpdateEmlpoyeeComponent } from "./update-emlpoyee/update-emlpoyee.component";
+import { EditholidayComponent } from "./editholiday-component/editholiday-component.component";
 
 const routes: Routes = [
   { path: 'add-employee', component: AddEmployeeComponent  },
   { path: 'admin-profile',component: AdminViewProfileComponent  },
-  { path: 'update-employee',component: EmployeeDisplayComponent},
+  { path: 'display-employee',component: EmployeeDisplayComponent},
   { path: 'add-account', component: AccountAddComponent  },
   { path: 'account-display',component: AccountDisplayComponent  },
-  { path: 'update-account',component:UpdateAccountComponent},
+  { path: 'update-account/:id',component:UpdateAccountComponent},
   { path: 'add-holiday',component:AddHolidayComponent},
-  { path: 'holiday-list',component:HolidayComponent}
+  { path: 'holiday-list',component:HolidayComponent},
+  {path: 'update-employee/:id',component:UpdateEmlpoyeeComponent},
+  {path: 'edit-holiday',component:EditholidayComponent},
+
 ];
 
 @NgModule({

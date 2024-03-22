@@ -5,13 +5,15 @@ import { EmpViewProfileComponent } from "./emp-view-profile/emp-view-profile.com
 import { TimesheetHistoryComponent } from "./timesheet-history/timesheet-history.component";
 import { HolidayComponent } from "./holiday/holiday.component";
 import { DatePipe } from "@angular/common";
+import { EditholidayComponent } from "../admin/editholiday-component/editholiday-component.component";
 
 const routes: Routes = [
   { path: 'emp-profile',component: EmpViewProfileComponent},
   { path: 'timesheet-home', component: TimesheetHomeComponent },
   // { path: 'daily-timesheet',component:TimesheetapproveComponent},
   { path: 'timsheet-history',component:TimesheetHistoryComponent},
-  { path: 'holiday-list',component:HolidayComponent}
+  { path: 'holiday-list',component:HolidayComponent},  
+  
 ];
 
 @NgModule({

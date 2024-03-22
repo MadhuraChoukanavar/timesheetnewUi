@@ -8,14 +8,14 @@ export class EmployeeRepo{
   public employee:Employee[]=[];
 
   constructor(private dataSource:EmployeeService) {
-      this.getEmployees();
+     // this.getEmployees();
    }
 
-  getEmployees(){
-     this.dataSource.getEmployees().subscribe(data=>{
-      this.employee=data;
-    })
-  }
+  // getEmployees(){
+  //    this.dataSource.getEmployees().subscribe(data=>{
+  //     this.employee=data;
+  //   })
+  // }
 
   getEmployeeDetails():Employee[]{
     return this.employee;
