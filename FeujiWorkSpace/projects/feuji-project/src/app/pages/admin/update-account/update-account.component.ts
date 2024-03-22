@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AccountserviceService } from '../../../../models/accountservice.service';
 import { ActivatedRoute } from '@angular/router';
 import { Account } from '../../../../models/account.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'update-account',
@@ -11,7 +12,7 @@ import { Account } from '../../../../models/account.model';
 export class UpdateAccountComponent  implements OnInit {
   constructor(private ref:ActivatedRoute,private accountService :AccountserviceService){}
       public accountid:String="";
-      public name="thara"
+    
       public account:any=Account;
       public emplyoee: any[] = [];
   public businessUnitType: any[] = [];
@@ -21,7 +22,9 @@ export class UpdateAccountComponent  implements OnInit {
    ngOnInit(): void {
     this.accountid = "" +this.ref.snapshot.paramMap.get('id');
     this.send(this.accountid);
-
+this.getBusinessUnitType();
+this.getStatusType();
+this.getEmployeeName();
    }
   
    send(accountid:any){
@@ -37,10 +40,16 @@ export class UpdateAccountComponent  implements OnInit {
    updateAccount(acc: any,uuid:any) {
     acc.uuId=uuid;
     console.log(this.acc);
-    console.log(uuid)
-    console.log(acc);
-    this.accountService.updateAccount(acc).subscribe(res=>this.account=res);
-    alert("Data updated")
+    this.accountService.updateAccount(acc).subscribe({
+      next: (res) => {
+        this.account = res;
+        Swal.fire('Success', 'Data updated', 'success');
+      },
+      error: (error) => {
+        console.error('There was an error!', error);
+        Swal.fire('Error', 'Failed to update data: ' + error.message, 'error');
+      }
+    });
 }
 getEmployeeName(): void {
  

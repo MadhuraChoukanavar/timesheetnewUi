@@ -107,8 +107,25 @@ export class TimesheetHomeService {
     const url = `${this.submitUrl}?employeeId=${employeeId}&accountId=${accountId}&weekStartDate=${weekStartDate}`;
     return this.http.post<any>(url, {});
   }
+
+
+
+  getDayHours(minHoursDay:string):Observable<any>
+  {
+
+    // const url=${this.fetchHoursUrl}/getref/${minHoursDay};
+    return this.http.get<any>(`http://localhost:8084/api/timesheetday/getref/${minHoursDay}`);
+
+  }
+  getHolidays(startdate:string):Observable<any>
+  {
+     return this.http.get<any>(`http://localhost:8084/api/holiday/getWeekHolidaysDayIds/${startdate}`);
+  }
+
   updateTimesheetStatus(employeeId:number,accountProjectId:number,weekNumber:number):Observable<any>{
     const url=`${this.updateurl}/${employeeId}/${accountProjectId}/${weekNumber}`;
     return this.http.put<any>(url,timesheetWeekApproval)
+ 
   }
+  
 }

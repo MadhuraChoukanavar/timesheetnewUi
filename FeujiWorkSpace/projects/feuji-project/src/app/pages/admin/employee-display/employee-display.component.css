@@ -1,65 +1,55 @@
-
-.card{
-  height: 600px;
-  width: 100%;
+.input-group-append{
+  justify-content: space-evenly;
+}
+.table tr th{
+  text-align:center;
+  font-size: 15px;
+  background-color: rgb(229, 233, 234);
+  color: black;
 }
 
-.card-body{
-justify-content: center;
-text-align:center;
-width: auto;
-margin: 0 auto;
+.table{
+  width: 95%;
+  margin-left: 4%;
 }
 
-.header{
-margin-left: 480px;
+button {
+  padding: 8px 15px;
+  /* background-color: #007bff; */
+  background-color: rgb(164, 164, 236);
+  color:black;
+  width: 50px;
+  border: none;
+  border-radius: 60px;
+  cursor: pointer;
 }
 
-h1{
-font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+button:hover {
+  background-color: #0056b3;
+}
+.tbody tr td{
 text-align: center;
-padding: 30px 0 0;
-height: 100px;
-width: 100%;
-text-decoration: underline;
-color: rgb(243,117,46);
+}
+.Inactive {
+  color: rgb(240, 85, 85);
+  /* color: black; */
+  border-radius: 50px;
+  margin: 0px auto;
+  width: 100px;
+  align-items: center;
+  font-weight: 900;
 }
 
-.input-group{
-background-color:black;
-color: rgb(243,117,46);
+.Active {
+color: rgb(121, 197, 121);
+  /* color: black; */
+  border-radius: 10px;
+  margin: 0px auto;
+  width: 100px;
+  align-items: center;
+  font-weight: 900;
 }
-
-.add{
-margin-left: 489.999px;
-background-color:black;
-color: rgb(243,117,46);
+.rowbutton{
+  display: flex;
+  justify-content: space-evenly;
 }
-
-table{
-border-collapse: collapse;
-box-shadow: 0 5px 10px grey;
-background-color:white ;
-text-align: center;
-overflow: hidden;
-justify-content: center;
-margin-top: 80px;
-}
-
-thead{
-background-color: 0 5px 10px grey;
-}
-
-th{
-text-transform: uppercase;
-font-size: 0.7rem;
-font-weight: 900;
-background-color: black;
-color: rgb(243,117,46);
-text-align:center;
-}
-
-td{
-background-color:whitesmoke;
-}
-

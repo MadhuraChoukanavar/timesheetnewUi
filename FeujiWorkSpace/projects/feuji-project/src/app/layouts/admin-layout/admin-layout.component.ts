@@ -15,19 +15,19 @@ export class AdminLayoutComponent implements OnInit {
       { label: 'View Profile', link: '/admin/admin-profile'},
     ] },
     { mainOption: 'Employee',icon: 'bi bi-people', subOptions: [
-      { label: 'Add Employee', link: '/admin/add-employee' },
-      { label: 'Update Employee', link: '/admin/update-employee' }
+      // { label: 'Add Employee', link: '/admin/add-employee' },
+      { label: 'View Employee', link: '/admin/display-employee' }
     ] }
     ,
     { mainOption: 'Account',icon: 'fa-solid fa-file-invoice-dollar', subOptions: [
-      { label: 'Add account', link: '/admin/add-account' },
-      { label: 'Account display', link: '/admin/account-display' },
-      { label: 'Update Account', link: '/admin/update-account' }
+      // { label: 'Add account', link: '/admin/add-account' },
+      { label: ' View Account ', link: '/admin/account-display' },
+      // { label: 'Update Account', link: '/admin/update-account' }
     ] }
     ,
     { mainOption: 'Holiday',icon: 'fas fa-gifts', subOptions: [
       { label: 'Holiday List', link: '/admin/holiday-list' },
-      { label: 'Add Holiday', link: '/admin/add-holiday' },
+      // { label: 'Add Holiday', link: '/admin/add-holiday' },
     ] }
   ];
 
