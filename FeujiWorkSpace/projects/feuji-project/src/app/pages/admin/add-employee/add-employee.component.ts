@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Employee } from '../../../../models/employee.model';
+import { Employee, EmployeeSaving } from '../../../../models/employee.model';
 import { EmployeeService } from '../../../../models/employee.service';
 import { AbstractControl, FormControl, ValidatorFn, Validators } from '@angular/forms';
 import { SaveEmployee } from '../../../../models/saveemployee.model';
 import { SharedService } from '../../../../models/shared.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-employee',
@@ -24,10 +25,15 @@ export class AddEmployeeComponent implements OnInit{
   reportingManagerReference:any
   public referenceData: SaveEmployee[]=[]
   public employee:any=Employee;
+  public emplyoee1:any=[];
   public employmentTypes: SaveEmployee[]=[]
   public selectedEmploymentType: string = '';
 
-  emp:Employee=new Employee(0,'','','','','','','','',new Date(),0,'','',0,'',new Date(),'','','',0,new Date(),'',new Date(),0,'');
+
+  public businessUnitType: any[] = [];
+  public statusTypes:any[]=[];
+ 
+  emp:EmployeeSaving=new EmployeeSaving(0,'','','','','','','',0,new Date(),0,0,0,0,0,new Date(),'',false,'',new Date(),'',new Date);
   employeeTypeReference: any;
 
   constructor(private empService:EmployeeService,private shared : SharedService) {
@@ -36,19 +42,25 @@ export class AddEmployeeComponent implements OnInit{
   }
 
   ngOnInit() {
+ 
+   this.fetchReportingManager();
+   this.getStatusType();
+    this.getBusinessUnitType();
   }
 
   sendEmployee() {
-    console.log('Employee saved:',this.emp);
-    this.empService.saveEmployee(this.emp).subscribe(res => {
-      console.log('Employee saved:', res);
-    },
-    error => {
-      console.error('Error saving employee:', error);
-    }
-    );
+    console.log('Employee saved:', this.emp);
+    this.empService.saveEmployee(this.emp).subscribe({
+      next: (res) => {
+        console.log('Employee saved:', res);
+        Swal.fire('Success', 'Employee saved successfully', 'success');
+      },
+      error: (error) => {
+        console.error('Error saving employee:', error);
+        Swal.fire('Error', 'Failed to save employee: ' + error.message, 'error');
+      }
+    });
   }
-
   employeeCodeControl = new FormControl('', [Validators.required, this.checkForUniqueEmployeeCode()]);
 
   checkForUniqueEmployeeCode(): ValidatorFn {
@@ -148,11 +160,15 @@ export class AddEmployeeComponent implements OnInit{
             this.fetchStatus(this.statusReference.referenceTypeId)
         }
 
+<<<<<<< HEAD
         this.reportingManagerReference=resp.filter((item:any) => item.referenceTypeName === 'Employee Status').reverse().pop()
         console.log("Employee Status",this.statusReference);
         if (this.statusReference.referenceTypeId) {
             this.fetchStatus(this.statusReference.referenceTypeId)
         }
+=======
+       
+>>>>>>> 3a3f51af0db80ac59b2ef5a8f23f1ff226c5a4b1
       })
     }
 
@@ -172,6 +188,31 @@ console.log(this.emp.email);
       //   }
       // });
     }
+    getEmployeeDetails(){
+      this.empService.getEmployeeDetails().subscribe(data=>{
+       console.log(data);
+       this.emplyoee1=data;
+       console.log(this.emplyoee1);
+     })
+  }
 
+
+
+  getBusinessUnitType() {
+    this.empService.getBusinessUnitType().subscribe((businessUnit:any[]) => {
+      console.log(businessUnit+":::::::::");
+      this.businessUnitType = businessUnit;
+    });
+  }
+  // ..........................
+  
+  getStatusType() {
+    this.empService.getStatusType().subscribe((status:any[]) => {
+      console.log(status);
+      console.log("status:::::::::");
+      
+      this.statusTypes = status;
+    });
+  }
   }
 

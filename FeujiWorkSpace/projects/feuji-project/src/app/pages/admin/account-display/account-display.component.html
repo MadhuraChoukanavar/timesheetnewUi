@@ -4,7 +4,7 @@
       
       <div class="input-group mt-5 justify-content-end">
         <div class="input-group-append" style="display: flex">
-              <button class="btn btn-primary float-lg-end" routerLink="/addaccount">
+              <button class="btn btn-primary float-lg-end" routerLink="/admin/add-account">
                 <i class="fa-solid fa-plus"></i>
          
         </button>
@@ -53,9 +53,16 @@
           <td>{{c.actualEndDate |date:'dd-MM-yyyy'}}</td>
           <td class="{{c.status}}">{{c.status}}</td>
           
-           <td ><button type="button" class="btn btn-warning ml-2  bg bg-light" (click)="editItem(c.uuId)">
-               <i class="fas fa-edit"></i> 
-             </button></td>
+          <td class="rowbutton">
+            <button type="button" class="btn btn-warning ml-2 bg bg-light" (click)="editItem(c.uuId)">
+                <i class="fas fa-edit"></i> 
+            </button>
+            
+            <button type="button" class="btn btn-warning ml-2 bg bg-light" (click)="removeTask(c.accountId)">
+                <i class="fa-solid fa-trash-can fa-fw" style="color: red;"></i>
+            </button>
+        </td>
+        
        </tr>
        
          
