@@ -1,4 +1,4 @@
-body {
+/* body {
   width: 100%;
 }
 
@@ -10,7 +10,7 @@ body {
   z-index: 1;
 }
 .container h3{
-  /* border: 1px solid black; */
+
   position: relative;
   right: 40%;
 }
@@ -18,4 +18,31 @@ body {
   height: 62px;
   width: 116px;
   left: 70px;
+} */
+
+
+.navbar {
+  background-color: #ecf0f4;
+  display: flex;
+  justify-content:space-between;
+  align-content: center;
+  height: 4rem;
+  width: 100%;
+  position: fixed;
+  z-index: 3;
+
 }
+h1{
+
+  font-family: verdana, geneva, sans-serif;
+}
+
+.navbar .navbar-brand img {
+  height: 62px;
+  width: 116px;
+
+}
+#log{
+  padding-right: 1rem;
+}
+

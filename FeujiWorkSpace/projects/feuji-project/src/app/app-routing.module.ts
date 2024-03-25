@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginLayoutComponent } from './pages/loginPage/login-layout.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { EmployeeLayoutComponent } from './layouts/employee-layout/employee-layout.component';
-import { AdminLayoutRoutes } from './layouts/admin-layout/admin-layout.routing';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { ManagerLayoutComponent } from './layouts/manager-layout/manager-layout.component';
 import { PmoLayoutComponent } from './layouts/pmo-layout/pmo-layout.component';

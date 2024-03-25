@@ -2,9 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../../models/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserRepo } from '../../../models/user.repo';
-
-
 
 @Component({
   selector: 'app-login-layout',
@@ -13,58 +10,60 @@ import { UserRepo } from '../../../models/user.repo';
 })
 export class LoginLayoutComponent {
 
-  public formData: FormGroup;
+  formData: FormGroup;
+  // showDashboard: boolean = false;
+  userEmail: string = '';
+  userPassword: string = '';
   empDataById: any;
+  isLoggedIn: boolean = false;
 
-  constructor(private userService: UserService, private router: Router, private fb: FormBuilder, private userRepo: UserRepo) {
-    this.formData = this.fb.group({
-      userEmail: ['', [Validators.required]],
-      userPassword: ['', [Validators.required]]
-    });
-  }
+  isedIn: boolean = false;
+    title: String = "LOGIN";
+    email: string='';
+    password: string='';
 
-  login() {
-
-    const userEmail = this.formData.get('userEmail')?.value;
-    const userPassword = this.formData.get('userPassword')?.value;
-
-    console.log("userEmail", userEmail);
-    console.log("userPassword", userPassword);
-
-    if (!userEmail || !userPassword) {
-      console.error('Invalid email or password');
-      return;
+  constructor( private userService:UserService , private router: Router,private fb: FormBuilder) {
+      this.formData = this.fb.group({
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(4)]]
+      });
     }
 
-    const data = { userEmail, userPassword };
+    login() {
+      const userEmail = this.email;
+      const userPassword = this.password;
 
-    this.userService.login(data).subscribe((user: any) => {
-      // if (user) {
-        console.log("user>>>>>>>>>>>>>>>>>>>>>", user);
+      if (!userEmail || !userPassword) {
+        console.error('Invalid email or password');
+        return;
+      }
+
+      const data = { userEmail, userPassword };
+
+      this.userService.login(data).subscribe((user: any) => {
         this.userService.getEmployeeByid(user.userEmpId).subscribe(
           (result: any) => {
             console.log('Employee Details:', result);
             this.empDataById = result[0];
             console.log("this.empId DATA", this.empDataById);
             localStorage.setItem('user', JSON.stringify(this.empDataById));
-            // You can do something with the employee details here
+            this.isLoggedIn = true;
           },
           (error) => {
             console.error('Error fetching employee details', error);
           }
         );
 
-        // this.sendUser(user);
         const designation = user.designation;
         console.log('User designation:', designation);
         switch (designation) {
           case 'Admin':
             console.log("Navigated to admin page");
-            this.router.navigate(['/admin/add-employee']);
+            this.router.navigate(['/admin/admin-home-page']);
             break;
           case 'Manager':
             console.log("Navigated to manager page");
-            this.router.navigate(['/manager/manager-profile']);
+            this.router.navigate(['/manager/manager-home']);
             break;
           case 'PMO':
             console.log("Navigated to pmo page");
@@ -72,22 +71,41 @@ export class LoginLayoutComponent {
             break;
           default:
             console.log("Navigated to employee page");
-            this.router.navigate(['/employee/timesheet-home']);
+            this.router.navigate(['/employee/employee-home']);
             break;
+
+
         }
-    },
-    (error) => {
-      alert('User Not registered')
-      console.error('Error fetching employee details', error);
+      },
+      (error) => {
+        alert('User Not registered')
+        console.error('Error fetching employee details', error);
+      });
     }
-    );
-  }
-
-  // sendUser(loggedInuser: any) {
-  //   console.log(loggedInuser);
-  //   const loggedInUserData = this.userRepo.getUserData(loggedInuser);
-  //   console.log("loggedInUserData###########>>>", loggedInUserData);
-
-  // }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// constructor(private userService: UserService, private router: Router, private fb: FormBuilder, private userRepo: UserRepo) {
+  //   this.formData = this.fb.group({
+  //     userEmail: ['', [Validators.required]],
+  //     userPassword: ['', [Validators.required]]
+  //   });
+  // }

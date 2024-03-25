@@ -98,10 +98,23 @@ export class AddEmployeeComponent implements OnInit{
   }
 
   fetchReportingManager(){
-    this.empService.getReportingManager().subscribe((resp:any)=>{
-      this.reportingManager=resp;
-      console.log("RM: ",this.reportingManager);
-    })
+    this.empService.getReportingManager().subscribe(
+        (resp:any) => {
+            this.reportingManager=resp;
+            console.log("Reporting Manager: ", this.reportingManager);
+        },
+        (error) => {
+            console.error("Error fetching reporting managers:", error);
+        }
+    );
+  }
+
+  onSubmit() {
+    // Retrieve the selected reporting manager ID directly from the select element
+    const selectedReportingManagerId = (document.getElementById('reportingManager') as HTMLSelectElement).value;
+    // Use the selectedReportingManagerId as needed, such as sending it to the server
+    console.log("Selected Reporting Manager ID: ", selectedReportingManagerId);
+    // Other submission logic...
   }
 
   getAllReferenceType(){
@@ -135,11 +148,11 @@ export class AddEmployeeComponent implements OnInit{
             this.fetchStatus(this.statusReference.referenceTypeId)
         }
 
-        // this.reportingManagerReference=resp.filter((item:any) => item.referenceTypeName === 'Employee Status').reverse().pop()
-        // console.log("Employee Status",this.statusReference);
-        // if (this.statusReference.referenceTypeId) {
-        //     this.fetchStatus(this.statusReference.referenceTypeId)
-        // }
+        this.reportingManagerReference=resp.filter((item:any) => item.referenceTypeName === 'Employee Status').reverse().pop()
+        console.log("Employee Status",this.statusReference);
+        if (this.statusReference.referenceTypeId) {
+            this.fetchStatus(this.statusReference.referenceTypeId)
+        }
       })
     }
 

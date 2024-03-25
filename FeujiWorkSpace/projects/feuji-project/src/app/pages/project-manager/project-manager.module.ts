@@ -7,6 +7,7 @@ import { TimesheetHomeComponent } from "./timesheet-home/timesheet-home.componen
 import { TimesheetHistoryComponent } from "./timesheet-history/timesheet-history.component";
 import { ProjectManagerRoutingModule } from "./project-manager-routing.module";
 import { DailyStatusComponent } from "./daily-status/daily-status.component";
+import { ManagerLandingPageComponent } from './manager-landing-page/manager-landing-page.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { DailyStatusComponent } from "./daily-status/daily-status.component";
     TimesheetapproveComponent,
     TimesheetHomeComponent,
     TimesheetHistoryComponent,
-    DailyStatusComponent
+    DailyStatusComponent,
+    ManagerLandingPageComponent
   ],
   imports: [
     CommonModule,

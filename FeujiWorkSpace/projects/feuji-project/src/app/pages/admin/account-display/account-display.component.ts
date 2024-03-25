@@ -16,8 +16,8 @@ export class AccountDisplayComponent implements OnInit {
   }
 
 
-  
-  
+
+
   getAccount(){
     this.accountService.getAccount().subscribe(data=>{
      console.log(data);
@@ -29,7 +29,7 @@ export class AccountDisplayComponent implements OnInit {
 
 editItem(id: string) {
   console.log(id);
-  
-  this.router.navigate(['/updateaccount', id]);
+
+  this.router.navigate(['/update-account', id]);
 }
 }

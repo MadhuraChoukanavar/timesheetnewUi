@@ -11,7 +11,7 @@ import { Account } from '../../../../models/account.model';
 export class UpdateAccountComponent  implements OnInit {
   constructor(private ref:ActivatedRoute,private accountService :AccountserviceService){}
       public accountid:String="";
-      public name="thara"
+
       public account:any=Account;
       public emplyoee: any[] = [];
   public businessUnitType: any[] = [];
@@ -23,15 +23,15 @@ export class UpdateAccountComponent  implements OnInit {
     this.send(this.accountid);
 
    }
-  
+
    send(accountid:any){
      this.accountService.getAccountByUuId(this.accountid).subscribe(
      (items)=>{
      this.acc=items[0];
      console.log(items);
-     
+
      }
-  
+
    )
    }
    updateAccount(acc: any,uuid:any) {
@@ -43,9 +43,9 @@ export class UpdateAccountComponent  implements OnInit {
     alert("Data updated")
 }
 getEmployeeName(): void {
- 
+
   this.accountService.getEmployeeName().subscribe(
-    (data) => { 
+    (data) => {
       this.emplyoee = data;
     },
     error => {
@@ -66,7 +66,7 @@ getStatusType() {
   this.accountService.getStatusType().subscribe((status:any[]) => {
     console.log(status);
     console.log("status:::::::::");
-    
+
     this.statusTypes = status;
   });
 }

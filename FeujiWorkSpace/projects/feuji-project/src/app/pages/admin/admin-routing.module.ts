@@ -8,6 +8,7 @@ import { AccountDisplayComponent } from "./account-display/account-display.compo
 import { UpdateAccountComponent } from "./update-account/update-account.component";
 import { AddHolidayComponent } from "./add-holiday/add-holiday.component";
 import { HolidayComponent } from "./holiday/holiday.component";
+import { AdminLandingPageComponent } from "./admin-landing-page/admin-landing-page.component";
 
 const routes: Routes = [
   { path: 'add-employee', component: AddEmployeeComponent  },
@@ -15,9 +16,10 @@ const routes: Routes = [
   { path: 'update-employee',component: EmployeeDisplayComponent},
   { path: 'add-account', component: AccountAddComponent  },
   { path: 'account-display',component: AccountDisplayComponent  },
-  { path: 'update-account',component:UpdateAccountComponent},
+  { path: 'update-account/:id',component:UpdateAccountComponent},
   { path: 'add-holiday',component:AddHolidayComponent},
-  { path: 'holiday-list',component:HolidayComponent}
+  { path: 'holiday-list',component:HolidayComponent},
+  { path: 'admin-home-page',component:AdminLandingPageComponent}
 ];
 
 @NgModule({

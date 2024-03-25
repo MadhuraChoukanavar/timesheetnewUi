@@ -10,6 +10,9 @@ import { AccountAddComponent } from './account-add/account-add.component';
 import { UpdateAccountComponent } from './update-account/update-account.component';
 import { AddHolidayComponent } from "./add-holiday/add-holiday.component";
 import { HolidayComponent } from "./holiday/holiday.component";
+import { EditEmployeeComponent } from './edit-employee/edit-employee.component';
+import { MatDialogModule } from "@angular/material/dialog";
+import { AdminLandingPageComponent } from './admin-landing-page/admin-landing-page.component';
 
 @NgModule({
   declarations: [
@@ -20,13 +23,16 @@ import { HolidayComponent } from "./holiday/holiday.component";
     AccountAddComponent,
     UpdateAccountComponent,
     AddHolidayComponent,
-    HolidayComponent
+    HolidayComponent,
+    EditEmployeeComponent,
+    AdminLandingPageComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    MatDialogModule
   ]
 })
 export class adminModule { }

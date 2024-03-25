@@ -1,71 +1,28 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-// export class NavbarComponent {
-//   // user: any;
-//   // constructor(private router: Router
-
-//   // ) {
-//   //   const storedUser = localStorage.getItem('user');
-
-//   //   // Check if storedUser is not null before parsing
-//   //   this.user = storedUser ? JSON.parse(storedUser) : undefined;
-//   //   // const user = JSON.parse(localStorage.getItem("user"));
-//   //   // const token = localStorage.getItem("token");
-//   //   if (this.user) {
-//   //     this.router.navigate(["/dashboard"]);
-//   //   } else {
-//   //     this.router.navigate(["/login"]);
-//   //   }
-//   // }
-//   // logout() {
-//   //   localStorage.removeItem('user');
-//   //   this.router.navigate(['/login']);
-//   // }
-
-
-//   user: any;
-
-//   constructor(private router: Router) {}
-
-//   ngOnInit() {
-//     this.checkUser();
-//   }
-
-//   checkUser() {
-//     const storedUser = localStorage.getItem('user');
-//     this.user = storedUser ? JSON.parse(storedUser) : undefined;
-
-//     // if (this.user) {
-//     //   // User is logged in, show the logout button
-//     //   this.router.navigate(['/dashboard']);
-//     // } else {
-//     //   // User is not logged in, show the login button
-//     //   this.router.navigate(['/login']);
-//     // }
-//   }
-
-//   logout() {
-//     localStorage.removeItem('user');
-//     this.checkUser(); // Redirect based on the user status
-//   }
-// }
-
 export class NavbarComponent {
   user: any;
 
-  constructor(private router: Router) {
-    this.checkUser();
+  // constructor(private router: Router) {
+  //   this.checkUser();
 
-   }
-
-  ngOnInit() {
+  //  }
+  constructor(private router: Router, private titleService: Title) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.setTitleFromRoute();
+      }
+    });
   }
+
+
 
   checkUser() {
     const storedUser = localStorage.getItem('user');
@@ -103,4 +60,55 @@ export class NavbarComponent {
     localStorage.removeItem('user');
     this.checkUser();
   }
+
+  title: string = '';
+
+
+  setTitleFromRoute() {
+    // Get the current route URL
+    const currentUrl = this.router.url;
+
+    // Split the URL by '/' and get the last segment
+    const segments = currentUrl.split('/');
+    const lastSegment = segments[segments.length - 1];
+
+    // Define logic to set the title based on the last segment of the route URL
+    switch (lastSegment) {
+      case 'add-employee':
+        this.title = 'Add Employee';
+        break;
+      case 'admin-home-page':
+        this.title = 'Home Page';
+        break;
+      case 'timesheetapproval':
+        this.title = 'Timesheet Approval';
+        break;
+      case 'showEmpSkills':
+        this.title = 'Update Skills';
+        break;
+      case 'employeeGap':
+        this.title = 'Skill Gap';
+        break;
+      case 'training':
+        this.title = 'Training Recommendations';
+        break;
+        case 'addSkills':
+          this.title = 'Add Skills';
+        break;
+        case 'empskillgap':
+          this.title = 'Employees Skill Gap';
+        break;
+        case 'trainingsrecommended':
+          this.title = 'Employees Recommended For Training';
+        break;
+
+      default:
+        this.title = 'Dashboard';
+        break;
+    }
+
+    // Set the title in the browser tab
+    this.titleService.setTitle(this.title);
+  }
+
 }

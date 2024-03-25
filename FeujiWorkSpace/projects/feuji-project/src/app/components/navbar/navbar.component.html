@@ -1,40 +1,15 @@
-<!-- <nav class="navbar navbar-light bg-light">
-  <div class="container">
-    <a class="navbar-brand" href="#">
-      <img src="../../../assets/img/logo1.png" class="d-inline-block align-top" alt="Logo">
-    </a>
-    <h3 class="navbar-text text-dark ">SkillTrackPro</h3>
-    <button *ngIf="user" type="button" class="btn btn-primary" (click)="logout()">Logout</button>
-  </div>
-</nav> -->
-<!-- <nav class="navbar navbar-light bg-light d-block">
-  <div class="container text-center">
-        <a class="navbar-brand" href="#">
-          <img src="../../../assets/img/logo1.png" class="d-inline-block align-top" alt="Logo">
-        </a>
-        <span class="navbar-text text-center text-dark fs-3 fw-bolder ">SkillTrackPro</span>
 
-        <button *ngIf="user" type="button" class="btn btn-primary" (click)="logout()">Logout</button>
-
-  </div>
-</nav> -->
-
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand mx-5" href="#">
-    <img src="../../../assets/img/logo1.png" class="d-inline-block align-top" alt="Logo">
-
+<nav class="navbar" >
+  <a class="navbar-brand" href="#" >
+    <img src="../../../assets/img/logo1.png"  alt="Logo">
   </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+    <h1 class="navbar-text text-dark ">{{ title }}</h1>
+   <a style="color: black;" href="">
 
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-    <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
-      <span class="navbar-text text-center text-dark fs-4 fw-bolder">SkillTrackPro</span>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <button *ngIf="user" type="button" class="btn btn-primary  mx-5" (click)="logout()">Logout</button>
-    </form>
-  </div>
+<div class="image-container" >
+<img matTooltip="Logout" id="log" src="../../../assets/img/logout.png" alt="">
+</div>
+</a>
+
 </nav>
+

@@ -8,6 +8,7 @@ import { TimesheetHomeComponent } from "./timesheet-home/timesheet-home.componen
 import { HolidayComponent } from "./holiday/holiday.component";
 import { TimesheetHistoryComponent } from "./timesheet-history/timesheet-history.component";
 import { TimesheetDayhistoryComponent } from "./timesheet-dayhistory/timesheet-dayhistory.component";
+import { EmployeeLandingPageComponent } from './employee-landing-page/employee-landing-page.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { TimesheetDayhistoryComponent } from "./timesheet-dayhistory/timesheet-d
     EmpViewProfileComponent,
     TimesheetHomeComponent,
     HolidayComponent,
-    TimesheetDayhistoryComponent
+    TimesheetDayhistoryComponent,
+    EmployeeLandingPageComponent
   ],
   imports: [
     CommonModule,
