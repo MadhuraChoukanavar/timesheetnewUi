@@ -14,7 +14,7 @@ export class AdminViewProfileComponent implements OnInit{
   employee: Employee | undefined;
   empId: Employee = new Employee(0,'','','','','','','','',new Date(),0,'','',0,'',new Date(),'','',0,new Date(),'',new Date(),0,'');
 
-  public id: String = "";
+  id: String = "";
   currentUser: any;
 
   constructor(private route: ActivatedRoute, private userService: UserService, private userRepo: UserRepo) {
@@ -42,4 +42,6 @@ export class AdminViewProfileComponent implements OnInit{
         }
       );
   }
+
+
 }

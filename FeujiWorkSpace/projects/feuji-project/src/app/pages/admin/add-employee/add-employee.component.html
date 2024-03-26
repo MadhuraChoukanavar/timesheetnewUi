@@ -15,18 +15,18 @@
       <div class="col-md-4 mb-3">
         <label for="middleName" class="form-label">Middle Name</label>
         <input type="text" class="form-control" id="middleName" placeholder="Enter your Middle name"
-          [(ngModel)]="emp.middleName" name="middleName">
+        [(ngModel)]="emp.middleName" name="middleName">
 
       </div>
       <div class="col-md-4 mb-3">
         <label for="lastName" class="form-label">Last Name<span style=color:red>*</span></label>
-        <input type="text" class="form-control" id="lasteName" placeholder="Enter your Last name"
-          [(ngModel)]="emp.lastName" name="lastName">
+        <input type="text" class="form-control" id="lasteName" placeholder="Enter your Last name" [(ngModel)]="emp.lastName"
+          name="lastName">
       </div>
 	  <div class="col-md-4 mb-3">
         <label for="employeeCode" class="form-label">Employee Code<span style=color:red>*</span></label>
         <input type="text" class="form-control" id="employeeCode" placeholder="Enter employee code"
-          [(ngModel)]="emp.employeeCode" name="employeeCode" #employeeCodeControl="ngModel" required />
+        [(ngModel)]="emp.employeeCode" name="employeeCode" #employeeCodeControl="ngModel" required />
         <div *ngIf="employeeCodeControl.invalid && (employeeCodeControl.dirty || employeeCodeControl.touched)"
           class="text-danger">
           <div *ngIf="employeeCodeControl.errors">Employee Code is required.</div>
@@ -41,16 +41,9 @@
       <!-- GENDER -->
       <div class="col-md-4 mb-3">
         <label for="gender" class="form-label">Gender<span style=color:red>*</span></label>
-<<<<<<< HEAD
-        <select class="form-select" id="gender">
-          <option hidden>Choose</option>
-          <option *ngFor="let empGender of gender" [value]="empGender.referenceDetailValue">{{
-            empGender.referenceDetailValue }}</option>
-=======
         <select class="form-select" id="gender" [(ngModel)]="emp.gender" name="gender">
           <option >Choose</option>
           <option *ngFor="let empGender of gender" [ngValue]="empGender.referenceDetailId">{{ empGender.referenceDetailValue }}</option>
->>>>>>> 3a3f51af0db80ac59b2ef5a8f23f1ff226c5a4b1
         </select>
       </div>
 	   <div class="col-md-4 mb-3">
@@ -63,35 +56,15 @@
         <label for="employmentType" class="form-label">Employment Type<span style=color:red>*</span></label>
         <select class="form-select" id="employmentType" [(ngModel)]="emp.employmentType" name="employmentType">
           <option hidden>Choose</option>
-<<<<<<< HEAD
-          <option *ngFor="let empType of employmentTypes" [value]="empType.referenceDetailValue">{{
-            empType.referenceDetailValue }}</option>
-=======
           <option *ngFor="let empType of employmentTypes" [ngValue]="empType.referenceDetailId">{{ empType.referenceDetailValue }}</option>
->>>>>>> 3a3f51af0db80ac59b2ef5a8f23f1ff226c5a4b1
         </select>
       </div>
       <!-- DESIGNATION -->
       <div class="col-md-4 mb-3">
         <label for="designation" class="form-label">Designation<span style=color:red>*</span></label>
         <input type="text" class="form-control" id="designation" placeholder="Enter designation"
-          [(ngModel)]="emp.designation" name="designation" required>
+               [(ngModel)]="emp.designation" name="designation" required>
       </div>
-<<<<<<< HEAD
-
-    </div>
-
-    <div class="row mb-3">
-
-      <!-- REPORTING MANAGER -->
-      <div class="col-md-4 mb-3">
-        <label for="reportingManager" class="form-label">Reporting Manager<span style="color:red">*</span></label>
-        <select class="form-select" id="reportingManager" [(ngModel)]="reportingManager"
-          name="selectedReportingManagerId">
-          <option hidden>Select reporting manager</option>
-          <option *ngFor="let empReportingManager of reportingManager" [value]="empReportingManager.reportingManagerId">
-            {{empReportingManager.reportingManagerId}}</option>
-=======
 	  <!-- REPORTING MANAGER -->
       <div class="col-md-4 mb-3">
         <label for="reportingManager" class="form-label">Reporting Manager<span style="color:red">*</span></label>
@@ -99,22 +72,16 @@
             <option hidden>Select reporting manager</option>
             <option *ngFor="let empReportingManager of reportingManager" [ngValue]="empReportingManager.employeeId">{{empReportingManager.firstName}}</option>
 
->>>>>>> 3a3f51af0db80ac59b2ef5a8f23f1ff226c5a4b1
         </select>
       </div>
 
-      
+
       <!-- BUSINESS UNIT -->
       <div class="col-md-4 mb-3">
         <label for="businessUnitId" class="form-label">Business Unit<span style=color:red>*</span></label>
         <select class="form-select" id="businessUnitId" [(ngModel)]="emp.businessUnitId" name="businessUnitId">
           <option hidden>Choose</option>
-<<<<<<< HEAD
-          <option *ngFor="let empBusinessUnit of businessUnit" [value]="empBusinessUnit.referenceDetailValue">{{
-            empBusinessUnit.referenceDetailValue }}</option>
-=======
           <option *ngFor="let BU of businessUnitType" [ngValue]="BU.referenceDetailId">{{ BU.referenceDetailValue}}</option>
->>>>>>> 3a3f51af0db80ac59b2ef5a8f23f1ff226c5a4b1
         </select>
       </div>
       <!-- DELIVERY UNIT -->
@@ -122,38 +89,25 @@
         <label for="deliveryUnitId" class="form-label">Delivery Unit<span style=color:red>*</span></label>
         <select class="form-select" id="deliveryUnitId" [(ngModel)]="emp.deliveryUnitId" name="deliveryUnitId">
           <option hidden>Choose</option>
-<<<<<<< HEAD
-          <option *ngFor="let empDeliveryUnit of deliveryUnit" [value]="empDeliveryUnit.referenceDetailValue">{{
-            empDeliveryUnit.referenceDetailValue }}</option>
-=======
           <option *ngFor="let empDeliveryUnit of deliveryUnit" [ngValue]="empDeliveryUnit.referenceDetailId">{{ empDeliveryUnit.referenceDetailValue }}</option>
->>>>>>> 3a3f51af0db80ac59b2ef5a8f23f1ff226c5a4b1
         </select>
       </div>
 	  <div class="col-md-4 mb-3">
         <label for="status" class="form-label">Status<span style=color:red>*</span></label>
-<<<<<<< HEAD
-        <select class="form-select" id="status">
-          <option hidden>Choose</option>
-          <option *ngFor="let empStatus of status" [value]="empStatus.referenceDetailValue">{{
-            empStatus.referenceDetailValue }}</option>
-        </select>
-=======
         <select class="form-select" id="status" placeholder="Enter status" [(ngModel)]="emp.status" name="status" required>
           <option value="" disabled selected>Select status</option>
           <option *ngFor="let status1 of statusTypes" [ngValue]="status1.referenceDetailId">{{ status1.referenceDetailValue}}</option>
       </select>
->>>>>>> 3a3f51af0db80ac59b2ef5a8f23f1ff226c5a4b1
       </div>
 
-      
+
       <!-- EXIT DATE -->
-     
+
       <div class="col-md-4 mb-3">
         <label for="exitDate" class="form-label">Exit Date:</label>
         <input type="date" class="form-control" id="exitDate" ngModel="emp.exitDate" name="exitDate">
       </div>
-	 
+
         </div>
 
         <div class=" row button">

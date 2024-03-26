@@ -15,10 +15,6 @@ export class AccountDisplayComponent implements OnInit {
     console.log("loaded");
     this.getAccount();
   }
-
-
-
-
   getAccount(){
     this.accountService.getAccount().subscribe(data=>{
      console.log(data);
@@ -30,12 +26,7 @@ export class AccountDisplayComponent implements OnInit {
 
 editItem(id: string) {
   console.log(id);
-<<<<<<< HEAD
-
   this.router.navigate(['/update-account', id]);
-}
-=======
-  
   this.router.navigate(['/admin/update-account', id]);
 }
 removeTask(accountId:number) {
@@ -59,5 +50,6 @@ removeTask(accountId:number) {
       // No deletion occurred
     }
   });
->>>>>>> 3a3f51af0db80ac59b2ef5a8f23f1ff226c5a4b1
+
+}
 }

@@ -12,9 +12,11 @@ export class AdminLandingPageComponent {
   public user:any;
 
   ngOnInit(){
+    console.log("ngOnInit called");
     const user = localStorage.getItem("user");
     if (user) {
       this.user = JSON.parse(user);
+      console.log("User from localStorage:", this.user);
       this.empName=this.user.userName
       console.log(this.empName);
       console.log(user);

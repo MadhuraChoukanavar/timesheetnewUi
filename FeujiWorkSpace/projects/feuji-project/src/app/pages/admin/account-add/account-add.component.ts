@@ -32,11 +32,6 @@ export class AccountAddComponent implements OnInit{
  sendAccount(acc: any) {
   console.log(acc);
   this.accountService.saveAccount(acc).subscribe(res=>this.account=res);
-<<<<<<< HEAD
-
-=======
-  
->>>>>>> 3a3f51af0db80ac59b2ef5a8f23f1ff226c5a4b1
  }
  getAccount(){
   this.accountService.getAccount().subscribe(data=>{

@@ -12,11 +12,10 @@ import Swal from 'sweetalert2';
 export class UpdateAccountComponent  implements OnInit {
   constructor(private ref:ActivatedRoute,private accountService :AccountserviceService){}
       public accountid:String="";
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> 3a3f51af0db80ac59b2ef5a8f23f1ff226c5a4b1
+
+
+
       public account:any=Account;
       public emplyoee: any[] = [];
   public businessUnitType: any[] = [];

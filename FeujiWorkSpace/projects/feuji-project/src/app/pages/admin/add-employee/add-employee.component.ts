@@ -32,7 +32,7 @@ export class AddEmployeeComponent implements OnInit{
 
   public businessUnitType: any[] = [];
   public statusTypes:any[]=[];
- 
+
   emp:EmployeeSaving=new EmployeeSaving(0,'','','','','','','',0,new Date(),0,0,0,0,0,new Date(),'',false,'',new Date(),'',new Date);
   employeeTypeReference: any;
 
@@ -42,7 +42,7 @@ export class AddEmployeeComponent implements OnInit{
   }
 
   ngOnInit() {
- 
+
    this.fetchReportingManager();
    this.getStatusType();
     this.getBusinessUnitType();
@@ -160,15 +160,14 @@ export class AddEmployeeComponent implements OnInit{
             this.fetchStatus(this.statusReference.referenceTypeId)
         }
 
-<<<<<<< HEAD
         this.reportingManagerReference=resp.filter((item:any) => item.referenceTypeName === 'Employee Status').reverse().pop()
         console.log("Employee Status",this.statusReference);
         if (this.statusReference.referenceTypeId) {
             this.fetchStatus(this.statusReference.referenceTypeId)
         }
-=======
-       
->>>>>>> 3a3f51af0db80ac59b2ef5a8f23f1ff226c5a4b1
+
+
+
       })
     }
 
@@ -205,12 +204,12 @@ console.log(this.emp.email);
     });
   }
   // ..........................
-  
+
   getStatusType() {
     this.empService.getStatusType().subscribe((status:any[]) => {
       console.log(status);
       console.log("status:::::::::");
-      
+
       this.statusTypes = status;
     });
   }
