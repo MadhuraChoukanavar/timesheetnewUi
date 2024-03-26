@@ -24,10 +24,6 @@ export class TimesheetWeekApprovalService {
 
     return this.http.get<any[]>(url);
   }
-  getWeekTimesheets(approvedBy: number, accountId:number, weekNumber: number): Observable<timesheetWeekApproval[]> {
-    const url = `${this.apiUrl}/timesheets/manager/${approvedBy}/${accountId}/${weekNumber}`;
-    return this.http.get<timesheetWeekApproval[]>(url).pipe(tap(data => this.weekTimeSheet = data))
-  }
 
   getProjects(userEmpId:number,month:string,year:number,accountId: number,employeeId:number): Observable<timesheetWeekApproval[]> {
     const url = `${this.apiUrl}/getTimeSheeApproval/${userEmpId}/${month}/${year}/${accountId}/${employeeId}`;

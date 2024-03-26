@@ -25,16 +25,7 @@ export class AccountAddComponent implements OnInit{
     // this.getparentId(name);
   }
  acc:Account=new Account(0,'',0,0,0,0,0,new Date(),new Date(),new Date(),new Date(),'','','','',''
-<<<<<<< HEAD
 
- ,'',0,'','','','',new Date(),'',new Date())
-
- constructor(private accountService: AccountserviceService) {}
- sendAccount(acc: any) {
-  console.log(acc);
-  this.accountService.saveAccount(acc).subscribe(res=>this.account=res);
-=======
- 
  ,'',0,'',false,'','',new Date(),'',new Date())
 
  constructor(private accountService: AccountserviceService) {}
@@ -42,7 +33,6 @@ export class AccountAddComponent implements OnInit{
   console.log(this.acc);
   this.accountService.saveAccount(this.acc).subscribe(res=>this.account=res);
   
->>>>>>> master
  }
  getAccount(){
   this.accountService.getAccount().subscribe(data=>{
