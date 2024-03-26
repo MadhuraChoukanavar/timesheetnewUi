@@ -43,7 +43,7 @@ export class TimesheetapproveComponent implements OnInit {
 
   selectedAccount: any;
 
-  
+ 
  
   
   get filteredEmployees() {
@@ -71,6 +71,7 @@ export class TimesheetapproveComponent implements OnInit {
    const currentDate = new Date();
    this.selectedMonth = "All";
    
+   
        
  }
 
@@ -82,10 +83,8 @@ OnSelectAccountByAccountId(event:any) {
 
   
  const selectedAccount = event.target.value;
- console.log(selectedAccount);
+ 
  this.accountId=Number(selectedAccount);
- this.selectedMonth =event.target.value;
- console.log(this.selectedMonth)
  
  
   this.selectedAccount;
