@@ -1,11 +1,12 @@
-
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { TimesheetHomeService } from '../../../../models/timesheetHomeService.service';
+
 import { timesheetWeekApproval } from '../../../../models/timesheet-week-approval.model';
 import { TimesheetWeekApprovalService } from '../../../../models/timesheet-week-approval.service';
 import { TimesheetWeekDayBean, WeekAndDayDto } from '../../../../models/timesheethomebean.model';
+import { TimesheetHomeService } from '../../../../models/timesheetHomeService.service';
+
 
 @Component({
   selector: 'app-daily-status',
@@ -13,8 +14,8 @@ import { TimesheetWeekDayBean, WeekAndDayDto } from '../../../../models/timeshee
   styleUrl: './daily-status.component.css'
 })
 export class DailyStatusComponent implements OnInit{
-
-  weekTimesheet:timesheetWeekApproval=new timesheetWeekApproval(0,0,'','','','',0,0,'',0,0,0,0,'',new Date(),new Date(),new Date(),new Date(),0);
+   
+  weekTimesheet:any;
   data: any;
   employeeName:string='';
   Status:string='';
@@ -25,9 +26,19 @@ export class DailyStatusComponent implements OnInit{
   public currentWeek1: Date[] = [];
   clicked=false;
   totalHours: any;
+  isTimesheetApproved: boolean = true;
+  weekTimeSheet: any;
+  accountId: number=0;
+  employeeId: number=0;
+  timesheetService: any;
+  userEmpId: any;
+  year: any;
+ 
+  public employee:any[]=[];
 
   constructor(
-    private timesheetHomeService: TimesheetHomeService,private timesheetWeekApprovalService:TimesheetWeekApprovalService,
+    private timesheetHomeService: TimesheetHomeService,
+    private timesheetWeekApprovalService:TimesheetWeekApprovalService,
     private datePipe: DatePipe,private router:Router
   ) {
     // this.initializeRowColArray();
@@ -51,16 +62,16 @@ export class DailyStatusComponent implements OnInit{
   projectTaskType: any[] = [];
   projectTask: any[] = [];
   attendanceTypeArr: any[] = [];
-
+  
 startDate: any = '';
 
   lastDate: any = '';
-
+  
   selectedProjectId: number = 0;
   selectedProjecttaskId: number = 0;
   selectedAttendanceType: any;
   selectedTaskId: number = 0;
-  employeeId: number = 108;
+  
   everyRowRecord: any[] = [];
 
   selectedTasks: any[] = [];
@@ -72,111 +83,60 @@ startDate: any = '';
   valuee: number = 0;
 
 
-
-  // ngOnInit(): void {
-  //   this.weekTimesheet=history.state.weekTimesheet;
-  //   this.employeeName= this.weekTimesheet.fullName;
-  //   this.Status=this.weekTimesheet.timesheetStatus
-  //   this.designation=this.weekTimesheet.designation
-  //   this.plannedStartDate=this.weekTimesheet.plannedStartDate
-  //   this.plannedEndDate=this.weekTimesheet.plannedEndDate
-  //   this.email=this.weekTimesheet.email
-  //   this.fetchWeekDayData();
-
-
-// this.fetcWeekDayData(108)
-
-  // this.timesheetHomeService.getAccounts().subscribe
-  // (
-  //   (resp)=>
-  //   {
-  //     this.accounts=resp as any[];
-  //     console.log(this.accounts)
-  //   },
-  //   (error)=>
-  //   {
-  //     console.error(error)
-  //   }
-  // );
-
-
-  //   this.onSelectAttendanceType();
-  //   this.calculateCurrentWeek();
-
-  // }
-  // ngOnInit(): void {
-  //   console.log("history.state.weekTimesheet:", history.state.weekTimesheet);
-  //   if (history.state.weekTimesheet && history.state.weekTimesheet.length > 0) {
-  //     const firstTimesheet = history.state.weekTimesheet[0];
-  //     this.weekTimesheet = new timesheetWeekApproval(
-  //       firstTimesheet.TimesheetWeekSummaryId,
-  //       firstTimesheet.employeeId,
-  //       firstTimesheet.designation,
-  //       firstTimesheet.employeeCode,
-  //       firstTimesheet.fullName,
-  //       firstTimesheet.email,
-  //       firstTimesheet.approvedBy,
-  //       firstTimesheet.weekNumber,
-  //       firstTimesheet.projectName,
-  //       firstTimesheet.accountProjectId,
-  //       firstTimesheet.totalBillingHours,
-  //       firstTimesheet.totalNonBillingHours,
-  //       firstTimesheet.totalLeaveHours,
-  //       firstTimesheet.timesheetStatus,
-  //       new Date(firstTimesheet.weekStartDate),
-  //       new Date(firstTimesheet.weekEndDate),
-  //       new Date(firstTimesheet.plannedStartDate),
-  //       new Date(firstTimesheet.plannedEndDate),
-  //       firstTimesheet.accountId
-
-  //     );
-  //     console.log("Assigned weekTimesheet:", this.weekTimesheet);
-  //     this.fetchWeekDayData()
-  //     // this.calculateCurrentWeek()
-  //     this.employeeName=this.weekTimesheet.fullName
-
-  //   } else {
-  //     console.error('No data found in history.state.weekTimesheet');
-  //   }
-
-  // }
+    
+  
 
   ngOnInit(): void {
+    console.log("000000000000000000000000");
+    
+    
     console.log("history.state.weekTimesheet:", history.state.weekTimesheet);
-    if (history.state.weekTimesheet && history.state.weekTimesheet.length > 0) {
-      const firstTimesheet = history.state.weekTimesheet[0];
-      this.weekTimesheet = new timesheetWeekApproval(
-        firstTimesheet.TimesheetWeekSummaryId,
-        firstTimesheet.employeeId,
-        firstTimesheet.designation,
-        firstTimesheet.employeeCode,
-        firstTimesheet.fullName,
-        firstTimesheet.email,
-        firstTimesheet.approvedBy,
-        firstTimesheet.weekNumber,
-        firstTimesheet.projectName,
-        firstTimesheet.accountProjectId,
-        firstTimesheet.totalBillingHours,
-        firstTimesheet.totalNonBillingHours,
-        firstTimesheet.totalLeaveHours,
-        firstTimesheet.timesheetStatus,
-        new Date(firstTimesheet.weekStartDate),
-        new Date(firstTimesheet.weekEndDate),
-        new Date(firstTimesheet.plannedStartDate),
-        new Date(firstTimesheet.plannedEndDate),
-        firstTimesheet.accountId
-      );
 
+
+    if (history.state.weekTimesheet ) {
+
+      console.log("123444445678");
+      this.weekTimesheet = history.state.weekTimesheet;
+      
+      // const firstTimesheet = history.state.weekTimesheet;
+      // this.weekTimesheet = new timesheetWeekApproval(
+       
+        
+      //   firstTimesheet.employeeId,
+      //   firstTimesheet.designation,
+      //   firstTimesheet.employeeCode,
+      //   firstTimesheet.firstName,
+      //   firstTimesheet.email,
+      //   firstTimesheet.approvedBy,
+      //   firstTimesheet.weekNumber,
+      //   firstTimesheet.projectName,
+      //   firstTimesheet.accountProjectId,
+      //   firstTimesheet.totalBillingHours,
+      //   firstTimesheet.totalNonBillingHours,
+      //   firstTimesheet.totalLeaveHours,
+      //   firstTimesheet.timesheetStatus,
+      //   new Date(firstTimesheet.weekStartDate),
+      //   new Date(firstTimesheet.weekEndDate),
+      //   new Date(firstTimesheet.plannedStartDate),
+      //   new Date(firstTimesheet.plannedEndDate),
+      //   firstTimesheet.accountId,
+      //   firstTimesheet.reportingManagerId
+      // );
+      console.log(this.weekTimesheet);
+      
+     
+     
+  
       // Calculate currentWeek1
       const startDate1 = new Date(this.weekTimesheet.weekStartDate);
       const endDate = new Date(this.weekTimesheet.weekEndDate);
       this.currentWeek1 = [];
-
+  
       // Iterate over each day between startDate and endDate
       let currentDate1 = new Date(startDate1);
       while (currentDate1 <= endDate) {
         this.currentWeek1.push(new Date(currentDate1));
-        currentDate1.setDate(currentDate1.getDate() + 1);
+        currentDate1.setDate(currentDate1.getDate() + 1); 
         const formattedDateString = this.formattedDate(currentDate1);
         // Use formattedDateString as needed
       }
@@ -184,9 +144,18 @@ startDate: any = '';
       this.fetchWeekDayData();
       this.getTotalHours();
       // this.calculateCurrentWeek()
-      this.initializeValues()
-      //todo....................
-     this.timesheetApprove(this.weekTimesheet)
+      // this.initializeValues();
+      // console.log(this.initializeValues);
+       this.employeeName=this.weekTimesheet.fullName
+    this.Status=this.weekTimesheet.timesheetStatus
+    this.designation=this.weekTimesheet.designation
+    this.email=this.weekTimesheet.email
+    this.plannedStartDate=this.weekTimesheet.plannedStartDate
+    this.plannedEndDate=this.weekTimesheet.plannedEndDate
+
+    console.log("employee name"+this.employeeName);
+    console.log("employee name"+this.Status);
+      this.timesheetApprove(this.weekTimesheet)
     } else {
       console.error('No data found in history.state.weekTimesheet');
     }
@@ -199,87 +168,20 @@ startDate: any = '';
     this.plannedStartDate=this.weekTimesheet.plannedStartDate
     this.plannedEndDate=this.weekTimesheet.plannedEndDate
   }
+  updateStatus(newStatus: string) {
+    this.Status = newStatus; // Update the Status property with newStatus
+  }
+  
+  
 
-
-
-
-
-//   OnSelectAccount(account:any)
-// {
-//  this.selectedAccount= account.target.value;
-//   //========================================================
-//   this.everyRowRecord[(this.rownum, 21)] =  Number(this.selectedAccount);
-//   //===
-//   this.timesheetHomeService.getproject( this.selectedAccount).subscribe(
-//     (resp) => {
-//       this.projects = resp as any[];
-//       console.log(this.projects)
-//     },
-//     (error) => {
-//       console.error(error);
-//     }
-//   );
-// }
 
   ngAfterViewChecked(){
 
       this.columnsumnew();
 
   }
-  // onSelect(projects: any, i: number) {
-  //   //========================================================
-  //   this.everyRowRecord[(this.rownum, 0)] = 108;
-  //   //========================================================
-  //   this.selectedProjectId = projects.target.value;
-  //   //========================================================
-  //   this.everyRowRecord[(this.rownum, 1)] = Number(this.selectedProjectId);
-  //   //========================================================
-  //   this.timesheetHomeService
-  //     .getProjectTaskType(this.selectedProjectId)
-  //     .subscribe((res) => {
-  //       this.projectTaskType[i] = res as any[];
-  //     });
-  // }
-  // onSelectTaskType(projectTaskType: any, i: number) {
-  //   this.selectedProjecttaskId = projectTaskType.target.value;
-  //   //========================================================
-  //   this.everyRowRecord[(this.rownum, 2)] = Number(this.selectedProjecttaskId);
-  //   //========================================================
-  //   console.log(this.selectedProjecttaskId);
-  //   this.timesheetHomeService
-  //     .getProjectTask(this.selectedProjecttaskId)
-  //     .subscribe((restask) => {
-  //       const filteredTasks = restask.filter(task => !this.selectedTasks.includes(task.id)) as any[];
-  //           console.log(filteredTasks)
-  //           // Clear existing tasks before adding the filtered ones
-  //           this.projectTask[i] = [];
+ 
 
-  //           // Update the dropdown options for the current row
-  //           this.projectTask[i] = filteredTasks;
-  //     });
-  // }
-  // onSelectingTask(projectTask: any, i: number) {
-  //   this.selectedTaskId = projectTask.target.value;
-
-  //   //========================================================
-  //   this.everyRowRecord[(this.rownum, 3)] = Number(this.selectedTaskId);
-  //   //========================================================
-  //   console.log(this.selectedTaskId);
-  //   this.selectedTasks[i]=this.selectedTaskId
-  // }
-  // onSelectAttendanceType() {
-  //   this.timesheetHomeService.getBillingType().subscribe((bill) => {
-  //     this.attendanceTypeArr = bill as any[];
-  //   });
-  // }
-
-  // onselectAttendanceType(attendanceType: any, i: number) {
-  //   const attendanceId = attendanceType.target.value;
-
-  //   //========================================================
-  //   this.everyRowRecord[(this.rownum, 4)] = Number(attendanceId);
-  //   //========================================================
-  // }
 
   formattedDate(date: Date | null): string {
     if (!date) {
@@ -288,71 +190,11 @@ startDate: any = '';
     return this.datePipe.transform(date, 'dd-MMM EEE') || '';
   }
 
-  // calculateWeek(offset: number = 0) {
-  //   const today = new Date();
-  //   const currentMonth = today.getMonth(); // Get the current month
-  //   const currentYear = today.getFullYear(); // Get the current year
-
-  //   // Start from the 26th of the previous month
-  //   const startDate = new Date(currentYear, currentMonth - 1, 26);
-
-  //   // End on the 3rd of the current month
-  //   const endDate = new Date(currentYear, currentMonth, 3);
-
-  //   this.currentWeek = [];
-
-  //   for (let i = 0; i <= 6; i++) {
-  //     const currentDate = new Date(startDate);
-  //     currentDate.setDate(startDate.getDate() + i);
-  //     const formattedDate = this.datePipe.transform(currentDate, 'dd-MMM EEE');
-  //     this.currentWeek.push({
-  //       startDate: formattedDate,
-  //       endDate: formattedDate, // Not sure if you need this
-  //     });
-  //   }
-  // }
-
-  // calculateCurrentWeek() {
-  //   this.current = 0;
-  //   this.calculateWeek();
-  // }
-  // getWeekNumber(date: Date): number {
-  //   const d = new Date(date);
-  //   d.setHours(0, 0, 0, 0);
-  //   d.setDate(d.getDate() + 4 - (d.getDay() || 7));
-  //   const yearStart = new Date(d.getFullYear(), 0, 1);
-  //   const weekNumber = Math.floor(
-  //     ((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7
-  //   );
-
-  //   return weekNumber;
-  // }
-  // showNextWeek() {
-  //   this.calculateWeek(++this.current);
-
-  // }
-
-  // showPreviousWeek() {
-  //   this.calculateWeek(--this.current);
-  // }
-
-  // getMondayDate() {
-  //   const currentDay = this.currentWeek[0].startDate;
-  // const formattedMonday = this.datePipe.transform(currentDay, 'dd-MM-yyyy');
-  // console.log(formattedMonday);
-  // return formattedMonday;
-
-  // }
-
-  // getEndDate() {
-  //   const lastDay = this.currentWeek[6].endDate;
-
-  //   return lastDay;
-  // }
+  
 
   totalvalue: number[] = [0, 0, 0, 0, 0, 0, 0];
 
-
+ 
 
   columnsumnew() {
     //console.log("Rownum::"+this.limitRow);
@@ -376,14 +218,14 @@ startDate: any = '';
         const inputValue = (
           document.getElementById( 'data_' +  rowCount+columnCount  ) as HTMLInputElement
         ).innerText;
-        //console.log(' data_' + rowCount + columnCount + " value "+inputValue)
+        //console.log(' data_' + rowCount + columnCount + " value "+inputValue)      
         sum += Number(inputValue);
       }
       (document.getElementById('data_' +rowCount+ 11 ) as HTMLInputElement).innerText = String(sum);
       //(document.getElementById('data_' +rowCount+ 11 ) as HTMLInputElement).value= String(sum);
     }
   }
-
+ 
   columnsum() {
    console.log(this.rownum);
     for (let rowCount = 0; rowCount < this.rownum; rowCount++) {
@@ -392,11 +234,11 @@ startDate: any = '';
       console.log("Input "+columnCount + " - "+rowCount);
      const inputValue = ( document.getElementById( 'input_' + rowCount + columnCount) as HTMLInputElement ).value;
      this.totalvalue[columnCount] += Number(inputValue);
-
+         
     }
-    this.rowsum(rowCount);
+    this.rowsum(rowCount);  
    }
-
+ 
    return this.totalvalue;
   }
 
@@ -411,28 +253,16 @@ startDate: any = '';
      (
       document.getElementById('input_' + count +7 ) as HTMLInputElement
      ).value = String(sum);
-
+     
     }
-
-
-  // getComment(comments: any) {
-  //   const comment = comments.target.value;
-
-  //   //========================================================
-  //   this.everyRowRecord[(this.rownum, 19)] = comment;
-  //   //========================================================
-  // }
-
-
-
-  //public timesheetWeekDayBean:any=new TimesheetWeekDayBean(0,0,0,0,0,new Date,new Date,new Date,new Date,new Date,new Date,new Date,0,0,0,0,0,0,0,"");
+   
 
   timesheetStatus: any[] = [];
-
+  
 
   allRows: TimesheetWeekDayBean[] = [];
 
-
+ 
 
   addDataToAllarows() {
     let timesheetWeekDayBean: any = new TimesheetWeekDayBean(
@@ -457,7 +287,7 @@ startDate: any = '';
       0,
       '',
       0,
-0
+      0
     );
     timesheetWeekDayBean.employeeId = this.everyRowRecord[0];
     timesheetWeekDayBean.projectId = this.everyRowRecord[1];
@@ -496,67 +326,36 @@ startDate: any = '';
   fetchedDetails: WeekAndDayDto[] = [];
   deetails: WeekAndDayDto[] = [];
 
-// getCurrentWeekStartDate(): string {
-//   const today = new Date();
-//   const currentDay = today.getDay();
-//   const daysUntilMonday = currentDay === 0 ? 6 : currentDay - 1; // Adjust for Sunday
-//   const startDate = new Date(today);
-//   startDate.setDate(today.getDate() - daysUntilMonday);
-
-//   // Format the date as 'yyyy-MM-dd HH:mm:ss'
-//   const formattedStartDate = this.formatDate(startDate);
-//   return formattedStartDate;
-// }
-// formatDate(date: Date): string {
-//   const year = date.getFullYear();
-//   const month = ('0' + (date.getMonth() + 1)).slice(-2);
-//   const day = ('0' + date.getDate()).slice(-2);
-//   const hours = ('0' + date.getHours()).slice(-2);
-//   const minutes = ('0' + date.getMinutes()).slice(-2);
-//   const seconds = ('0' + date.getSeconds()).slice(-2);
-
-//   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-// }
 formatDate(date: Date): string {
   const year = date.getFullYear();
     const month = date.toLocaleDateString('en-US', { month: 'short' });
   const day = ('0' + date.getDate()).slice(-2);
-
+  
 
   return `${day}-${month}-${year}`;
 }
 
 
-
-  // fetcWeekDayData(employeeId: 108) {
-  //   const currentWeekStartDate = this.getCurrentWeekStartDate();
-  //  this.timesheetHomeService
-  //   .getWeekDayDetails(employeeId, currentWeekStartDate)
-  //   .subscribe((fetched) => {
-  //    this.fetchedDetails = fetched as WeekAndDayDto[];
-  //    this.limitRow=fetched.length;
-  //    console.log("Limit Row "+this.limitRow);
-
-  //   });
-
-  // }
-  // formattedDate: string='';
   fetchWeekDayData(): void {
-
+    console.log("hiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+    
+    
     console.log("Employee ID: " + this.weekTimesheet.employeeId);
+    console.log("h2");
 
-  //  const startDate1=this.weekTimesheet.weekStartDate;
-  //  const lastDate=this.weekTimesheet.weekEndDate;
 
-  const startDate1 = this.formatDate(this.weekTimesheet.weekStartDate);
-  const lastDate = this.formatDate(this.weekTimesheet.weekEndDate);
+  const startDate1 =this.datePipe.transform(this.weekTimesheet.weekStartDate, 'dd-MMM-yyyy') || '';
+  console.log(startDate1);
+  
+
+  const lastDate = this.datePipe.transform(this.weekTimesheet.weekEndDate, 'dd-MMM-yyyy') || '';
 
   console.log("Start Date: ", startDate1);
   console.log("Last Date: ", lastDate);
-
+   
 
    console.log("''''''''''''''''''''''''''''"+startDate1)
-  //  alert("madhura "+lastDate)
+  
    console.log("weekTimesheet: ", this.weekTimesheet);
 
     this.timesheetHomeService
@@ -569,44 +368,113 @@ formatDate(date: Date): string {
 
     }
 
-
+  
 
   loadTimesheetData(): void {
     const accountId = this.selectedAccount || this.defaultAccountId;
     this.fetchWeekDayData()
-
+    
+  }
+ 
+   convertedDate: string='';
+  
+  getTotalHours(): void {
+    this.timesheetWeekApprovalService.getTotalHours(this.weekTimesheet.employeeId, this.weekTimesheet.accountProjectId, this.weekTimesheet.weekNumber)
+      .subscribe((totalHours) => {
+        this.totalHours = totalHours;
+        console.log("Total hours data:", totalHours);
+      }, (error) => {
+        console.error("Error fetching total hours:", error);
+      });
   }
 
-   convertedDate: string='';
-  //  private showSnackBar(message: string) {
-  //   const config = new MatSnackBarConfig();
-  //   config.panelClass = ['custom-snackbar']; // Add your custom class for styling
-  //   config.duration = 2000;
-  //   config.verticalPosition = 'top';
-  //   this.snackBar.open(message, '', config);
-  // }
-//todo..............................
-timesheetApprove(_weekTimesheet: timesheetWeekApproval){
-  this.timesheetHomeService.updateTimesheetStatus(this.weekTimesheet.employeeId,this.weekTimesheet.accountProjectId,this.weekTimesheet.weekNumber)
-  .subscribe((data)=>{
-    this.data=data;
-    this.router.navigate(['/DailyStatusComponent']);
-  })
-
-}
-
-getTotalHours(): void {
-  this.timesheetWeekApprovalService.getTotalHours(this.weekTimesheet.employeeId, this.weekTimesheet.accountProjectId, this.weekTimesheet.weekNumber)
-    .subscribe((totalHours) => {
-      this.totalHours = totalHours;
-      console.log("Total hours data:", totalHours);
-    }, (error) => {
-      console.error("Error fetching total hours:", error);
+timesheetApprove(weekTimesheet: timesheetWeekApproval) {
+  if (this.Status === "Approved") {
+    // Set isTimesheetApproved to true if the status is "Approved"
+    this.isTimesheetApproved = true;
+  } else {
+    // Set isTimesheetApproved to false if the status is not "Approved"
+    this.isTimesheetApproved = false;
+  }
+  const startDate1 =this.datePipe.transform(this.weekTimesheet.weekStartDate, 'dd-MMM-yyyy') || '';
+  console.log(startDate1);
+  this.timesheetHomeService.updateTimesheetStatus(this.weekTimesheet.employeeId, this.weekTimesheet.accountId, startDate1)
+    .subscribe((data) => {
+      this.data = data;
+      this.router.navigate(['/DailyStatusComponent']);
     });
 }
 
+rejectTimesheet(weekTimesheet: timesheetWeekApproval) {
+  if (this.Status === "Rejected") {
+    // Set isTimesheetApproved to true if the status is "Rejected"
+    this.isTimesheetApproved = true;
+  } else {
+    // Set isTimesheetApproved to false if the status is not "Rejected"
+    this.isTimesheetApproved = false;
+  }
+  const startDate1 =this.datePipe.transform(this.weekTimesheet.weekStartDate, 'dd-MMM-yyyy') || '';
+
+  this.timesheetHomeService.rejectTimesheetStatus(this.weekTimesheet.employeeId, this.weekTimesheet.accountId, startDate1)
+    .subscribe((data) => {
+      this.data = data;
+      this.router.navigate(['/DailyStatusComponent']);
+    });
+}
+
+isRejectButtonDisabled(): boolean {
+  return this.isTimesheetApproved || this.Status === 'Rejected';
+}
 
 
+closeTheView(weekTimesheet:timesheetWeekApproval){
+  weekTimesheet.accountId=2;
+  console.log("account"+this.accountId);
 
+  weekTimesheet.employeeId=108;
+console.log(weekTimesheet);
+
+this.router.navigate(['/manager/timesheet-approval'],{state:{weekTimesheet:weekTimesheet}});
+console.log("state"+weekTimesheet)
+this.OnSelectAccountByAccountId(event);
+}
+
+
+OnSelectAccountByAccountId(event:any) {
+ const selectedAccount = event.target.value;
+  console.log(selectedAccount);
+  this.accountId=2;
+  alert(this.selectedAccount)
+   this.timesheetService.getProjectsByAccountId(this.userEmpId,this.year,this.accountId)
+   .subscribe(
+     (resp: any) => {
+       alert ("getting respose")
+       this.weekTimeSheet=resp;
+ 
+       console.log(this.weekTimeSheet)
+       console.log(resp)
+     },
+     (error: any) => {
+       console.error(error);
+     }
+   );
+this.getEmployee();
+ }
+
+ getEmployee(){
+
+ 
+   this.selectedAccount
+   this.timesheetService.getAllEmployee(this.userEmpId,this.selectedAccount).subscribe((data: any[])=>{
+   console.log("hlooooooooooooooooo")
+   
+     console.log(data);
+    
+    this.employee=data;
+    console.log(this.employee);
+  })
+  
+ }
+ 
 
 }

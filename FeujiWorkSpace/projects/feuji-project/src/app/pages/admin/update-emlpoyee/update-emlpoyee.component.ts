@@ -57,11 +57,12 @@ send(empuuId:string){
 
 )
 }
-updateEmployee(emp: any, uuid: any, employeeId: number) {
+updateEmployee(emp: any, uuid: any, employeeId: number,isDeleted:boolean) {
   console.log("uuid................" + uuid);
   
   emp.uuId = uuid;
   emp.employeeId = employeeId;
+  emp.isDeleted=isDeleted;
   console.log(this.emp);
   console.log(uuid);
   console.log(emp);

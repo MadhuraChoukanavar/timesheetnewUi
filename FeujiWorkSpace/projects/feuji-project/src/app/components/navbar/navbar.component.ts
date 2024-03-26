@@ -26,7 +26,7 @@ export class NavbarComponent {
 
   checkUser() {
     const storedUser = localStorage.getItem('user');
-    this.user = storedUser ? JSON.parse(storedUser) : undefined;
+    this.user = storedUser ? storedUser : undefined;
 
     if (this.user) {
       const designation = this.user.designation;
@@ -60,6 +60,7 @@ export class NavbarComponent {
     localStorage.removeItem('user');
     this.checkUser();
   }
+<<<<<<< HEAD
 
   title: string = '';
 
@@ -112,3 +113,6 @@ export class NavbarComponent {
   }
 
 }
+=======
+}
+>>>>>>> master

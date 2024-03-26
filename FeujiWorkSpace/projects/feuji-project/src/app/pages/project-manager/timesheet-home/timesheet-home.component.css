@@ -1,25 +1,78 @@
 .table td {
   white-space: nowrap;
   overflow: hidden;
-  /* text-overflow: ellipsis; */
+  text-overflow: ellipsis;
 }
 
-.table1
-{
+.table1 {
   background-color: blue;
 }
-.row1>th
-{
-background-color: rgb(229, 233, 234);
+
+.row1>th {
+  background-color: rgb(229, 233, 234);
 }
-.attencence{
+
+.attencence {
   margin-top: 3px;
 }
 
-.container{
-  position:absolute;
-  top: 20%;
-  left: 23%;
-  width: 75%;
-  border: 1px solid black;
+.btn {
+  background-color: rgb(229, 233, 234);
+  border-color: rgb(229, 233, 234);
+  color: black;
+}
+
+.text-center {
+  width: 10%;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: small;
+}
+
+.form-control {
+  width: 65px;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: small;
+}
+
+#con {
+  width: 100%;
+}
+
+#con1 {
+  width: 100%;
+}
+
+.sel-drop {
+  width: 110px;
+  background-color: #ffffff;
+  border: 1px solid #cdc7c7;
+  border-radius: 5px;
+  padding: 5px 10px;
+  color: #333;
+}
+
+#comments {
+  width: 50%;
+}
+
+/* Inline CSS */
+
+[contenteditable="true"] {
+  border: 1px solid #ddd;
+  padding: 8px;
+  min-height: 30px;
+  outline: none;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+[contenteditable="true"]:hover {
+  border-color: #007bff;
+}
+h6
+{
+  font-family: Arial, Helvetica, sans-serif;
+   font-size: 25px;
+    font-weight: lighter;
 }
