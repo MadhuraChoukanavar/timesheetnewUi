@@ -1,6 +1,6 @@
 <div class="container-fluid mt-4">
     <h1 class="text-center mb-3 employecolor " style="font-size: 32px ; font-family: Arial, Helvetica, sans-serif;">Update Account</h1>
-    <form class="formborderbox round round-3 p-4 mt-3" (submit)="updateAccount(accountForm.value,acc.uuId)" #accountForm="ngForm" >
+    <form class="formborderbox round round-3 p-4 mt-3" (submit)="updateAccount(acc.uuId,acc.isDeleted)" #accountForm="ngForm" >
   
   
         <div class="row mb-3">
@@ -54,7 +54,7 @@
 
             <div class="col-md-4 mb-3">
                 <label for="accountBuId" class="form-label">Business Unit Name</label> 
-                <select class="form-select" id="parentAccountId" id="accountBuId" placeholder="Enter Account BuId" [(ngModel)]="acc.accountBuId" name="accountBuId">            
+                <select class="form-select"  id="accountBuId" placeholder="Enter Account BuId" [(ngModel)]="acc.accountBuId" name="accountBuId">            
                     <option [ngValue]="acc.accountBuId">{{ acc.accountBuName}}</option>
                     <option *ngFor="let BU of businessUnitType" [ngValue]="BU.referenceDetailId">{{ BU.referenceDetailValue}}
                     </option>
@@ -106,12 +106,13 @@
 
         <div class="col-md-4 mb-3">
             <label for="accountStatus" class="form-label">Status:</label> 
-            <select class="form-select" id="accountStatus" placeholder="Enter Status" [(ngModel)]="acc.statusId" name="accountStatus">
-                <option [ngValue]="acc.statusId">{{ acc.statusValue }}</option>
+            <select class="form-select" id="accountStatus" placeholder="Enter Status" [(ngModel)]="acc.accountStatus" name="accountStatus">
+                <option [ngValue]="acc.accountStatus">{{ acc.statusValue }}</option>
                 <option *ngFor="let status1 of statusTypes" [ngValue]="status1.referenceDetailId">{{ status1.referenceDetailValue }}</option>
               </select>
         </div>
-
+        
+       
         
     </div>
       

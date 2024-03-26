@@ -17,7 +17,7 @@ export class UpdateAccountComponent  implements OnInit {
       public emplyoee: any[] = [];
   public businessUnitType: any[] = [];
   public statusTypes:any[]=[];
-  // public acc:any=[];
+  
   public acc:any;
    ngOnInit(): void {
     this.accountid = "" +this.ref.snapshot.paramMap.get('id');
@@ -37,12 +37,21 @@ this.getEmployeeName();
   
    )
    }
-   updateAccount(acc: any,uuid:any) {
-    acc.uuId=uuid;
+   updateAccount(uuid:any,isDeleted:boolean) {
+    this.acc.uuId=uuid;
+    console.log(isDeleted);
+    
+
+    this.acc.isDeleted=isDeleted;
+
     console.log(this.acc);
-    this.accountService.updateAccount(acc).subscribe({
+    this.accountService.updateAccount(this.acc).subscribe({
       next: (res) => {
         this.account = res;
+        alert(this.acc)
+        alert(this.account)
+        console.log(this.account);
+        
         Swal.fire('Success', 'Data updated', 'success');
       },
       error: (error) => {

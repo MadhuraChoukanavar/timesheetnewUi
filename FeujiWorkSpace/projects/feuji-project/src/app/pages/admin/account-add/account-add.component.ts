@@ -26,18 +26,17 @@ export class AccountAddComponent implements OnInit{
   }
  acc:Account=new Account(0,'',0,0,0,0,0,new Date(),new Date(),new Date(),new Date(),'','','','',''
  
- ,'',0,'','','','',new Date(),'',new Date())
+ ,'',0,'',false,'','',new Date(),'',new Date())
 
  constructor(private accountService: AccountserviceService) {}
- sendAccount(acc: any) {
-  console.log(acc);
-  this.accountService.saveAccount(acc).subscribe(res=>this.account=res);
+ sendAccount() {
+  console.log(this.acc);
+  this.accountService.saveAccount(this.acc).subscribe(res=>this.account=res);
   
  }
  getAccount(){
   this.accountService.getAccount().subscribe(data=>{
    console.log(data);
-   console.log("asdfghjkjhgfdfghjkjhgf");
    this.account1=data;
    console.log(this.account1);
  })

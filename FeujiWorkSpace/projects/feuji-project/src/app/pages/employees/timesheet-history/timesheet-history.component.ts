@@ -20,7 +20,21 @@ export class TimesheetHistoryComponent implements OnInit{
  public selectedMonth: string;
  public selectedYear: number;
 public selectedAccountName:string='';
+currentUser:number=0;
  ngOnInit(): void {
+  
+  const userStr = localStorage.getItem('user');
+
+  if (userStr !== null) {
+      const userData = JSON.parse(userStr);
+      const userEmpId = userData.userEmpId;
+    
+      this.currentUser=userEmpId;
+      alert(this.currentUser)
+  } else {
+      // Handle the case when 'user' key is not found in localStorage or is null
+      console.error('User data not found in localStorage');
+  }
   this.fetchData();
   // this.populateYears();
   this.getYears();
@@ -39,7 +53,7 @@ getAccountBymonthAndYear(): void {
   // Make a request to the backend to fetch the account name based on the selected month
   console.log(this.selectedMonth + " " + this.selectedYear);
 
-  this.timesheetService.fetchAccountBymonthAndYear(this.selectedMonth, this.selectedYear)
+  this.timesheetService.fetchAccountBymonthAndYear(this.selectedMonth, this.selectedYear,this.currentUser)
     .subscribe(acc => {
       console.log("asdfghjklkjhgfdsdfghjk"+acc);
 
@@ -57,7 +71,7 @@ fetchData(): void {
     this.selectedAccountName
   )
   if (this.selectedMonth === 'All') {
-      this.timesheetService.fetchAllData( this.selectedYear,this.selectedAccountName)
+      this.timesheetService.fetchAllData( this.selectedYear,this.selectedAccountName,this.currentUser)
     .subscribe(data => {
       this.timesheetData = data;
       console.log(data);
@@ -67,7 +81,7 @@ fetchData(): void {
       this.selectedAccountName
     )
     }else {
-  this.timesheetService.fetchData(this.selectedMonth, this.selectedYear,this.selectedAccountName)
+  this.timesheetService.fetchData(this.selectedMonth, this.selectedYear,this.selectedAccountName,this.currentUser)
     .subscribe(data => {
       this.timesheetData = data;
       console.log(data);
@@ -79,7 +93,7 @@ fetchData(): void {
     }
 }
 getYears(){
-  this.timesheetService.fetchYear().subscribe(data=>{
+  this.timesheetService.fetchYear(this.currentUser).subscribe(data=>{
    console.log(data);
    this.years=data;
    console.log(this.years);
@@ -88,7 +102,7 @@ getYears(){
 }
 getAccount(){
 
-  this.timesheetService.getAccount().subscribe(data=>{
+  this.timesheetService.getAccount(this.currentUser).subscribe(data=>{
    console.log(data);
    this.account=data;
    console.log(this.account);

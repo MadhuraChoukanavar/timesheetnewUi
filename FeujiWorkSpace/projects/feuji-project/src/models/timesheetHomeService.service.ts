@@ -25,21 +25,23 @@ export class TimesheetHomeService {
   deleteUrl = 'http://localhost:8084/api/timesheetdata';
   submitUrl = 'http://localhost:8084/api/timesheetdata/submitAction';
   updateurl='http://localhost:8084/api/timesheet/update';
+  
+  rejecturl='http://localhost:8084/api/timesheet/reject';
 
-  getAccounts(): Observable<any[]> {
-    const url = `${this.accurl}?userEmpId=${108}`;
+  getAccounts(userEMployeeId:number): Observable<any[]> {
+    const url = `${this.accurl}?userEmpId=${userEMployeeId}`;
     return this.http.get<any[]>(url);
   }
-  public getproject(selectedAccountId: any): Observable<any[]> {
+  public getproject(userEMployeeId:number,selectedAccountId: any): Observable<any[]> {
     const url1 = `${
       this.prourl
-    }?employeeId=${108}&accountId=${selectedAccountId}`;
+    }?employeeId=${userEMployeeId}&accountId=${selectedAccountId}`;
     return this.http.get<any[]>(url1);
   }
-  public getProjectTaskType(selectedProjectId: any): Observable<any[]> {
+  public getProjectTaskType(userEMployeeId:number,selectedProjectId: any): Observable<any[]> {
     const url1 = `${
       this.tasktypeurl
-    }?employeeId=${108}&accountProjectId=${selectedProjectId}`;
+    }?employeeId=${userEMployeeId}&accountProjectId=${selectedProjectId}`;
     const finalproject = this.http.get<any[]>(url1);
     console.log(finalproject);
     return finalproject;
@@ -121,11 +123,15 @@ export class TimesheetHomeService {
   {
      return this.http.get<any>(`http://localhost:8084/api/holiday/getWeekHolidaysDayIds/${startdate}`);
   }
-
-  updateTimesheetStatus(employeeId:number,accountProjectId:number,weekNumber:number):Observable<any>{
-    const url=`${this.updateurl}/${employeeId}/${accountProjectId}/${weekNumber}`;
+  updateTimesheetStatus(employeeId:number,accountId:number,weekStartDate:string):Observable<any>{
+    const url=`${this.updateurl}/${employeeId}/${accountId}/${weekStartDate}`;
+    console.log(url);
     return this.http.put<any>(url,timesheetWeekApproval)
- 
   }
+  rejectTimesheetStatus(employeeId:number,accountId:number,weekStartDate:string):Observable<any>{
+   const url=`${this.rejecturl}/${employeeId}/${accountId}/${weekStartDate}`;
+   console.log(url);
+   return this.http.put<any>(url,timesheetWeekApproval)
+ }
   
 }

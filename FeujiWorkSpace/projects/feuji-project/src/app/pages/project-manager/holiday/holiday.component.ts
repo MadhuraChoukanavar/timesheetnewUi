@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { holidayRepo } from '../../../../models/holiday.repo';
-import { HolidayService } from '../../../../models/holidayservice';
+import { HolidayService } from '../../../../models/holidayservice.service';
 import { Holiday} from '../../../../models/holiday.model';
 
 @Component({
