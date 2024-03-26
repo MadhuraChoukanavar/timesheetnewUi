@@ -21,7 +21,7 @@ export class UserService {
     const url = `${this.apiUrl}/employee/${userEmpid}`;
     console.log("Request URL:", url);
     console.log(userEmpid+"service employee id");
-    return this.http.get<Employee>(`${this.apiUrl}/employee/${userEmpid}`);
+    return this.http.get<Employee>(url);
   }
 
 }

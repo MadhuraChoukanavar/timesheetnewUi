@@ -9,32 +9,58 @@ import { timesheetWeekApproval } from './timesheet-week-approval.model';
   providedIn: 'root'
 })
 export class TimesheetWeekApprovalService {
-
+  private accurl = 'http://localhost:8084/api/timesheet/getaccountdetails';
   private apiUrl = 'http://localhost:8084/api/TimesheetWeekSummaryView';
+  private accountUrl='http://localhost:8084/api/timesheet'
   private weekTimeSheet: timesheetWeekApproval[]=[];
   constructor(private http: HttpClient) {}
+  getAccounts(): Observable<any[]> {
+    const url = `${this.accurl}?userEmpId=${107}`;
+    return this.http.get<any[]>(url);
+  }
 
-  getWeekTimesheets(approvedBy: number, accountId:number,accountProjectId: number, weekNumber: number): Observable<timesheetWeekApproval[]> {
-    const url = `${this.apiUrl}/timesheets/manager/${approvedBy}/${accountId}/${accountProjectId}/${weekNumber}`;
+  fetchData(month: string, year: number,accountId:number): Observable<any[]> {
+    const url = `${this.accountUrl}/gettimeSheetHistory/bymonth/${month}/${year}/${accountId}`;
+
+    return this.http.get<any[]>(url);
+  }
+  getWeekTimesheets(approvedBy: number, accountId:number, weekNumber: number): Observable<timesheetWeekApproval[]> {
+    const url = `${this.apiUrl}/timesheets/manager/${approvedBy}/${accountId}/${weekNumber}`;
     return this.http.get<timesheetWeekApproval[]>(url).pipe(tap(data => this.weekTimeSheet = data))
   }
 
-  getProjects(accountId: number): Observable<timesheetWeekApproval[]> {
-    const url = `${this.apiUrl}/projects/${accountId}`;
+  getProjects(userEmpId:number,month:string,year:number,accountId: number,employeeId:number): Observable<timesheetWeekApproval[]> {
+    const url = `${this.apiUrl}/getTimeSheeApproval/${userEmpId}/${month}/${year}/${accountId}/${employeeId}`;
+  
     return this.http.get<timesheetWeekApproval[]>(url);
+
+    
+   
   }
 
+  getProjectsByAccountId(userEmpId:number,year:number,accountId: number): Observable<timesheetWeekApproval[]> {
+    const url = `${this.apiUrl}/getTimeSheeApproval/${userEmpId}/${year}/${accountId}`;
+    return this.http.get<timesheetWeekApproval[]>(url);
+  }
   getStoredWeekTimesheets(): timesheetWeekApproval[] {
     return this.weekTimeSheet;
   }
 
-  getAccounts(approvedBy:number):Observable<timesheetWeekApproval[]>{
-    const url=`${this.apiUrl}/accounts/${approvedBy}`;
-    return this.http.get<timesheetWeekApproval[]>(url)
-  }
+
   getTotalHours(employeeId:number,accountProjectId:number,weekNumber:number):Observable<timesheetWeekApproval[]>{
     const url=`${this.apiUrl}/total/${employeeId}/${accountProjectId}/${weekNumber}`;
     return this.http.get<timesheetWeekApproval[]>(url)
   }
+
+  getAllEmployee(userEmpId:number,accountProjectId:number):Observable<timesheetWeekApproval[]>{
+    const url=`${this.accountUrl}/getemployeedetails/107/${accountProjectId}`;
+    return this.http.get<timesheetWeekApproval[]>(url)
+    
+  }
+  getAllApprovalDetails(reportingManagerId:number):Observable<timesheetWeekApproval[]>{
+    const url=`${this.accountUrl}/getAllEmployee/107`;
+    return this.http.get<timesheetWeekApproval[]>(url)
+  }
+
 
 }

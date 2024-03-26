@@ -3,7 +3,7 @@
 
     <h1 class="mb-3 employecolor" style="font-size: 1.5empx; font-family: Arial, Helvetica, sans-serif;">
       Employee Details</h1>
-    <form class="formborderbox round round-3 p-4 mt-3"  (submit)="updateEmployee(empForm.value,emp.uuid,emp.employeeId)" #empForm="ngForm">
+    <form class="formborderbox round round-3 p-4 mt-3"  (submit)="updateEmployee(empForm.value,emp.uuid,emp.employeeId,emp.isDeleted)" #empForm="ngForm">
 
         <div class="row">
              <div class="col-md-4 mb-3">

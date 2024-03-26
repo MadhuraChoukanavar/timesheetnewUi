@@ -19,7 +19,7 @@ export class Account{
         public  isRed:string,
         public accountStatus:number,
         public   comments:string,
-        public   isDeleted:string,
+        public   isDeleted:boolean,
     //	private Character uuId;  
          public   uuId:string, 
          public  createdBy:string,

@@ -17,27 +17,27 @@ export class TimesheethistoryserviceService {
   dayaHistory="http://localhost:8084/api/timesheetday"
 
 
-  fetchData(month: string, year: number,accountName:string): Observable<any[]> {
-    const url = `${this.taskHistoryUrl}/${month}/${year}/${accountName}/108`;
+  fetchData(month: string, year: number,accountName:string,userEmpId:number): Observable<any[]> {
+    const url = `${this.taskHistoryUrl}/${month}/${year}/${accountName}/${userEmpId}`;
     return this.http.get<any[]>(url);
   }
-  fetchAllData( year: number,accountName:string): Observable<any[]> {
-    const url = `${this.taskHistoryUrl}/${year}/${accountName}/108`;
+  fetchAllData( year: number,accountName:string,userEmpId:number): Observable<any[]> {
+    const url = `${this.taskHistoryUrl}/${year}/${accountName}/${userEmpId}`;
     return this.http.get<any[]>(url);
   }
-  fetchAccountBymonthAndYear( month: string,year: number): Observable<any[]> {
-    const url = `${this.taskHistoryUrl}/getAccountByMonthAndYear/${month}/${year}/108`;
+  fetchAccountBymonthAndYear(month: string,year: number,userEmpId:number): Observable<any[]> {
+    const url = `${this.taskHistoryUrl}/getAccountByMonthAndYear/${month}/${year}/${userEmpId}`;
     return this.http.get<any[]>(url);
   }
-  fetchYear(): Observable<any[]> {
-    const url = `${this.taskHistoryUrl}/getYears/108`;
+  fetchYear(employeeId:number): Observable<any[]> {
+    const url = `${this.taskHistoryUrl}/getYears/${employeeId}`;
     return this.http.get<any[]>(url);
   }
 
-  public getAccount():Observable<any[]>
+  public getAccount(employeeId:number):Observable<any[]>
   {
 
-    const url1=`${this.accounturl}/108`;
+    const url1=`${this.accounturl}/${employeeId}`;
     return this.http.get<any[]>(url1)
   }
 

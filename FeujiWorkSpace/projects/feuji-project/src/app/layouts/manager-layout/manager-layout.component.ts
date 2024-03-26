@@ -26,8 +26,8 @@ export class ManagerLayoutComponent {
       { label: 'Project Approval', link: '/manager/sub2.3' },
     ] },
     { mainOption: 'Timesheet',icon: 'bi bi-calendar-check', subOptions: [
-      { label: 'New Timesheet', link: '/manager/new-timesheet' },
-      { label: 'Timesheet History', link: '/manager/timeshet-history' },
+      { label: 'New Timesheet', link: '/manager/timesheet-homemanager' },
+      { label: 'Timesheet History', link: '/manager/timsheet-historyamanager' },
       { label: 'Timesheet Approval', link: '/manager/timesheet-approval' },
       { link: '/manager/DailyStatusComponent' },
 
