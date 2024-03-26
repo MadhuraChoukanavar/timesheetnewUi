@@ -8,8 +8,12 @@ import { AccountDisplayComponent } from "./account-display/account-display.compo
 import { UpdateAccountComponent } from "./update-account/update-account.component";
 import { AddHolidayComponent } from "./add-holiday/add-holiday.component";
 import { HolidayComponent } from "./holiday/holiday.component";
+
+import { AdminLandingPageComponent } from "./admin-landing-page/admin-landing-page.component";
+
 import { UpdateEmlpoyeeComponent } from "./update-emlpoyee/update-emlpoyee.component";
 import { EditholidayComponent } from "./editholiday-component/editholiday-component.component";
+
 
 const routes: Routes = [
   { path: 'add-employee', component: AddEmployeeComponent  },
@@ -20,8 +24,10 @@ const routes: Routes = [
   { path: 'update-account/:id',component:UpdateAccountComponent},
   { path: 'add-holiday',component:AddHolidayComponent},
   { path: 'holiday-list',component:HolidayComponent},
+  { path: 'admin-home-page',component:AdminLandingPageComponent},
   {path: 'update-employee/:id',component:UpdateEmlpoyeeComponent},
   {path: 'edit-holiday',component:EditholidayComponent},
+
 
 ];
 

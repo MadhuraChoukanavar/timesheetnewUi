@@ -32,7 +32,7 @@ export class AddEmployeeComponent implements OnInit{
 
   public businessUnitType: any[] = [];
   public statusTypes:any[]=[];
- 
+
   emp:EmployeeSaving=new EmployeeSaving(0,'','','','','','','',0,new Date(),0,0,0,0,0,new Date(),'',false,'',new Date(),'',new Date);
   employeeTypeReference: any;
 
@@ -42,7 +42,7 @@ export class AddEmployeeComponent implements OnInit{
   }
 
   ngOnInit() {
- 
+
    this.fetchReportingManager();
    this.getStatusType();
     this.getBusinessUnitType();
@@ -110,10 +110,23 @@ export class AddEmployeeComponent implements OnInit{
   }
 
   fetchReportingManager(){
-    this.empService.getReportingManager().subscribe((resp:any)=>{
-      this.reportingManager=resp;
-      console.log("RM: ",this.reportingManager);
-    })
+    this.empService.getReportingManager().subscribe(
+        (resp:any) => {
+            this.reportingManager=resp;
+            console.log("Reporting Manager: ", this.reportingManager);
+        },
+        (error) => {
+            console.error("Error fetching reporting managers:", error);
+        }
+    );
+  }
+
+  onSubmit() {
+    // Retrieve the selected reporting manager ID directly from the select element
+    const selectedReportingManagerId = (document.getElementById('reportingManager') as HTMLSelectElement).value;
+    // Use the selectedReportingManagerId as needed, such as sending it to the server
+    console.log("Selected Reporting Manager ID: ", selectedReportingManagerId);
+    // Other submission logic...
   }
 
   getAllReferenceType(){
@@ -147,7 +160,14 @@ export class AddEmployeeComponent implements OnInit{
             this.fetchStatus(this.statusReference.referenceTypeId)
         }
 
-       
+        this.reportingManagerReference=resp.filter((item:any) => item.referenceTypeName === 'Employee Status').reverse().pop()
+        console.log("Employee Status",this.statusReference);
+        if (this.statusReference.referenceTypeId) {
+            this.fetchStatus(this.statusReference.referenceTypeId)
+        }
+
+
+
       })
     }
 
@@ -184,12 +204,12 @@ console.log(this.emp.email);
     });
   }
   // ..........................
-  
+
   getStatusType() {
     this.empService.getStatusType().subscribe((status:any[]) => {
       console.log(status);
       console.log("status:::::::::");
-      
+
       this.statusTypes = status;
     });
   }

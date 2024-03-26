@@ -12,7 +12,10 @@ import Swal from 'sweetalert2';
 export class UpdateAccountComponent  implements OnInit {
   constructor(private ref:ActivatedRoute,private accountService :AccountserviceService){}
       public accountid:String="";
-    
+
+
+
+
       public account:any=Account;
       public emplyoee: any[] = [];
   public businessUnitType: any[] = [];
@@ -26,15 +29,15 @@ this.getBusinessUnitType();
 this.getStatusType();
 this.getEmployeeName();
    }
-  
+
    send(accountid:any){
      this.accountService.getAccountByUuId(this.accountid).subscribe(
      (items)=>{
      this.acc=items[0];
      console.log(items);
-     
+
      }
-  
+
    )
    }
    updateAccount(uuid:any,isDeleted:boolean) {
@@ -61,9 +64,9 @@ this.getEmployeeName();
     });
 }
 getEmployeeName(): void {
- 
+
   this.accountService.getEmployeeName().subscribe(
-    (data) => { 
+    (data) => {
       this.emplyoee = data;
     },
     error => {
@@ -84,7 +87,7 @@ getStatusType() {
   this.accountService.getStatusType().subscribe((status:any[]) => {
     console.log(status);
     console.log("status:::::::::");
-    
+
     this.statusTypes = status;
   });
 }

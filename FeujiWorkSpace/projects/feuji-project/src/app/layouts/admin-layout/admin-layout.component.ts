@@ -11,6 +11,10 @@ export class AdminLayoutComponent implements OnInit {
     console.log('AdminLayoutComponent initialized');
   }
   adminMenuOptions = [
+    {
+      mainOption: 'Dashboard',icon: 'fa-solid fa-tachometer-alt',
+      routerLink: '/admin/admin-home-page'
+    },
     { mainOption: 'User', icon: 'bi bi-person',subOptions: [
       { label: 'View Profile', link: '/admin/admin-profile'},
     ] },

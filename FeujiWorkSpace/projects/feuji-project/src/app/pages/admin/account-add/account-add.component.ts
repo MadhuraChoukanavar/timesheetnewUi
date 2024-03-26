@@ -10,12 +10,12 @@ import { AccountserviceService } from '../../../../models/accountservice.service
 })
 export class AccountAddComponent implements OnInit{
 
-  
+
   public account:any=Account;
   public owenrId: any[] = [];
   public businessUnitType: any[] = [];
   public statusTypes:any[]=[];
- 
+
   public account1:any[]=[];
   ngOnInit(): void {
     this.getEmployeeName();
@@ -25,6 +25,15 @@ export class AccountAddComponent implements OnInit{
     // this.getparentId(name);
   }
  acc:Account=new Account(0,'',0,0,0,0,0,new Date(),new Date(),new Date(),new Date(),'','','','',''
+<<<<<<< HEAD
+
+ ,'',0,'','','','',new Date(),'',new Date())
+
+ constructor(private accountService: AccountserviceService) {}
+ sendAccount(acc: any) {
+  console.log(acc);
+  this.accountService.saveAccount(acc).subscribe(res=>this.account=res);
+=======
  
  ,'',0,'',false,'','',new Date(),'',new Date())
 
@@ -33,6 +42,7 @@ export class AccountAddComponent implements OnInit{
   console.log(this.acc);
   this.accountService.saveAccount(this.acc).subscribe(res=>this.account=res);
   
+>>>>>>> master
  }
  getAccount(){
   this.accountService.getAccount().subscribe(data=>{
@@ -44,9 +54,9 @@ export class AccountAddComponent implements OnInit{
 }
 
  getEmployeeName(): void {
- 
+
   this.accountService.getEmployeeName().subscribe(
-    (data) => { 
+    (data) => {
       this.owenrId = data;
     },
     error => {
@@ -67,7 +77,7 @@ getStatusType() {
   this.accountService.getStatusType().subscribe((status:any[]) => {
     console.log(status);
     console.log("status:::::::::");
-    
+
     this.statusTypes = status;
   });
 }

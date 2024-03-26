@@ -12,6 +12,10 @@ export class ManagerLayoutComponent {
     throw new Error('Method not implemented.');
   }
   managerMenuOptions = [
+    {
+      mainOption: 'Dashboard',icon: 'fa-solid fa-tachometer-alt',
+      routerLink: '/manager/manager-home'
+    },
     { mainOption: 'User', icon: 'bi bi-person',subOptions: [
       { label: 'View Profile', link: '/manager/manager-profile' },
     ] },

@@ -17,6 +17,15 @@ export class UserService {
     return this.http.post(`${this.apiUrl}/users/login`,body)
   }
 
+  // login(userEmail: string, userPassword: string):Observable<User>{
+  //   const body = { userEmail, userPassword };
+  //   console.log(body)
+  //   return this.http.post<User>(`${this.apiUrl}/api/users/login`,body)
+  // }
+  logout() {
+    this.router.navigate(['/login']);
+  }
+
   getEmployeeByid(userEmpid:any): Observable<Employee> {
     const url = `${this.apiUrl}/employee/${userEmpid}`;
     console.log("Request URL:", url);

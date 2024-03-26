@@ -40,7 +40,7 @@ export class EmployeeService {
     return this.http.get<Boolean>(`${this.usersUrl}/checkUniqueEmail?email=${employeeEmail}`)
   }
 
-  //  Method to check unicqe email
+  //  Method to check  who are managers
   getReportingManager():Observable<any>{
     return this.http.get<any>(`${this.employee}/reporting-managers`)
   }
@@ -53,9 +53,22 @@ getByReferenceTypeId(referenceTypeId: number): Observable<SaveEmployee[]> {
 getAllReferenceType():Observable<any>{
   return this.http.get<any>(`${this.referenceUrl}/all`)
 }
+
+// method to get all employee
+getAllEmployees():Observable<any>{
+  return this.http.get<any>(`${this.employee}/getAll`)
+}
+
+// search api
+searchByEmployeeName(firstName: string):Observable<any>{
+  return this.http.get<any>(`${this.employee}/search?firstName=${firstName}`)
+}
+
+
 //   // Service method to retrieve employment types
 getEmploymentType(referenceTypeId: number): Observable<SaveEmployee[]> {
   return this.http.get<SaveEmployee[]>(`${this.apiUrl}/EmploymentType/${referenceTypeId}`);
+
 }
 getEmployeeDetails():Observable<any>{
   return this.http.get<any>(`${this.empUrl}/getEmployeeDetails`)
@@ -82,12 +95,12 @@ public getBusinessUnitType():Observable<any[]>
 getUpdateEmployee(empData:EmployeeSaving):Observable<any>{
   console.log(empData);
   const headers=new HttpHeaders("application/json");
- 
-  
+
+
   return this.http.put<any>(`${this.empUrl}/updateEmployee`,empData,{headers})
 }
 deleteEmployee(employeeId:number):Observable<any>{
-  
+
   return this.http.delete<any>(`${this.empUrl}/deleteEmp/${employeeId}`)
 }
 }

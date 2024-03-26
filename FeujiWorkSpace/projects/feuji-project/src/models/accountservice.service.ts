@@ -46,7 +46,7 @@ export class AccountserviceService {
          })
       );
     }
-  
+
 
   updateAccount(accountData:Account): Observable<Account> {
     return this.http.put<Account>(`${this.apiUrl}/accountSave/updateAccount`, accountData);
@@ -75,7 +75,7 @@ export class AccountserviceService {
   }
 
   deleteEmployee(accountId:number):Observable<any>{
-  
+
     return this.http.delete<any>(`${this.apiUrl}/accountSave/deleteAcc/${accountId}`)
   }
 }

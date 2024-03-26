@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { EmployeeService } from '../../../../models/employee.service';
+import { Employee } from '../../../../models/employee.model';
+import { MatDialog } from '@angular/material/dialog';
+import { EditEmployeeComponent } from '../edit-employee/edit-employee.component';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
@@ -25,7 +28,7 @@ export class EmployeeDisplayComponent  implements OnInit {
 
 editItem(id: string) {
   console.log(id);
-  
+
   this.router.navigate(['/admin/update-employee', id]);
 }
 
@@ -51,4 +54,5 @@ removeTask(employeeId:number) {
     }
   });
 }
+
 }
