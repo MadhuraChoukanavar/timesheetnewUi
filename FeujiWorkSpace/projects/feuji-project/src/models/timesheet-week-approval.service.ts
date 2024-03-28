@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Accountproject } from './accountproject.model';
 import { timesheetWeekApproval } from './timesheet-week-approval.model';
 
 @Injectable({
@@ -26,12 +25,12 @@ export class TimesheetWeekApprovalService {
   }
 
   getProjects(userEmpId:number,month:string,year:number,accountId: number,employeeId:number): Observable<timesheetWeekApproval[]> {
-    const url = `${this.apiUrl}/getTimeSheeApproval/${userEmpId}/${month}/${year}/${accountId}/${employeeId}`;
-  
+    const url = `${this.apiUrl}/getTimeSheeApproval/${userEmpId}/${year}/${accountId}`;
+
     return this.http.get<timesheetWeekApproval[]>(url);
 
-    
-   
+
+
   }
 
   getProjectsByAccountId(userEmpId:number,year:number,accountId: number): Observable<timesheetWeekApproval[]> {
@@ -48,15 +47,18 @@ export class TimesheetWeekApprovalService {
     return this.http.get<timesheetWeekApproval[]>(url)
   }
 
-  getAllEmployee(userEmpId:number,accountProjectId:number):Observable<timesheetWeekApproval[]>{
-    const url=`${this.accountUrl}/getemployeedetails/107/${accountProjectId}`;
-    return this.http.get<timesheetWeekApproval[]>(url)
-    
-  }
+  // getAllEmployee(userEmpId:number,accountProjectId:number):Observable<timesheetWeekApproval[]>{
+  //   const url=`${this.accountUrl}/getemployeedetails/107/${accountProjectId}`;
+  //   return this.http.get<timesheetWeekApproval[]>(url)
+
+  // }
   getAllApprovalDetails(reportingManagerId:number):Observable<timesheetWeekApproval[]>{
     const url=`${this.accountUrl}/getAllEmployee/107`;
     return this.http.get<timesheetWeekApproval[]>(url)
   }
-
+// ----------------------------------------------------
+getTimesheetsForFirstAccountAndCurrentMonth(): Observable<any> {
+  return this.http.get<any>(`${this.apiUrl}/first-account/current-month`);
+}
 
 }

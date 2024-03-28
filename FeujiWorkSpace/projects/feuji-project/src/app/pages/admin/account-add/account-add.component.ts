@@ -25,14 +25,13 @@ export class AccountAddComponent implements OnInit{
     // this.getparentId(name);
   }
  acc:Account=new Account(0,'',0,0,0,0,0,new Date(),new Date(),new Date(),new Date(),'','','','',''
-
  ,'',0,'',false,'','',new Date(),'',new Date())
 
  constructor(private accountService: AccountserviceService) {}
  sendAccount() {
   console.log(this.acc);
   this.accountService.saveAccount(this.acc).subscribe(res=>this.account=res);
-  
+
  }
  getAccount(){
   this.accountService.getAccount().subscribe(data=>{

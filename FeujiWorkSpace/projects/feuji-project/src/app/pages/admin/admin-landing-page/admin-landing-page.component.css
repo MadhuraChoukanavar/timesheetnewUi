@@ -1,18 +1,17 @@
 #container{
   width:100%;
-  /* height:90%; */
-  margin-top: 3%;
+  /* margin-top: 3%; */
+  position: relative;
+  left: 3%;
+  bottom: 3%;
   background-color: #ecf0f4;
   border-radius: 3%;
  display: flex;
  flex-direction: row;
- /* align-items: center; */
 }
 
 #image{
   margin-left: 2%;
- /*  width:25%;
-  height: 50%; */
   height: 189px;
     width: 232px;
     position: relative;

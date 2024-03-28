@@ -22,7 +22,7 @@ import { HolidayComponent } from "./holiday/holiday.component";
     ManagerLandingPageComponent,
     TimesheetDayhistoryComponent,
     HolidayComponent
-   
+
   ],
   imports: [
     CommonModule,

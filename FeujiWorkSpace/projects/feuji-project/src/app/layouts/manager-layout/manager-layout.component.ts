@@ -30,10 +30,10 @@ export class ManagerLayoutComponent {
       { label: 'Add Skills', link: '/manager/sub2.1' },
       { label: 'Skill Gap', link: '/manager/sub2.2' }
     ] },
-    { mainOption: 'Reports',icon: 'bi bi-bar-chart', subOptions: [
-      { label: 'New Report', link: '/manager/sub2.1' },
-      { label: 'Report History', link: '/manager/sub2.2' },
-    ] },
+    // { mainOption: 'Reports',icon: 'bi bi-bar-chart', subOptions: [
+    //   { label: 'New Report', link: '/manager/sub2.1' },
+    //   { label: 'Report History', link: '/manager/sub2.2' },
+    // ] },
   ];
 
 

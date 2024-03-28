@@ -1,0 +1,28 @@
+.table td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  [contenteditable="true"] {
+    border: 1px solid #ddd;
+    padding: 8px;
+    min-height: 30px;
+    outline: none;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  [contenteditable="true"]:hover {
+    border-color: #007bff;
+  }
+
+
+  .tbody tr td{
+    text-align: center;
+  }
+
+  .table-dark tr th{
+    text-align:center;
+    background-color: rgb(229, 233, 234);
+    color: black;
+  }

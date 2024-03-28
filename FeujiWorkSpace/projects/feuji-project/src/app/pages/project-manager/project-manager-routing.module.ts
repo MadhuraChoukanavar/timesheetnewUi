@@ -6,6 +6,7 @@ import { DailyStatusComponent } from "./daily-status/daily-status.component";
 import { ManagerLandingPageComponent } from "./manager-landing-page/manager-landing-page.component";
 import { TimesheetHomeComponent } from "./timesheet-home/timesheet-home.component";
 import { HolidayComponent } from "./holiday/holiday.component";
+
 import { TimesheetDayhistoryComponent } from "./timesheet-dayhistory/timesheet-dayhistory.component";
 
 const routes: Routes = [
@@ -15,9 +16,9 @@ const routes: Routes = [
   { path: 'manager-home',component:ManagerLandingPageComponent},
 //   { path: 'daily-timesheet',component:TimesheetapproveComponent}
   { path: 'timesheet-homemanager', component: TimesheetHomeComponent},
+  { path: 'timsheet-historymanager',component:TimesheetHistoryComponent},
+  { path: 'holiday-list',component:HolidayComponent},
  
-  { path: 'timsheet-historymanager',component:TimesheetDayhistoryComponent},
-  { path: 'holiday-list',component:HolidayComponent},  
   
 ];
 

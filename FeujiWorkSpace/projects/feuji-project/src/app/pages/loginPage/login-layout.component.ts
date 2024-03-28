@@ -48,7 +48,7 @@ export class LoginLayoutComponent {
             console.log("this.empId DATA", this.empDataById);
             localStorage.setItem('user', JSON.stringify(this.empDataById));
             this.isLoggedIn = true;
-           
+
           },
           (error) => {
             console.error('Error fetching employee details', error);

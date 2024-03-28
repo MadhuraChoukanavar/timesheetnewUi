@@ -18,7 +18,7 @@ export class AccountserviceService {
     console.log("service method")
 
     return this.http.get<Account[]>(`${this.apiUrl}/accountSave/getAccountDto`);
-    alert();
+    // alert();
     }
     getById(id:any):Observable<any[]>{
       // alert(cate);

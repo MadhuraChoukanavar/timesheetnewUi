@@ -10,11 +10,14 @@ import { AccountAddComponent } from './account-add/account-add.component';
 import { UpdateAccountComponent } from './update-account/update-account.component';
 import { AddHolidayComponent } from "./add-holiday/add-holiday.component";
 import { HolidayComponent } from "./holiday/holiday.component";
-import { EditEmployeeComponent } from './edit-employee/edit-employee.component';
+import { EditEmployeeComponent } from "./edit-employee/edit-employee.component";
 import { MatDialogModule } from "@angular/material/dialog";
-import { AdminLandingPageComponent } from './admin-landing-page/admin-landing-page.component';
+import { AdminLandingPageComponent } from "./admin-landing-page/admin-landing-page.component";
 import { EditholidayComponent } from './editholiday-component/editholiday-component.component';
-import { UpdateEmlpoyeeComponent } from './update-emlpoyee/update-emlpoyee.component';
+import { UpdateEmlpoyeeComponent } from "./update-emlpoyee/update-emlpoyee.component";
+import { AccountProjectDisplayComponent } from "./account-project-display/account-project-display.component";
+import { AddAccountProjectComponent } from "./add-account-project/add-account-project.component";
+import { UpdateAccountProjectComponent } from "./update-account-project/update-account-project.component";
 
 
 @NgModule({
@@ -30,7 +33,10 @@ import { UpdateEmlpoyeeComponent } from './update-emlpoyee/update-emlpoyee.compo
     EditEmployeeComponent,
     AdminLandingPageComponent,
      EditholidayComponent,
-     UpdateEmlpoyeeComponent
+     UpdateEmlpoyeeComponent,
+     AccountProjectDisplayComponent,
+     AddAccountProjectComponent,
+     UpdateAccountProjectComponent
     ],
 
   imports: [

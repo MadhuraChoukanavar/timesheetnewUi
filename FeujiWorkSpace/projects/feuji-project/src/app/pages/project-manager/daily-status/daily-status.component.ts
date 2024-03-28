@@ -35,6 +35,7 @@ export class DailyStatusComponent implements OnInit {
   userEmpId: any;
   year: any;
 
+
   public employee: any[] = [];
 
   constructor(
@@ -62,6 +63,7 @@ export class DailyStatusComponent implements OnInit {
   projectTask: any[] = [];
   attendanceTypeArr: any[] = [];
 
+
   startDate: any = '';
 
   lastDate: any = '';
@@ -80,11 +82,41 @@ export class DailyStatusComponent implements OnInit {
 
   valuee: number = 0;
 
-  ngOnInit(): void {
+ ngOnInit(): void {
     console.log('history.state.weekTimesheet:', history.state.weekTimesheet);
 
     if (history.state.weekTimesheet) {
       this.weekTimesheet = history.state.weekTimesheet;
+
+      // const firstTimesheet = history.state.weekTimesheet;
+      // this.weekTimesheet = new timesheetWeekApproval(
+
+
+      //   firstTimesheet.employeeId,
+      //   firstTimesheet.designation,
+      //   firstTimesheet.employeeCode,
+      //   firstTimesheet.firstName,
+      //   firstTimesheet.email,
+      //   firstTimesheet.approvedBy,
+      //   firstTimesheet.weekNumber,
+      //   firstTimesheet.projectName,
+      //   firstTimesheet.accountProjectId,
+      //   firstTimesheet.totalBillingHours,
+      //   firstTimesheet.totalNonBillingHours,
+      //   firstTimesheet.totalLeaveHours,
+      //   firstTimesheet.timesheetStatus,
+      //   new Date(firstTimesheet.weekStartDate),
+      //   new Date(firstTimesheet.weekEndDate),
+      //   new Date(firstTimesheet.plannedStartDate),
+      //   new Date(firstTimesheet.plannedEndDate),
+      //   firstTimesheet.accountId,
+      //   firstTimesheet.reportingManagerId
+      // );
+      console.log(this.weekTimesheet);
+
+
+
+
 
       // Calculate currentWeek1
       const startDate1 = new Date(this.weekTimesheet.weekStartDate);
@@ -129,9 +161,11 @@ export class DailyStatusComponent implements OnInit {
     this.Status = newStatus; // Update the Status property with newStatus
   }
 
+
   ngAfterViewChecked() {
     this.columnsumnew();
   }
+
 
   formattedDate(date: Date | null): string {
     if (!date) {
@@ -140,8 +174,13 @@ export class DailyStatusComponent implements OnInit {
     return this.datePipe.transform(date, 'dd-MMM EEE') || '';
   }
 
+
+
   totalvalue: number[] = [0, 0, 0, 0, 0, 0, 0];
 
+
+
+ 
   columnsumnew() {
     for (let columnCount = 4; columnCount < 11; columnCount++) {
       let sum: number = 0;
@@ -168,6 +207,8 @@ export class DailyStatusComponent implements OnInit {
             'data_' + rowCount + columnCount
           ) as HTMLInputElement
         ).innerText;
+        //console.log(' data_' + rowCount + columnCount + " value "+inputValue)
+
         sum += Number(inputValue);
       }
       (
@@ -179,6 +220,7 @@ export class DailyStatusComponent implements OnInit {
   columnsum() {
     console.log(this.rownum);
     for (let rowCount = 0; rowCount < this.rownum; rowCount++) {
+
       let sum: number = 0;
       for (let columnCount = 0; columnCount < 7; columnCount++) {
         console.log('Input ' + columnCount + ' - ' + rowCount);
@@ -204,15 +246,24 @@ export class DailyStatusComponent implements OnInit {
         ) as HTMLInputElement
       ).value;
       sum += Number(inputValue);
-      this.everyRowRecord[(this.rownum, 12 + columnCount)] = Number(inputValue);
+
+      this.everyRowRecord[(this.rownum, 12 + columnCount)] =
+     Number(inputValue);
+     }
+     (
+      document.getElementById('input_' + count +7 ) as HTMLInputElement
+     ).value = String(sum);
+
     }
-    (document.getElementById('input_' + count + 7) as HTMLInputElement).value =
-      String(sum);
-  }
+
 
   timesheetStatus: any[] = [];
 
+
   allRows: TimesheetWeekDayBean[] = [];
+
+
+
 
   addDataToAllarows() {
     let timesheetWeekDayBean: any = new TimesheetWeekDayBean(
@@ -279,12 +330,23 @@ export class DailyStatusComponent implements OnInit {
   formatDate(date: Date): string {
     const year = date.getFullYear();
     const month = date.toLocaleDateString('en-US', { month: 'short' });
+
     const day = ('0' + date.getDate()).slice(-2);
 
     return `${day}-${month}-${year}`;
   }
 
   fetchWeekDayData(): void {
+    console.log("hiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+
+
+    console.log("Employee ID: " + this.weekTimesheet.employeeId);
+    console.log("h2");
+
+
+  const startDate1 =this.datePipe.transform(this.weekTimesheet.weekStartDate, 'dd-MMM-yyyy') || '';
+  console.log(startDate1);
+
     
 
     const startDate1 =
@@ -298,7 +360,6 @@ export class DailyStatusComponent implements OnInit {
       this.datePipe.transform(this.weekTimesheet.weekEndDate, 'dd-MMM-yyyy') ||
       '';
 
-   
 
 
     this.timesheetHomeService
@@ -313,6 +374,7 @@ export class DailyStatusComponent implements OnInit {
         this.limitRow = fetched.length;
         console.log('Limit Row ' + this.limitRow);
       });
+
   }
 
   loadTimesheetData(): void {
@@ -438,3 +500,44 @@ export class DailyStatusComponent implements OnInit {
       });
   }
 }
+
+
+OnSelectAccountByAccountId(event:any) {
+ const selectedAccount = event.target.value;
+  console.log(selectedAccount);
+  this.accountId=2;
+  // alert(this.selectedAccount)
+   this.timesheetService.getProjectsByAccountId(this.userEmpId,this.year,this.accountId)
+   .subscribe(
+     (resp: any) => {
+      //  alert ("getting respose")
+       this.weekTimeSheet=resp;
+
+       console.log(this.weekTimeSheet)
+       console.log(resp)
+     },
+     (error: any) => {
+       console.error(error);
+     }
+   );
+this.getEmployee();
+ }
+
+ getEmployee(){
+
+
+   this.selectedAccount
+   this.timesheetService.getAllEmployee(this.userEmpId,this.selectedAccount).subscribe((data: any[])=>{
+   console.log("hlooooooooooooooooo")
+
+     console.log(data);
+
+    this.employee=data;
+    console.log(this.employee);
+  })
+
+ }
+
+
+}
+

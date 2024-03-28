@@ -1,7 +1,7 @@
 export class Accountproject{
     constructor(
         public accountProjectId:number,
-        public  projectPId:string,
+        public  projectAId:string,
         public  projectName :string,
         public  accountId:number,
         public  priority:number,
@@ -15,12 +15,11 @@ export class Accountproject{
         public isActive:boolean,
         public isRed:boolean,
         public isDeleted:boolean,
-        public uuid:string,
         public createdBy:string,
         public createdOn:Date,
         public modifiedBy:string,
         public modifiedOn:Date
-    
-    
+
+
     ){}
 }
