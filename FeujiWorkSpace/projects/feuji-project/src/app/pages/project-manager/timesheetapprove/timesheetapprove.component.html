@@ -18,7 +18,8 @@
 
     <select [(ngModel)]="selectedMonth" id="month" name="month" (change)="OnSelectAccountByMonth($event)"  class="form-control">
 
-      <option value="1">Select Month</option>
+     
+      <option value="" selected disabled>Select Month</option>
       <option *ngFor="let month of months" [value]="month">{{ month }}</option>
     </select>
 

@@ -4,45 +4,46 @@ import { Router } from '@angular/router';
 
 import { timesheetWeekApproval } from '../../../../models/timesheet-week-approval.model';
 import { TimesheetWeekApprovalService } from '../../../../models/timesheet-week-approval.service';
-import { TimesheetWeekDayBean, WeekAndDayDto } from '../../../../models/timesheethomebean.model';
+import {
+  TimesheetWeekDayBean,
+  WeekAndDayDto,
+} from '../../../../models/timesheethomebean.model';
 import { TimesheetHomeService } from '../../../../models/timesheetHomeService.service';
-
 
 @Component({
   selector: 'app-daily-status',
   templateUrl: './daily-status.component.html',
-  styleUrl: './daily-status.component.css'
+  styleUrl: './daily-status.component.css',
 })
-export class DailyStatusComponent implements OnInit{
-
-  weekTimesheet:any;
+export class DailyStatusComponent implements OnInit {
+  weekTimesheet: any;
   data: any;
-  employeeName:string='';
-  Status:string='';
-  designation:string='';
-  plannedStartDate:Date=new Date();
-  plannedEndDate:Date=new Date();
-  email:string=''
+  employeeName: string = '';
+  Status: string = '';
+  designation: string = '';
+  plannedStartDate: Date = new Date();
+  plannedEndDate: Date = new Date();
+  email: string = '';
   public currentWeek1: Date[] = [];
-  clicked=false;
+  clicked = false;
   totalHours: any;
   isTimesheetApproved: boolean = true;
   weekTimeSheet: any;
-  accountId: number=0;
-  employeeId: number=0;
+  accountId: number = 0;
+  employeeId: number = 0;
   timesheetService: any;
   userEmpId: any;
   year: any;
 
-  public employee:any[]=[];
+
+  public employee: any[] = [];
 
   constructor(
     private timesheetHomeService: TimesheetHomeService,
-    private timesheetWeekApprovalService:TimesheetWeekApprovalService,
-    private datePipe: DatePipe,private router:Router
-  ) {
-    // this.initializeRowColArray();
-  }
+    private timesheetWeekApprovalService: TimesheetWeekApprovalService,
+    private datePipe: DatePipe,
+    private router: Router
+  ) {}
   tasks = [
     {
       project: '',
@@ -52,18 +53,18 @@ export class DailyStatusComponent implements OnInit{
       days: Array(7).fill(0),
     },
   ];
-  defaultAccountId: number = 0; // Set the default account ID here
-  selectedAccount: number =0;
+  defaultAccountId: number = 0;
+  selectedAccount: number = 0;
   currentDate: Date = new Date();
-  //currentWeek: any[]= [];
   currentWeek: { startDate: string | null; endDate: string | null }[] = [];
-  accounts:any[]=[];
+  accounts: any[] = [];
   projects: any[] = [];
   projectTaskType: any[] = [];
   projectTask: any[] = [];
   attendanceTypeArr: any[] = [];
 
-startDate: any = '';
+
+  startDate: any = '';
 
   lastDate: any = '';
 
@@ -79,23 +80,12 @@ startDate: any = '';
   rownum: number = 1;
   current: number = 0;
 
-
   valuee: number = 0;
 
+ ngOnInit(): void {
+    console.log('history.state.weekTimesheet:', history.state.weekTimesheet);
 
-
-
-
-  ngOnInit(): void {
-    console.log("000000000000000000000000");
-
-
-    console.log("history.state.weekTimesheet:", history.state.weekTimesheet);
-
-
-    if (history.state.weekTimesheet ) {
-
-      console.log("123444445678");
+    if (history.state.weekTimesheet) {
       this.weekTimesheet = history.state.weekTimesheet;
 
       // const firstTimesheet = history.state.weekTimesheet;
@@ -127,6 +117,7 @@ startDate: any = '';
 
 
 
+
       // Calculate currentWeek1
       const startDate1 = new Date(this.weekTimesheet.weekStartDate);
       const endDate = new Date(this.weekTimesheet.weekEndDate);
@@ -140,47 +131,40 @@ startDate: any = '';
         const formattedDateString = this.formattedDate(currentDate1);
         // Use formattedDateString as needed
       }
-      console.log("Assigned weekTimesheet:", this.weekTimesheet);
+      console.log('Assigned weekTimesheet:', this.weekTimesheet);
       this.fetchWeekDayData();
       this.getTotalHours();
-      // this.calculateCurrentWeek()
-      // this.initializeValues();
-      // console.log(this.initializeValues);
-       this.employeeName=this.weekTimesheet.fullName
-    this.Status=this.weekTimesheet.timesheetStatus
-    this.designation=this.weekTimesheet.designation
-    this.email=this.weekTimesheet.email
-    this.plannedStartDate=this.weekTimesheet.plannedStartDate
-    this.plannedEndDate=this.weekTimesheet.plannedEndDate
+   
+      this.employeeName = this.weekTimesheet.fullName;
+      this.Status = this.weekTimesheet.timesheetStatus;
+      this.designation = this.weekTimesheet.designation;
+      this.email = this.weekTimesheet.email;
+      this.plannedStartDate = this.weekTimesheet.plannedStartDate;
+      this.plannedEndDate = this.weekTimesheet.plannedEndDate;
 
-    console.log("employee name"+this.employeeName);
-    console.log("employee name"+this.Status);
-      this.timesheetApprove(this.weekTimesheet)
+      console.log('employee name' + this.employeeName);
+      console.log('employee name' + this.Status);
+      this.timesheetApprove(this.weekTimesheet);
     } else {
       console.error('No data found in history.state.weekTimesheet');
     }
   }
-  initializeValues(){
-    this.employeeName=this.weekTimesheet.fullName
-    this.Status=this.weekTimesheet.timesheetStatus
-    this.designation=this.weekTimesheet.designation
-    this.email=this.weekTimesheet.email
-    this.plannedStartDate=this.weekTimesheet.plannedStartDate
-    this.plannedEndDate=this.weekTimesheet.plannedEndDate
+  initializeValues() {
+    this.employeeName = this.weekTimesheet.fullName;
+    this.Status = this.weekTimesheet.timesheetStatus;
+    this.designation = this.weekTimesheet.designation;
+    this.email = this.weekTimesheet.email;
+    this.plannedStartDate = this.weekTimesheet.plannedStartDate;
+    this.plannedEndDate = this.weekTimesheet.plannedEndDate;
   }
   updateStatus(newStatus: string) {
     this.Status = newStatus; // Update the Status property with newStatus
   }
 
 
-
-
-  ngAfterViewChecked(){
-
-      this.columnsumnew();
-
+  ngAfterViewChecked() {
+    this.columnsumnew();
   }
-
 
 
   formattedDate(date: Date | null): string {
@@ -196,17 +180,20 @@ startDate: any = '';
 
 
 
+ 
   columnsumnew() {
-    //console.log("Rownum::"+this.limitRow);
     for (let columnCount = 4; columnCount < 11; columnCount++) {
       let sum: number = 0;
 
       for (let rowCount = 0; rowCount < this.limitRow; rowCount++) {
-        const inputValue = (document.getElementById( 'data_' + rowCount + columnCount) as HTMLInputElement ).innerText;
-       // console.log('data_' + rowCount + columnCount + "value"+inputValue)
+        const inputValue = (
+          document.getElementById(
+            'data_' + rowCount + columnCount
+          ) as HTMLInputElement
+        ).innerText;
         sum += Number(inputValue);
       }
-      this.totalvalue[columnCount-4] = sum;
+      this.totalvalue[columnCount - 4] = sum;
     }
     this.rowsumnew();
     return this.totalvalue;
@@ -216,37 +203,50 @@ startDate: any = '';
       let sum: number = 0;
       for (let columnCount = 4; columnCount < 11; columnCount++) {
         const inputValue = (
-          document.getElementById( 'data_' +  rowCount+columnCount  ) as HTMLInputElement
+          document.getElementById(
+            'data_' + rowCount + columnCount
+          ) as HTMLInputElement
         ).innerText;
         //console.log(' data_' + rowCount + columnCount + " value "+inputValue)
+
         sum += Number(inputValue);
       }
-      (document.getElementById('data_' +rowCount+ 11 ) as HTMLInputElement).innerText = String(sum);
-      //(document.getElementById('data_' +rowCount+ 11 ) as HTMLInputElement).value= String(sum);
+      (
+        document.getElementById('data_' + rowCount + 11) as HTMLInputElement
+      ).innerText = String(sum);
     }
   }
 
   columnsum() {
-   console.log(this.rownum);
+    console.log(this.rownum);
     for (let rowCount = 0; rowCount < this.rownum; rowCount++) {
-    let sum: number = 0;
-    for (let columnCount = 0; columnCount < 7; columnCount++) {
-      console.log("Input "+columnCount + " - "+rowCount);
-     const inputValue = ( document.getElementById( 'input_' + rowCount + columnCount) as HTMLInputElement ).value;
-     this.totalvalue[columnCount] += Number(inputValue);
 
+      let sum: number = 0;
+      for (let columnCount = 0; columnCount < 7; columnCount++) {
+        console.log('Input ' + columnCount + ' - ' + rowCount);
+        const inputValue = (
+          document.getElementById(
+            'input_' + rowCount + columnCount
+          ) as HTMLInputElement
+        ).value;
+        this.totalvalue[columnCount] += Number(inputValue);
+      }
+      this.rowsum(rowCount);
     }
-    this.rowsum(rowCount);
-   }
 
-   return this.totalvalue;
+    return this.totalvalue;
   }
 
-  rowsum(count : number) {
-    let sum :number =0;
-     for (let columnCount = 0; columnCount < 7; columnCount++) {
-      const inputValue = ( document.getElementById( 'input_' + count + columnCount) as HTMLInputElement ).value;
+  rowsum(count: number) {
+    let sum: number = 0;
+    for (let columnCount = 0; columnCount < 7; columnCount++) {
+      const inputValue = (
+        document.getElementById(
+          'input_' + count + columnCount
+        ) as HTMLInputElement
+      ).value;
       sum += Number(inputValue);
+
       this.everyRowRecord[(this.rownum, 12 + columnCount)] =
      Number(inputValue);
      }
@@ -261,6 +261,7 @@ startDate: any = '';
 
 
   allRows: TimesheetWeekDayBean[] = [];
+
 
 
 
@@ -317,24 +318,23 @@ startDate: any = '';
     timesheetWeekDayBean.hoursSun = this.everyRowRecord[18];
     timesheetWeekDayBean.comments = this.everyRowRecord[19];
     timesheetWeekDayBean.timesheetStatus = this.everyRowRecord[20];
-    timesheetWeekDayBean.accountId=this.everyRowRecord[21];
+    timesheetWeekDayBean.accountId = this.everyRowRecord[21];
     this.allRows[this.rownum - 1] = timesheetWeekDayBean;
-    console.log("allrows"+this.allRows);
+    console.log('allrows' + this.allRows);
   }
 
-  limitRow : number=0;
+  limitRow: number = 0;
   fetchedDetails: WeekAndDayDto[] = [];
   deetails: WeekAndDayDto[] = [];
 
-formatDate(date: Date): string {
-  const year = date.getFullYear();
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
     const month = date.toLocaleDateString('en-US', { month: 'short' });
-  const day = ('0' + date.getDate()).slice(-2);
 
+    const day = ('0' + date.getDate()).slice(-2);
 
-  return `${day}-${month}-${year}`;
-}
-
+    return `${day}-${month}-${year}`;
+  }
 
   fetchWeekDayData(): void {
     console.log("hiiiiiiiiiiiiiiiiiiiiiiiiiiii");
@@ -347,96 +347,158 @@ formatDate(date: Date): string {
   const startDate1 =this.datePipe.transform(this.weekTimesheet.weekStartDate, 'dd-MMM-yyyy') || '';
   console.log(startDate1);
 
+    
 
-  const lastDate = this.datePipe.transform(this.weekTimesheet.weekEndDate, 'dd-MMM-yyyy') || '';
+    const startDate1 =
+      this.datePipe.transform(
+        this.weekTimesheet.weekStartDate,
+        'dd-MMM-yyyy'
+      ) || '';
+   
 
-  console.log("Start Date: ", startDate1);
-  console.log("Last Date: ", lastDate);
+    const lastDate =
+      this.datePipe.transform(this.weekTimesheet.weekEndDate, 'dd-MMM-yyyy') ||
+      '';
 
 
-   console.log("''''''''''''''''''''''''''''"+startDate1)
-
-   console.log("weekTimesheet: ", this.weekTimesheet);
 
     this.timesheetHomeService
-      .getWeekDayDetails(this.weekTimesheet.accountId,  this.weekTimesheet.employeeId,startDate1, lastDate)
+      .getWeekDayDetails(
+        this.weekTimesheet.accountId,
+        this.weekTimesheet.employeeId,
+        startDate1,
+        lastDate
+      )
       .subscribe((fetched) => {
         this.fetchedDetails = fetched as WeekAndDayDto[];
         this.limitRow = fetched.length;
-        console.log("Limit Row " + this.limitRow);
+        console.log('Limit Row ' + this.limitRow);
       });
 
-    }
-
-
+  }
 
   loadTimesheetData(): void {
-    const accountId = this.selectedAccount || this.defaultAccountId;
-    this.fetchWeekDayData()
-
+   
+    this.fetchWeekDayData();
   }
 
-   convertedDate: string='';
+  convertedDate: string = '';
 
   getTotalHours(): void {
-    this.timesheetWeekApprovalService.getTotalHours(this.weekTimesheet.employeeId, this.weekTimesheet.accountProjectId, this.weekTimesheet.weekNumber)
-      .subscribe((totalHours) => {
-        this.totalHours = totalHours;
-        console.log("Total hours data:", totalHours);
-      }, (error) => {
-        console.error("Error fetching total hours:", error);
+    this.timesheetWeekApprovalService
+      .getTotalHours(
+        this.weekTimesheet.employeeId,
+        this.weekTimesheet.accountProjectId,
+        this.weekTimesheet.weekNumber
+      )
+      .subscribe(
+        (totalHours) => {
+          this.totalHours = totalHours;
+          console.log('Total hours data:', totalHours);
+        },
+        (error) => {
+          console.error('Error fetching total hours:', error);
+        }
+      );
+  }
+
+  timesheetApprove(weekTimesheet: timesheetWeekApproval) {
+    if (this.Status === 'Approved') {
+      this.isTimesheetApproved = true;
+    } else {
+      this.isTimesheetApproved = false;
+    }
+    const startDate1 =
+      this.datePipe.transform(
+        this.weekTimesheet.weekStartDate,
+        'dd-MMM-yyyy'
+      ) || '';
+    console.log(startDate1);
+    this.timesheetHomeService
+      .updateTimesheetStatus(
+        this.weekTimesheet.employeeId,
+        this.weekTimesheet.accountId,
+        startDate1
+      )
+      .subscribe((data) => {
+        this.data = data;
+        this.router.navigate(['/DailyStatusComponent']);
+      });
+      this. loadTimesheetData();
+  }
+
+  rejectTimesheet(weekTimesheet: timesheetWeekApproval) {
+    if (this.Status === 'Rejected') {
+      this.isTimesheetApproved = true;
+    } else {
+      this.isTimesheetApproved = false;
+    }
+    const startDate1 =
+      this.datePipe.transform(
+        this.weekTimesheet.weekStartDate,
+        'dd-MMM-yyyy'
+      ) || '';
+
+    this.timesheetHomeService
+      .rejectTimesheetStatus(
+        this.weekTimesheet.employeeId,
+        this.weekTimesheet.accountId,
+        startDate1
+      )
+      .subscribe((data) => {
+        this.data = data;
+        this.router.navigate(['/DailyStatusComponent']);
       });
   }
 
-timesheetApprove(weekTimesheet: timesheetWeekApproval) {
-  if (this.Status === "Approved") {
-    // Set isTimesheetApproved to true if the status is "Approved"
-    this.isTimesheetApproved = true;
-  } else {
-    // Set isTimesheetApproved to false if the status is not "Approved"
-    this.isTimesheetApproved = false;
+  isRejectButtonDisabled(): boolean {
+    return this.isTimesheetApproved || this.Status === 'Rejected';
   }
-  const startDate1 =this.datePipe.transform(this.weekTimesheet.weekStartDate, 'dd-MMM-yyyy') || '';
-  console.log(startDate1);
-  this.timesheetHomeService.updateTimesheetStatus(this.weekTimesheet.employeeId, this.weekTimesheet.accountId, startDate1)
-    .subscribe((data) => {
-      this.data = data;
-      this.router.navigate(['/DailyStatusComponent']);
-    });
-}
 
-rejectTimesheet(weekTimesheet: timesheetWeekApproval) {
-  if (this.Status === "Rejected") {
-    // Set isTimesheetApproved to true if the status is "Rejected"
-    this.isTimesheetApproved = true;
-  } else {
-    // Set isTimesheetApproved to false if the status is not "Rejected"
-    this.isTimesheetApproved = false;
+  closeTheView(weekTimesheet: timesheetWeekApproval) {
+    weekTimesheet.accountId = 2;
+    console.log('account' + this.accountId);
+
+    weekTimesheet.employeeId = 108;
+    console.log(weekTimesheet);
+
+    this.router.navigate(['/manager/timesheet-approval'], {
+      state: { weekTimesheet: weekTimesheet },
+    });
+    console.log('state' + weekTimesheet);
+    this.OnSelectAccountByAccountId(event);
   }
-  const startDate1 =this.datePipe.transform(this.weekTimesheet.weekStartDate, 'dd-MMM-yyyy') || '';
 
-  this.timesheetHomeService.rejectTimesheetStatus(this.weekTimesheet.employeeId, this.weekTimesheet.accountId, startDate1)
-    .subscribe((data) => {
-      this.data = data;
-      this.router.navigate(['/DailyStatusComponent']);
-    });
-}
+  OnSelectAccountByAccountId(event: any) {
+    const selectedAccount = event.target.value;
+    console.log(selectedAccount);
+    this.accountId = 2;
+    alert(this.selectedAccount);
+    this.timesheetService
+      .getProjectsByAccountId(this.userEmpId, this.year, this.accountId)
+      .subscribe(
+        (resp: any) => {
+          alert('getting respose');
+          this.weekTimeSheet = resp;
 
-isRejectButtonDisabled(): boolean {
-  return this.isTimesheetApproved || this.Status === 'Rejected';
-}
+          console.log(this.weekTimeSheet);
+          console.log(resp);
+        },
+        (error: any) => {
+          console.error(error);
+        }
+      );
+    this.getEmployee();
+  }
 
-
-closeTheView(weekTimesheet:timesheetWeekApproval){
-  weekTimesheet.accountId=2;
-  console.log("account"+this.accountId);
-
-  weekTimesheet.employeeId=108;
-console.log(weekTimesheet);
-
-this.router.navigate(['/manager/timesheet-approval'],{state:{weekTimesheet:weekTimesheet}});
-console.log("state"+weekTimesheet)
-this.OnSelectAccountByAccountId(event);
+  getEmployee() {
+    this.selectedAccount;
+    this.timesheetService
+      .getAllEmployee(this.userEmpId, this.selectedAccount)
+      .subscribe((data: any[]) => {
+        this.employee = data;
+      });
+  }
 }
 
 
@@ -478,3 +540,4 @@ this.getEmployee();
 
 
 }
+

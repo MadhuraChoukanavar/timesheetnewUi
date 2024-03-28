@@ -81,6 +81,7 @@ export class TimesheetapproveComponent implements OnInit {
     );
   }
 
+
   get filteredEmployees() {
     return this.employee.filter(emp => emp.firstName.toLowerCase().includes(this.searchText.toLowerCase()));
   }
@@ -111,6 +112,45 @@ export class TimesheetapproveComponent implements OnInit {
       );
     //this.getEmployee();
   }
+
+//   constructor(private timesheetService: TimesheetWeekApprovalService,private accountService: AccountserviceService,private router: Router ,private http: HttpClient) {
+//    // Set default values for month and year
+//    const currentDate = new Date();
+//    this.selectedMonth = "All";
+   
+   
+       
+//  }
+
+
+
+
+
+OnSelectAccountByAccountId(event:any) {
+
+  
+ const selectedAccount = event.target.value;
+ 
+ this.accountId=Number(selectedAccount);
+ 
+ 
+  this.selectedAccount;
+  this.timesheetService.getProjectsByAccountId(this.userEmpId,this.year,this.accountId)
+  .subscribe(
+    (resp) => {
+  
+      this.weekTimeSheet=resp;
+
+      console.log(this.weekTimeSheet)
+      console.log(resp)
+    },
+    (error) => {
+      console.error(error);
+    }
+  );
+ this.getEmployee();
+}
+
 
 
   OnSelectAccountByMonth(event: any) {
