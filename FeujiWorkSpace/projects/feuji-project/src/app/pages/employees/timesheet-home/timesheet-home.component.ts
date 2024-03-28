@@ -380,7 +380,6 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
 
   allRows: TimesheetWeekDayBean[] = [];
   saveAndSubmit: boolean = false;
-  submit:boolean=false;
   saveWeekTableData() {
     this.addDataToAllarows();
 
@@ -403,7 +402,6 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
                 console.log('Backend response:', response);
                 const accountId = this.selectedAccount || this.defaultAccountId;
                 this.saveAndSubmit = true;
-                this.submit=true;
 
                 this.editedArray = [];
                 this.fetchWeekDayData(
@@ -512,10 +510,6 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     endDate: string
   ): void {
     this.saveAndSubmit = false;
-
-
-
-
     this.Submit = true;
     this.timesheetHomeService
       .getWeekDayDetails(accountId, employeeId, startDate, endDate)
@@ -612,7 +606,6 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
   convertedDate: string = '';
   onSubmit() {
     const currentWeekStartDate = this.startDate;
-    // const timesheetStatus = 58;
 
     const datePipe = new DatePipe('en-US');
 
@@ -620,25 +613,6 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
       ? datePipe.transform(currentWeekStartDate, 'yyyy-MM-dd HH:mm:ss') || ''
       : '';
 
-
-
-
-    if (!this.getWorkingHoursperWeek()) {
-      Swal.fire({
-        title: 'Are you sure?',
-        text: 'working hour is more than 40 hours do you want to submit',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes',
-        cancelButtonText: 'No',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.onSubmit1(
-                      this.currentUser,
-                      this.selectedAccount,
-                      formattedDatee
-                    );
-        }
     if (
       this.fetchedDetails[0].timesheetStatusname === 'Pending' ||
       this.fetchedDetails[0].timesheetStatusname === 'Rejected'
@@ -668,30 +642,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
         confirmButtonText: 'OK',
       });
     }
- //   this.getWorkingHoursperWeekcall();
   }
-
-  // getWorkingHoursperWeekcall() {
-  //   if (!this.getWorkingHoursperWeek) {
-  //     Swal.fire({
-  //       title: 'Are you sure?',
-  //       text: 'working hour is less than 40 do you want to submit',
-  //       icon: 'warning',
-  //       showCancelButton: true,
-  //       confirmButtonText: 'Yes',
-  //       cancelButtonText: 'No',
-  //     }).then((result) => {
-  //       if (result.isConfirmed) {
-  //         this.onSubmit1(
-  //           this.currentUser,
-  //           this.selectedAccount,
-  //           this.formattedDate
-  //         );
-  //       }
-  //     });
-  //   }
-  // }
-  submittioncount:number=0;
 
   onSubmit1(employeeId: number, accountId: number, weekStartDate: string) {
     this.timesheetHomeService
@@ -699,10 +650,6 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
       .subscribe(
         (response) => {
           this.saveAndSubmit = false;
-          this.submit=false;
-          this.submittioncount++;
-
-
           console.log('submitted successfully ' + response);
         },
         (error) => {

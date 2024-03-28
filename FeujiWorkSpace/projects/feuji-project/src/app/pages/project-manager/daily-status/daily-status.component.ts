@@ -337,15 +337,13 @@ export class DailyStatusComponent implements OnInit {
   }
 
   fetchWeekDayData(): void {
-    console.log("hiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+    
 
 
     console.log("Employee ID: " + this.weekTimesheet.employeeId);
     console.log("h2");
 
 
-  const startDate1 =this.datePipe.transform(this.weekTimesheet.weekStartDate, 'dd-MMM-yyyy') || '';
-  console.log(startDate1);
 
     
 
@@ -502,42 +500,7 @@ export class DailyStatusComponent implements OnInit {
 }
 
 
-OnSelectAccountByAccountId(event:any) {
- const selectedAccount = event.target.value;
-  console.log(selectedAccount);
-  this.accountId=2;
-  // alert(this.selectedAccount)
-   this.timesheetService.getProjectsByAccountId(this.userEmpId,this.year,this.accountId)
-   .subscribe(
-     (resp: any) => {
-      //  alert ("getting respose")
-       this.weekTimeSheet=resp;
-
-       console.log(this.weekTimeSheet)
-       console.log(resp)
-     },
-     (error: any) => {
-       console.error(error);
-     }
-   );
-this.getEmployee();
- }
-
- getEmployee(){
 
 
-   this.selectedAccount
-   this.timesheetService.getAllEmployee(this.userEmpId,this.selectedAccount).subscribe((data: any[])=>{
-   console.log("hlooooooooooooooooo")
 
-     console.log(data);
-
-    this.employee=data;
-    console.log(this.employee);
-  })
-
- }
-
-
-}
 

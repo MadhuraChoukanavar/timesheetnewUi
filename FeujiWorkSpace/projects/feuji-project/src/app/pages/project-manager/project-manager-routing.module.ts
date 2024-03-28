@@ -6,8 +6,9 @@ import { DailyStatusComponent } from "./daily-status/daily-status.component";
 import { ManagerLandingPageComponent } from "./manager-landing-page/manager-landing-page.component";
 import { TimesheetHomeComponent } from "./timesheet-home/timesheet-home.component";
 import { HolidayComponent } from "./holiday/holiday.component";
+import { TimesheetHistoryComponent } from "./timesheet-history/timesheet-history.component";
 
-import { TimesheetDayhistoryComponent } from "./timesheet-dayhistory/timesheet-dayhistory.component";
+
 
 const routes: Routes = [
   { path: 'manager-profile',component: ManagerViewProfileComponent},
