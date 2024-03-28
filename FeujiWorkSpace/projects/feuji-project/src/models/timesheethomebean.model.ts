@@ -62,7 +62,8 @@ export class WeekAndDayDto
   public hoursSat: number,
   public hoursSun:number,
   public comments:string,
-  public timesheetStatus:number)
+  public timesheetStatus:number,
+  public timesheetStatusname:string)
 {
 
 }}

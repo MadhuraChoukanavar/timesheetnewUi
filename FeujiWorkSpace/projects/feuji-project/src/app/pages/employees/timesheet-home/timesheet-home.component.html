@@ -166,7 +166,7 @@
               <button [disabled]="!saveAndSubmit" type="button" class="btn btn-primary" (click)="saveWeekTableData()" style="font-size: medium; background-color: rgb(164, 164, 236); border-color: rgb(164, 164, 236); margin-right: 10px;">
               Save
               </button>
-              <button type="submit" [disabled]="!saveAndSubmit" class="btn btn-primary me-3" style="font-size: medium; background-color: rgb(164, 164, 236); border-color: rgb(164, 164, 236);">
+              <button type="submit" [disabled]="!Submit" class="btn btn-primary me-3" (click)="onSubmit()" style="font-size: medium; background-color: rgb(164, 164, 236); border-color: rgb(164, 164, 236);">
               Submit
               </button>
               </div>

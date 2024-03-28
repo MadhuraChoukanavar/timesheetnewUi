@@ -19,7 +19,6 @@ export class TimesheetapproveComponent implements OnInit {
   
   
 
-  private apiUrl = 'http://localhost:8084/api/TimesheetWeekSummaryView';
   public weekTimeSheet:any=[];
 
   public timesheetData: any[]=[];

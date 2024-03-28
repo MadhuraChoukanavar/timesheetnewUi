@@ -53,9 +53,12 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
   current: number = 0;
   showRows: boolean = false;
   countofrow: number = 1;
+
+  Submit: boolean = false;
   addTaskRow() {
     this.showRows = true;
     this.addDataToAllarows();
+    this.saveAndSubmit = true;
 
     if (this.showRows && this.countofrow++ > 1) {
       this.rownum++;
@@ -90,7 +93,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     const userStr = localStorage.getItem('user');
-
+    this.Submit = false;
     if (userStr !== null) {
       const userData = JSON.parse(userStr);
       const userEmpId = userData.userEmpId;
@@ -133,7 +136,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     this.columnsumnew();
   }
   onSelect(projects: any, i: number) {
-    this.saveAndSubmit = true;
+    //this.saveAndSubmit = true;
 
     this.selectedProjectId = projects.target.value;
     this.everyRowRecord[(this.rownum, 1)] = Number(this.selectedProjectId);
@@ -266,7 +269,9 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
       this.addbutton = false;
       this.selectAccount = true;
       this.saveAndSubmit = false;
+      this.Submit = false;
     }
+
     this.getHolidayDetails(this.startDate);
   }
   showPreviousWeek() {
@@ -505,18 +510,22 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     endDate: string
   ): void {
     this.saveAndSubmit = false;
-
+    this.Submit = true;
     this.timesheetHomeService
       .getWeekDayDetails(accountId, employeeId, startDate, endDate)
       .subscribe((fetched) => {
         this.fetchedDetails = fetched as WeekAndDayDto[];
         this.limitRow = fetched.length;
+        console.log(this.fetchedDetails);
 
         this.getHolidayDetails(this.startDate);
         this.disableInputField();
         this.countofrow = 1;
         for (let i = 0; i < this.fetchedDetails.length; i++) {
           this.selectedTasks[i] = this.fetchedDetails[i].taskId;
+        }
+        if (this.fetchedDetails[0].timesheetStatusname === 'Submitted') {
+          this.saveAndSubmit = false;
         }
       });
   }
@@ -571,7 +580,8 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
           hoursSat: selectedRowData.hoursSat,
           hoursSun: selectedRowData.hoursSun,
           comments: selectedRowData.comments,
-          timesheetStatus: 57,
+          timesheetStatus: 0,
+          timesheetStatusname: '',
         };
 
         this.timesheetHomeService.deleteRecord(weekAndDayDto).subscribe(
@@ -596,7 +606,6 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
   convertedDate: string = '';
   onSubmit() {
     const currentWeekStartDate = this.startDate;
-    const timesheetStatus = 58;
 
     const datePipe = new DatePipe('en-US');
 
@@ -604,39 +613,33 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
       ? datePipe.transform(currentWeekStartDate, 'yyyy-MM-dd HH:mm:ss') || ''
       : '';
 
-    if (!this.getWorkingHoursperWeek()) {
+    if (
+      this.fetchedDetails[0].timesheetStatusname === 'Pending' ||
+      this.fetchedDetails[0].timesheetStatusname === 'Rejected'
+    ) {
+      if (!this.getWorkingHoursperWeek()) {
+        Swal.fire({
+          title: 'Are you sure?',
+          text: 'working hour is more than 40 hours do you want to submit',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes',
+          cancelButtonText: 'No',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.onSubmit1(
+              this.currentUser,
+              this.selectedAccount,
+              formattedDatee
+            );
+          }
+        });
+      }
+    } else {
       Swal.fire({
-        title: 'Are you sure?',
-        text: 'working hour is more than 40 hours do you want to submit',
+        text: 'timesheetalready submitted',
         icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes',
-        cancelButtonText: 'No',
-      }).then((result) => {
-        if (result.isConfirmed) {
-        }
-      });
-    }
-    this.getWorkingHoursperWeekcall();
-  }
-
-  getWorkingHoursperWeekcall() {
-    if (!this.getWorkingHoursperWeek) {
-      Swal.fire({
-        title: 'Are you sure?',
-        text: 'working hour is less than 40 do you want to submit',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes',
-        cancelButtonText: 'No',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.onSubmit1(
-            this.currentUser,
-            this.selectedAccount,
-            this.formattedDate
-          );
-        }
+        confirmButtonText: 'OK',
       });
     }
   }
@@ -686,7 +689,8 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     0,
     0,
     '',
-    0
+    0,
+    ''
   );
 
   editMode: boolean = false;
