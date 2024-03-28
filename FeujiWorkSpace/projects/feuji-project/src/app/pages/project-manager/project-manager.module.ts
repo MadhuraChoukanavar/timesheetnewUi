@@ -7,12 +7,9 @@ import { TimesheetHomeComponent } from "./timesheet-home/timesheet-home.componen
 import { TimesheetHistoryComponent } from "./timesheet-history/timesheet-history.component";
 import { ProjectManagerRoutingModule } from "./project-manager-routing.module";
 import { DailyStatusComponent } from "./daily-status/daily-status.component";
-<<<<<<< HEAD
 import { ManagerLandingPageComponent } from './manager-landing-page/manager-landing-page.component';
-=======
 import { TimesheetDayhistoryComponent } from "./timesheet-dayhistory/timesheet-dayhistory.component";
 import { HolidayComponent } from "./holiday/holiday.component";
->>>>>>> master
 
 
 @NgModule({
@@ -22,12 +19,9 @@ import { HolidayComponent } from "./holiday/holiday.component";
     TimesheetHomeComponent,
     TimesheetHistoryComponent,
     DailyStatusComponent,
-<<<<<<< HEAD
-    ManagerLandingPageComponent
-=======
+    ManagerLandingPageComponent,
     TimesheetDayhistoryComponent,
     HolidayComponent
->>>>>>> master
   ],
   imports: [
     CommonModule,

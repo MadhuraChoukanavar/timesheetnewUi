@@ -60,7 +60,6 @@ export class NavbarComponent {
     localStorage.removeItem('user');
     this.checkUser();
   }
-<<<<<<< HEAD
 
   title: string = '';
 
@@ -113,6 +112,3 @@ export class NavbarComponent {
   }
 
 }
-=======
-}
->>>>>>> master

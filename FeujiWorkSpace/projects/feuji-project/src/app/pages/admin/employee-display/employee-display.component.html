@@ -1,73 +1,20 @@
-<<<<<<< HEAD
-      <!-- <div class="container">
-        <h1 class="text-center mb-4">Employee Details</h1>
 
-        <div class="row mb-3">
-          <div class="col-md-8 offset-md-2 text-center">
-            <div class="input-group">
-              <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="Search for...">
-              <div class="input-group-append">
-                <button class="btn btn-outline-primary" (click)="searchEmployees()" style="background-color: rgb(13,110,253); color: black;">
-                  <i class="fas fa-search"></i> Search
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-2 text-right">
-            <button type="button" class="btn btn-primary" (click)="navigateToAddEmployeePage()">
-              <i class="fas fa-plus-circle"></i> Add
-            </button>
-          </div>
-        </div>
-
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Employee Id</th>
-              <th>Employee Code</th>
-              <th>Name</th>
-              <th>Designation</th>
-              <th>Email</th>
-              <th>Reporting Manager </th>
-              <th>Status</th>
-              <th>Modify</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let employee of filteredEmployees">
-              <td>{{ employee.employeeId }}</td>
-              <td>{{ employee.employeeCode }}</td>
-              <td>{{ employee.firstName }}</td>
-              <td>{{ employee.designation }}</td>
-              <td>{{ employee.email }}</td>
-              <td>{{ employee.reportingManagerId }}</td>
-              <td>{{ employee.status }}</td>
-              <td>
-                <button type="button" class="btn btn-info" (click)="editEmployee(employee)">
-                  <i class="fas fa-edit"></i> Edit
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div> -->
-=======
 <div class="container-fluid">
 
   <div class="row " style="height: 90px;" >
-    
+
     <div class="input-group mt-5 justify-content-end">
       <div class="input-group-append" style="display: flex">
             <button class="btn btn-primary float-lg-end" routerLink="/admin/add-employee">
               <i class="fa-solid fa-plus"></i>
-       
+
       </button>
-        
+
   </div>
   </div>
 
   <div>
-    
+
 
  </div>
 
@@ -75,24 +22,24 @@
   <table class="table mt-5" >
     <thead>
       <tr  class="table-dark">
-        <th  class="text-center">Employee Code</th> 
+        <th  class="text-center">Employee Code</th>
         <th class="text-center"> Name</th>
         <th class="text-center">Designation</th>
         <th class="text-center">Email</th>
-        <th class="text-center"> Gender</th> 
+        <th class="text-center"> Gender</th>
         <th class="text-center">DateOfJoining</th>
 
         <th class="text-center">Reporting ManagerName</th>
         <th class="text-center">Status </th>
-        
+
         <th class="text-center">Modify</th>
-       
+
       </tr>
     </thead>
       <tbody class="tbody" >
 <tr *ngFor="let emp of employee">
-           
-  
+
+
         <td>{{emp.employeeCode}}</td>
         <td>{{emp.firstName}} {{emp.middleName}} {{emp.lastName}}</td>
         <td>{{emp.designation}}</td>
@@ -101,24 +48,23 @@
         <td>{{emp.dateOfJoining |date:'dd-MM-yyyy'}}</td>
         <td>{{emp.managerFirstName}} {{emp.managerMiddleName}} {{emp.managerLastNamee}}</td>
         <td class="{{emp.status }}">{{emp.status }}</td>
-        
-        
+
+
          <td class="rowbutton"><button type="button" class="btn btn-warning ml-2  bg bg-light"  (click)="editItem(emp.uuid)" >
-             <i class="fas fa-edit"></i> 
+             <i class="fas fa-edit"></i>
            </button>
            <button type="button" class="btn btn-warning ml-2  bg bg-light" (click)="removeTask(emp. employeeId)">
             <i
               class="fa-solid fa-trash-can fa-fw"
               style="color: red"
-              
+
             ></i>
           </button>
           </td>
 
      </tr>
-     
-       
+
+
     </tbody>
   </table>
 </div>
->>>>>>> 3a3f51af0db80ac59b2ef5a8f23f1ff226c5a4b1

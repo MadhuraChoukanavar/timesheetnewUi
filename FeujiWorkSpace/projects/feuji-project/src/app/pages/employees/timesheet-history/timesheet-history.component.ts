@@ -22,15 +22,15 @@ export class TimesheetHistoryComponent implements OnInit{
 public selectedAccountName:string='';
 currentUser:number=0;
  ngOnInit(): void {
-  
+
   const userStr = localStorage.getItem('user');
 
   if (userStr !== null) {
       const userData = JSON.parse(userStr);
       const userEmpId = userData.userEmpId;
-    
+
       this.currentUser=userEmpId;
-      alert(this.currentUser)
+      // alert(this.currentUser)
   } else {
       // Handle the case when 'user' key is not found in localStorage or is null
       console.error('User data not found in localStorage');

@@ -37,9 +37,7 @@
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "projects/feuji-project/src/custom-theme.scss",
-              "projects/feuji-project/src/styles.css",
-              "src/styles.css",
-              "projects/feuji-project/src/custom-theme.scss"
+              "projects/feuji-project/src/styles.css"
           ],
             "scripts": []
           },

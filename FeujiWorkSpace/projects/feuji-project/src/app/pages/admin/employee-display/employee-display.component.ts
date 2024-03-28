@@ -13,11 +13,14 @@ import Swal from 'sweetalert2';
 })
 export class EmployeeDisplayComponent  implements OnInit {
   public employee:any[]=[];
-  constructor(private empService: EmployeeService,private router: Router ){}
+  constructor(private empService: EmployeeService,private router: Router )
+  {}
+
   ngOnInit(){
     console.log("loaded");
     this.getEmployeeDetails();
   }
+
   getEmployeeDetails(){
     this.empService.getEmployeeDetails().subscribe(data=>{
      console.log(data);

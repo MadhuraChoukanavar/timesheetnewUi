@@ -14,7 +14,7 @@ import { TimesheetHomeService } from '../../../../models/timesheetHomeService.se
   styleUrl: './daily-status.component.css'
 })
 export class DailyStatusComponent implements OnInit{
-   
+
   weekTimesheet:any;
   data: any;
   employeeName:string='';
@@ -33,7 +33,7 @@ export class DailyStatusComponent implements OnInit{
   timesheetService: any;
   userEmpId: any;
   year: any;
- 
+
   public employee:any[]=[];
 
   constructor(
@@ -62,16 +62,16 @@ export class DailyStatusComponent implements OnInit{
   projectTaskType: any[] = [];
   projectTask: any[] = [];
   attendanceTypeArr: any[] = [];
-  
+
 startDate: any = '';
 
   lastDate: any = '';
-  
+
   selectedProjectId: number = 0;
   selectedProjecttaskId: number = 0;
   selectedAttendanceType: any;
   selectedTaskId: number = 0;
-  
+
   everyRowRecord: any[] = [];
 
   selectedTasks: any[] = [];
@@ -83,13 +83,13 @@ startDate: any = '';
   valuee: number = 0;
 
 
-    
-  
+
+
 
   ngOnInit(): void {
     console.log("000000000000000000000000");
-    
-    
+
+
     console.log("history.state.weekTimesheet:", history.state.weekTimesheet);
 
 
@@ -97,11 +97,11 @@ startDate: any = '';
 
       console.log("123444445678");
       this.weekTimesheet = history.state.weekTimesheet;
-      
+
       // const firstTimesheet = history.state.weekTimesheet;
       // this.weekTimesheet = new timesheetWeekApproval(
-       
-        
+
+
       //   firstTimesheet.employeeId,
       //   firstTimesheet.designation,
       //   firstTimesheet.employeeCode,
@@ -123,20 +123,20 @@ startDate: any = '';
       //   firstTimesheet.reportingManagerId
       // );
       console.log(this.weekTimesheet);
-      
-     
-     
-  
+
+
+
+
       // Calculate currentWeek1
       const startDate1 = new Date(this.weekTimesheet.weekStartDate);
       const endDate = new Date(this.weekTimesheet.weekEndDate);
       this.currentWeek1 = [];
-  
+
       // Iterate over each day between startDate and endDate
       let currentDate1 = new Date(startDate1);
       while (currentDate1 <= endDate) {
         this.currentWeek1.push(new Date(currentDate1));
-        currentDate1.setDate(currentDate1.getDate() + 1); 
+        currentDate1.setDate(currentDate1.getDate() + 1);
         const formattedDateString = this.formattedDate(currentDate1);
         // Use formattedDateString as needed
       }
@@ -171,8 +171,8 @@ startDate: any = '';
   updateStatus(newStatus: string) {
     this.Status = newStatus; // Update the Status property with newStatus
   }
-  
-  
+
+
 
 
   ngAfterViewChecked(){
@@ -180,7 +180,7 @@ startDate: any = '';
       this.columnsumnew();
 
   }
- 
+
 
 
   formattedDate(date: Date | null): string {
@@ -190,11 +190,11 @@ startDate: any = '';
     return this.datePipe.transform(date, 'dd-MMM EEE') || '';
   }
 
-  
+
 
   totalvalue: number[] = [0, 0, 0, 0, 0, 0, 0];
 
- 
+
 
   columnsumnew() {
     //console.log("Rownum::"+this.limitRow);
@@ -218,14 +218,14 @@ startDate: any = '';
         const inputValue = (
           document.getElementById( 'data_' +  rowCount+columnCount  ) as HTMLInputElement
         ).innerText;
-        //console.log(' data_' + rowCount + columnCount + " value "+inputValue)      
+        //console.log(' data_' + rowCount + columnCount + " value "+inputValue)
         sum += Number(inputValue);
       }
       (document.getElementById('data_' +rowCount+ 11 ) as HTMLInputElement).innerText = String(sum);
       //(document.getElementById('data_' +rowCount+ 11 ) as HTMLInputElement).value= String(sum);
     }
   }
- 
+
   columnsum() {
    console.log(this.rownum);
     for (let rowCount = 0; rowCount < this.rownum; rowCount++) {
@@ -234,11 +234,11 @@ startDate: any = '';
       console.log("Input "+columnCount + " - "+rowCount);
      const inputValue = ( document.getElementById( 'input_' + rowCount + columnCount) as HTMLInputElement ).value;
      this.totalvalue[columnCount] += Number(inputValue);
-         
+
     }
-    this.rowsum(rowCount);  
+    this.rowsum(rowCount);
    }
- 
+
    return this.totalvalue;
   }
 
@@ -253,16 +253,16 @@ startDate: any = '';
      (
       document.getElementById('input_' + count +7 ) as HTMLInputElement
      ).value = String(sum);
-     
+
     }
-   
+
 
   timesheetStatus: any[] = [];
-  
+
 
   allRows: TimesheetWeekDayBean[] = [];
 
- 
+
 
   addDataToAllarows() {
     let timesheetWeekDayBean: any = new TimesheetWeekDayBean(
@@ -330,7 +330,7 @@ formatDate(date: Date): string {
   const year = date.getFullYear();
     const month = date.toLocaleDateString('en-US', { month: 'short' });
   const day = ('0' + date.getDate()).slice(-2);
-  
+
 
   return `${day}-${month}-${year}`;
 }
@@ -338,24 +338,24 @@ formatDate(date: Date): string {
 
   fetchWeekDayData(): void {
     console.log("hiiiiiiiiiiiiiiiiiiiiiiiiiiii");
-    
-    
+
+
     console.log("Employee ID: " + this.weekTimesheet.employeeId);
     console.log("h2");
 
 
   const startDate1 =this.datePipe.transform(this.weekTimesheet.weekStartDate, 'dd-MMM-yyyy') || '';
   console.log(startDate1);
-  
+
 
   const lastDate = this.datePipe.transform(this.weekTimesheet.weekEndDate, 'dd-MMM-yyyy') || '';
 
   console.log("Start Date: ", startDate1);
   console.log("Last Date: ", lastDate);
-   
+
 
    console.log("''''''''''''''''''''''''''''"+startDate1)
-  
+
    console.log("weekTimesheet: ", this.weekTimesheet);
 
     this.timesheetHomeService
@@ -368,16 +368,16 @@ formatDate(date: Date): string {
 
     }
 
-  
+
 
   loadTimesheetData(): void {
     const accountId = this.selectedAccount || this.defaultAccountId;
     this.fetchWeekDayData()
-    
+
   }
- 
+
    convertedDate: string='';
-  
+
   getTotalHours(): void {
     this.timesheetWeekApprovalService.getTotalHours(this.weekTimesheet.employeeId, this.weekTimesheet.accountProjectId, this.weekTimesheet.weekNumber)
       .subscribe((totalHours) => {
@@ -444,13 +444,13 @@ OnSelectAccountByAccountId(event:any) {
  const selectedAccount = event.target.value;
   console.log(selectedAccount);
   this.accountId=2;
-  alert(this.selectedAccount)
+  // alert(this.selectedAccount)
    this.timesheetService.getProjectsByAccountId(this.userEmpId,this.year,this.accountId)
    .subscribe(
      (resp: any) => {
-       alert ("getting respose")
+      //  alert ("getting respose")
        this.weekTimeSheet=resp;
- 
+
        console.log(this.weekTimeSheet)
        console.log(resp)
      },
@@ -463,18 +463,18 @@ this.getEmployee();
 
  getEmployee(){
 
- 
+
    this.selectedAccount
    this.timesheetService.getAllEmployee(this.userEmpId,this.selectedAccount).subscribe((data: any[])=>{
    console.log("hlooooooooooooooooo")
-   
+
      console.log(data);
-    
+
     this.employee=data;
     console.log(this.employee);
   })
-  
+
  }
- 
+
 
 }

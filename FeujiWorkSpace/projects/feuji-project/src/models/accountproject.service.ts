@@ -9,51 +9,46 @@ import { Accountproject } from './accountproject.model';
 })
 export class AccountprojectService {
 
- 
-  private apiUrl = 'http://localhost:8083'; // Replace with your actual API URL
 
+  apiUrl = 'http://localhost:8083'; // Replace with your actual API URL
+  billurl="http://localhost:8089/api/referencedetails/getref"
   constructor(private http: HttpClient) {}
 
-  billurl="http://localhost:8089/api/referencedetails/getref"
-
-  // getAccountProjects():Observable<Accountproject[]>{
-  //   return this.http.get<Accountproject[]>(`${this.apiUrl}/api/accountProjects/getAccountProjectDto`); //=============
-
-  //  }
-
-
-  getAccountProjects(referenceTypeId: number): Observable<Accountproject[]> {
-    const url = `${this.apiUrl}/api/accountProjects/getAccountProjectDto?referenceTypeId=${referenceTypeId}`;
+// Get Projects from Account
+  getAccountProjects(): Observable<Accountproject[]> {
+    const url = `${this.apiUrl}/api/accountProjects/account-project-dto`;
     return this.http.get<Accountproject[]>(url);
   }
-  
 
+// Save Account
   saveAccountProject(projectData: Accountproject): Observable<Accountproject> {
     const headers = {'content-type':'application/json'};
     console.log(projectData+"service method");
     return this.http.post<Accountproject>(`http://localhost:8083/api/accountProjects/save`, projectData,{headers});
   }
 
+  // Account Name
   getAccountName():Observable<any[]>{
     return this.http.get<any[]>(`${this.apiUrl}/api/accountProjects/getaccount`);
   }
 
+  // Employee Name
   getEmployeeName():Observable<any[]>{
     return this.http.get<any[]>(`${this.apiUrl}/api/accountProjects/getEmployee`);
   }
 
   public getPriorityType():Observable<any[]>
   {
-    
+
     return this.http.get<any[]>(`${this.billurl}/Account Project Priority`)
-  
+
   }
 
   public getStatusType():Observable<any[]>
   {
-    
+
     return this.http.get<any[]>(`${this.billurl}/Account Project Status`)
-  
+
   }
 
   getByUUId(uuid: string): Observable<any[]> {
@@ -65,16 +60,15 @@ export class AccountprojectService {
   //   return this.http.put<any>(`${this.apiUrl}/api/accountProjects/delete/{accountProjectId}`,{headers});
   // }
   deleteRow(projectId: number):Observable<any> {
-    alert(projectId)
+    // alert(projectId)
     return this.http.put<any>(`${this.apiUrl}/api/accountProjects/delete/${projectId}`,projectId );
   }
-  
+
  // const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     // Pass the accountProjectId directly without string interpolation
-  
+
 
 
 
 
 }
- 
