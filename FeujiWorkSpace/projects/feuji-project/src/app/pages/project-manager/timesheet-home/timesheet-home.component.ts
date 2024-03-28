@@ -716,7 +716,8 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
           hoursSat: selectedRowData.hoursSat,
           hoursSun: selectedRowData.hoursSun,
           comments: selectedRowData.comments,
-          timesheetStatus: 57,
+          timesheetStatus: 0,
+          timesheetStatusname:''
         };
         console.log(weekAndDayDto);
 
@@ -732,14 +733,8 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
             );
           },
           (error) => {
-            Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
-            const accountId = this.selectedAccount || this.defaultAccountId;
-            this.fetchWeekDayData(
-              this.currentUser,
-              accountId,
-              this.startDate,
-              this.lastDate
-            );
+           
+            
           }
         );
       } else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -841,6 +836,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     0,
     '',
     0
+    ,''
   );
 
   //   isEditMode(index: number): boolean {

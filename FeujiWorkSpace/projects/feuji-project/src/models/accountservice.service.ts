@@ -55,11 +55,6 @@ export class AccountserviceService {
     return this.http.get<any[]>(`${this.apiUrl}/accountSave/getEmployee`);
   }
 
-  // getparentId(name:String):Observable<any>{
-  //   console.log(name);
-  //   return this.http.get<any>(http://localhost:8084/api/accountSave/getparent/${name});
-  // }
-
 
   public getBusinessUnitType():Observable<any[]>
   {
