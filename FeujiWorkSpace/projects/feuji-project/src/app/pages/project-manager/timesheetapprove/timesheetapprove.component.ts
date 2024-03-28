@@ -126,30 +126,6 @@ export class TimesheetapproveComponent implements OnInit {
 
 
 
-OnSelectAccountByAccountId(event:any) {
-
-  
- const selectedAccount = event.target.value;
- 
- this.accountId=Number(selectedAccount);
- 
- 
-  this.selectedAccount;
-  this.timesheetService.getProjectsByAccountId(this.userEmpId,this.year,this.accountId)
-  .subscribe(
-    (resp) => {
-  
-      this.weekTimeSheet=resp;
-
-      console.log(this.weekTimeSheet)
-      console.log(resp)
-    },
-    (error) => {
-      console.error(error);
-    }
-  );
- this.getEmployee();
-}
 
 
 

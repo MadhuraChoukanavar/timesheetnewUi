@@ -43,9 +43,7 @@ export class UpdateEmlpoyeeComponent implements OnInit {
 
 
 send(empuuId:string){
-  console.log("asdfghjkl;");
-  console.log(empuuId);
-  
+
   this.empService.getEmployeeDetailByUuId(this.empuuId).subscribe(
   (items)=>{
   this.emp=items[0];
@@ -77,12 +75,7 @@ updateEmployee(emp: any, uuid: any, employeeId: number,isDeleted:boolean) {
       });
     },
     (error) => {
-      console.error('Error updating employee:', error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Update Error',
-        text: 'Failed to update employee. Please try again later.',
-      });
+  
     }
   );
 }
