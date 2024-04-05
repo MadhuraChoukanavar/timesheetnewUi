@@ -74,34 +74,73 @@ export class NavbarComponent {
 
     // Define logic to set the title based on the last segment of the route URL
     switch (lastSegment) {
-      case 'add-employee':
-        this.title = 'Add Employee';
+      // Admin
+      case 'admin-profile':
+        this.title = 'View Profile';
         break;
-      case 'admin-home-page':
-        this.title = 'Home Page';
+      case 'display-employee':
+        this.title = 'Display Employee';
         break;
-      case 'timesheetapproval':
-        this.title = 'Timesheet Approval';
+        case 'update-employee': // Check if the last segment is 'update-employee'
+        this.title = 'Update Employee';
         break;
-      case 'showEmpSkills':
-        this.title = 'Update Skills';
+      case 'projects':
+        this.title = 'All Projects';
         break;
-      case 'employeeGap':
-        this.title = 'Skill Gap';
+        case 'add-projects':
+          this.title = 'Add Projects';
+          break;
+      case 'account-display':
+        this.title = 'All Account';
         break;
-      case 'training':
-        this.title = 'Training Recommendations';
+        case 'update-account': // Check if the last segment is 'update-employee'
+        this.title = 'Update Account';
         break;
-        case 'addSkills':
-          this.title = 'Add Skills';
+        case 'project-update': // Check if the last segment is 'update-employee'
+        this.title = 'Update Project';
         break;
-        case 'empskillgap':
-          this.title = 'Employees Skill Gap';
+      case 'holiday-list':
+        this.title = 'All Holiday';
         break;
-        case 'trainingsrecommended':
-          this.title = 'Employees Recommended For Training';
+        // Employee
+      case 'emp-profile':
+        this.title = 'View Profile';
         break;
-
+      case 'timesheet-home':
+        this.title = 'New Timesheet';
+        break;
+      case 'timsheet-history':
+        this.title = 'Timesheet History';
+        break;
+      case 'add-holiday':
+        this.title = 'Add Holidays';
+        break;
+        case 'edit-holiday':
+          this.title = 'Update Holidays';
+          break;
+      
+        // Manager
+      case 'manager-profile':
+          this.title = 'View Profile';
+        break;
+      case 'timesheet-homemanager':
+          this.title = 'New Timesheet';
+        break;
+      case 'timsheet-historymanager':
+          this.title = 'Timesheet History';
+        break;
+      case 'timesheet-approval':
+          this.title = 'Timesheet For Approval';
+        break;
+        case 'add-employee':
+          this.title = 'Add Employee';
+        break;
+        case 'add-Projects':
+          this.title = 'Add Project';
+        break;
+        case 'add-account':
+          this.title = 'Add Account';
+        break;
       default:
         this.title = 'Dashboard';
         break;

@@ -48,6 +48,7 @@ export class AccountserviceService {
     }
 
 
+
   updateAccount(accountData:Account): Observable<Account> {
     return this.http.put<Account>(`${this.apiUrl}/accountSave/updateAccount`, accountData);
   }

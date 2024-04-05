@@ -23,8 +23,8 @@ export class AdminLayoutComponent implements OnInit {
     ] },
     { mainOption: 'Projects',icon: 'bi bi-people', subOptions: [
       { label: 'View Projects', link: '/admin/projects' }
-    ] }
-    ,
+    ] },
+    
     { mainOption: 'Account',icon: 'fa-solid fa-file-invoice-dollar', subOptions: [
       { label: ' View Account ', link: '/admin/account-display' },
     ] }

@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 })
 export class UpdateAccountComponent  implements OnInit {
   constructor(private ref:ActivatedRoute,private accountService :AccountserviceService){}
-      public accountid:String="";
+      public accountid:string="";
 
 
 
@@ -20,18 +20,21 @@ export class UpdateAccountComponent  implements OnInit {
       public emplyoee: any[] = [];
   public businessUnitType: any[] = [];
   public statusTypes:any[]=[];
-  
+  public account1:any[]=[];
   public acc:any;
    ngOnInit(): void {
-    this.accountid = "" +this.ref.snapshot.paramMap.get('id');
-    this.send(this.accountid);
+    
+    this.accountid  = history.state.account.uuId;
+    console.log();
+    this.send(this.accountid)
+  this.getAccount();
 this.getBusinessUnitType();
 this.getStatusType();
 this.getEmployeeName();
    }
 
-   send(accountid:any){
-     this.accountService.getAccountByUuId(this.accountid).subscribe(
+   send(accountId:string){
+     this.accountService.getAccountByUuId(accountId).subscribe(
      (items)=>{
      this.acc=items[0];
      console.log(items);
@@ -91,4 +94,13 @@ getStatusType() {
     this.statusTypes = status;
   });
 }
+getAccount(){
+  this.accountService.getAccount().subscribe(data=>{
+   console.log(data);
+   this.account1=data;
+   console.log(this.account1);
+ })
+
+}
+
 }

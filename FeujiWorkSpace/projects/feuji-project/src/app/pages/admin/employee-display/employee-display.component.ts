@@ -29,10 +29,10 @@ export class EmployeeDisplayComponent  implements OnInit {
    })
 }
 
-editItem(id: string) {
-  console.log(id);
+editItem(employee: any) {
+  console.log("emplyoyeee     ",employee);
 
-  this.router.navigate(['/admin/update-employee', id]);
+  this.router.navigate(['/admin/update-employee'], { state: {employee} });
 }
 
 removeTask(employeeId:number) {

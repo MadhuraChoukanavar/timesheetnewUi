@@ -31,12 +31,13 @@ export class TimesheetapproveComponent implements OnInit {
   public selectedYear: number;
   public year: number = 2024;
   searchText: any = '';
-  ;
+
+  currentUser: number = 0;
   public accounts: any[] = [];
   public employee: any[] = [];
   public accountId: number = 0;
   public employeeId: number = 0;
-  public userEmpId: number = 107;
+
 
   selectedAccount: any;
 
@@ -55,9 +56,18 @@ export class TimesheetapproveComponent implements OnInit {
   }
 
   ngOnInit(): void {
-// -----------------------------------------------
+    const userStr = localStorage.getItem('user');
+ 
+    if (userStr !== null) {
+      const userData = JSON.parse(userStr);
+      const userEmpId = userData.userEmpId;
+      
+      this.currentUser = userEmpId;
+    } else {
+      console.error('User data not found in localStorage');
+    }
     this.getTimesheets();
-    this.timesheetService.getAccounts().subscribe(
+    this.timesheetService.getAccounts( this.currentUser).subscribe(
       (resp) => {
         this.accounts = resp as any[];
         console.log(this.accounts);
@@ -97,7 +107,7 @@ export class TimesheetapproveComponent implements OnInit {
 
 
     this.selectedAccount;
-    this.timesheetService.getProjectsByAccountId(this.userEmpId, this.year, this.accountId)
+    this.timesheetService.getProjectsByAccountId(this.currentUser, this.year, this.accountId)
       .subscribe(
         (resp) => {
 
@@ -166,11 +176,11 @@ export class TimesheetapproveComponent implements OnInit {
     console.log(employeeId);
     const month1 = this.selectedMonth;
     console.log("srilatha");
-    console.log(this.userEmpId);
+    console.log(this.currentUser);
     console.log(this.year);
     console.log(this.accountId);
     console.log(this.employeeId);
-    this.timesheetService.getProjects(this.userEmpId, month1, this.year, this.accountId, this.employeeId).subscribe(
+    this.timesheetService.getProjects(this.currentUser, month1, this.year, this.accountId, this.employeeId).subscribe(
       (resp) => {
 
         this.weekTimeSheet = resp;
