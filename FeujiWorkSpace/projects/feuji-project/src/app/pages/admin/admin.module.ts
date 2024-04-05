@@ -17,7 +17,9 @@ import { EditholidayComponent } from './editholiday-component/editholiday-compon
 import { UpdateEmlpoyeeComponent } from "./update-emlpoyee/update-emlpoyee.component";
 import { AccountProjectDisplayComponent } from "./account-project-display/account-project-display.component";
 import { AddAccountProjectComponent } from "./add-account-project/add-account-project.component";
-import { UpdateAccountProjectComponent } from "./update-account-project/update-account-project.component";
+
+import { UpdateProjectComponent } from "./update-project/update-project.component";
+
 
 
 @NgModule({
@@ -36,7 +38,7 @@ import { UpdateAccountProjectComponent } from "./update-account-project/update-a
      UpdateEmlpoyeeComponent,
      AccountProjectDisplayComponent,
      AddAccountProjectComponent,
-     UpdateAccountProjectComponent
+    UpdateProjectComponent
     ],
 
   imports: [

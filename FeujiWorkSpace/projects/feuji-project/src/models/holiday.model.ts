@@ -1,6 +1,6 @@
 export class Holiday{
   constructor(
-      public  holidayId:Number,
+      public  holidayId:number,
 
       public  holidayDate:Date,
   

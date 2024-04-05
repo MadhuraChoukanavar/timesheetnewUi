@@ -28,6 +28,8 @@ import { TimesheetHomeService } from '../models/timesheetHomeService.service';
 import { DailyStatusComponent} from './pages/project-manager/daily-status/daily-status.component';
 
 
+
+
 @NgModule({
   declarations: [
   AppComponent,
@@ -40,6 +42,8 @@ import { DailyStatusComponent} from './pages/project-manager/daily-status/daily-
     PmoLayoutComponent,
     AuthLayoutComponent,
     LoginLayoutComponent,
+   
+  
 
 
   ],

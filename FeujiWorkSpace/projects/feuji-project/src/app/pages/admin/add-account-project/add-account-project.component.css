@@ -1,79 +1,52 @@
-.container-fluid{
-    box-sizing: border-box;
-    margin: auto;
-    padding: 0;
-    width:70%;
-    margin-top: 70px;
-  }
-  .employecolor{
-    /* color: rgb(243,117,46); */
-    padding: 0px 30px 20px;
-    font-size: 1.5em;
-    margin-top: 20px;
+.card{
+  position: relative;
+  padding: 0;
+  width:100%;
+  background-color: rgb(229, 233, 234);
+}
+.employecolor{
+  color: rgb(164, 164, 236);
+  text-align: center;
+}
+.formborderbox{
+  border-radius: 5px;
 
-  }
-  .formborderbox{
-    border-radius: 5px;
-  
-    padding: 15px;
-  
-  }
-  .input{
-    height: 35px;
-    width: 200px;
-    border-radius: 6px;
-   border: 1px solid #333;
-  }
-  .w-30{
-    width: 45%;
-  }
-  .btn {
-  
-    display: flex;
-    justify-content:center ;
-    align-items: center;
-    text-align: center;
-    
-  
-  
-  }
-  .btnbg{
-    background-color: rgb(164,164,236);
-    border-radius: 5px;
-    height: 25px; /* Decrease the height */
-    font-size: 16px; /* Decrease the font size */
-    padding: 0 10px;
-    width: 70px;
+  padding: 15px;
 
-    
-  
-  }
-  .text{
-    font-size: 20px;
-    font-weight: 500px;
-  }
+}
+.input{
+  height: 35px;
+  width: 200px;
+  border-radius: 6px;
+ border: 1px solid #333;
+}
+.w-30{
+  width: 45%;
+}
+button {
+  /* padding: 8px 15px; */
+  /* background-color: #007bff; */
+  margin-left: 20px;
+  background-color: rgb(164, 164, 236);
+  color:black;
+  width: 200px;
+  border: none;
+  border-radius: 60px;
+  cursor: pointer;
+}
 
-  .card{
-    background-color: rgb(229, 233, 234);
-    margin-left: 30px;
-    margin-top: 35px;
-  }
+button:hover {
+  background-color: #0056b3;
+}
+.text{
+  font-size: 20px;
+  font-weight: 500px;
+}
 
-  .accountheader h1{
-    margin-left: 30px;
-    /* margin-top: 15px;
-    color: rgb(243,117,46); */
-    font-size: 2em;
-  }
-
-  .row{
-    margin-top: -30px;
-  }
-
-  .column{
-    padding: 2%;
-  }
-
- 
-  
-  
+.rowbutton{
+  display: flex;
+  justify-content: space-evenly;
+}
+/* .button{
+  margin-left: 500px;
+} */

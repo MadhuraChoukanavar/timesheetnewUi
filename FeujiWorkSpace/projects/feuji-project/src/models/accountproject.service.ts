@@ -55,6 +55,10 @@ export class AccountprojectService {
     return this.http.get<any[]>(`${this.apiUrl}/api/accountProjects/getByUuid/${uuid}`);
   }
 
+
+  getAccountProjectByUuid(uuid: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/api/accountProjects/getAccountProjectUpdate/${uuid}`);
+  }
   // deleteRow(accountProjectId:any){
   //   const headers =new HttpHeaders({'Content-Type':'application/json'});
   //   return this.http.put<any>(`${this.apiUrl}/api/accountProjects/delete/{accountProjectId}`,{headers});
@@ -68,7 +72,12 @@ export class AccountprojectService {
     // Pass the accountProjectId directly without string interpolation
 
 
+    updateAccountProject(accountData:Accountproject): Observable<Accountproject> {
+      return this.http.put<Accountproject>(`${this.apiUrl}/api/accountProjects/updateAccountProject`, accountData);
+    }
+    deleteEmployee(accountProjectId:number):Observable<any>{
 
-
+      return this.http.delete<any>(`${this.apiUrl}/api/accountProjects/deleteAccProject/${accountProjectId}`)
+    }
 
 }

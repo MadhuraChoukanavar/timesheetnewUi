@@ -13,8 +13,8 @@ export class TimesheetWeekApprovalService {
   private accountUrl='http://localhost:8084/api/timesheet'
   private weekTimeSheet: timesheetWeekApproval[]=[];
   constructor(private http: HttpClient) {}
-  getAccounts(): Observable<any[]> {
-    const url = `${this.accurl}?userEmpId=${107}`;
+  getAccounts(userEmpId:number): Observable<any[]> {
+    const url = `${this.accurl}?userEmpId=${userEmpId}`;
     return this.http.get<any[]>(url);
   }
 

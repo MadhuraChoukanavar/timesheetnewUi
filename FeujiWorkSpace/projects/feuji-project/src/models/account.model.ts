@@ -21,7 +21,7 @@ export class Account{
         public   comments:string,
         public   isDeleted:boolean,
     //	private Character uuId;  
-         public   uuId:string, 
+    
          public  createdBy:string,
          public   createdOn:Date,
          public   modifiedBy:string,
