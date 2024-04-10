@@ -20,6 +20,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     private timesheetHomeService: TimesheetHomeService,
     private datePipe: DatePipe
   ) {}
+
   tasks = [
     {
       project: '',
@@ -51,14 +52,26 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
   currentUser: number = 0;
   rownum: number = 1;
   current: number = 0;
-  showRows: boolean = false;
-  countofrow: number = 1;
-  addTaskRow() {
-    this.showRows = true;
-    this.addDataToAllarows();
 
-    if (this.showRows && this.countofrow++ > 1) {
+  // substractNum:number=0;
+
+  Submit: boolean = false;
+  addTaskRow() {
+    this.addDataToAllarows();
+    this.saveAndSubmit = true;
+
+    if (
+      this.fetchedDetails.length > 0 &&
+      this.fetchedDetails[0].timesheetStatusname === 'Submitted'
+    ) {
+      Swal.fire({
+        text: 'timesheetalready submitted',
+        icon: 'warning',
+        confirmButtonText: 'OK',
+      });
+    } else {
       this.rownum++;
+      // this.substractNum=1;
       this.tasks.push({
         project: '',
         taskType: '',
@@ -66,16 +79,21 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
         attendanceType: '',
         days: Array(7).fill(0),
       });
+      // this.columnsum();
     }
+    //
+    //this.tasks=[];
 
     this.getHolidayDetails(this.startDate);
   }
 
   valuee: number = 0;
   removeTask(index: number): void {
-    this.tasks.splice(index, 1);
-    if (this.rownum != 0) {
+    if (this.rownum > 0) {
+      this.tasks.splice(index, 1);
+
       this.rownum--;
+
     }
 
     for (let a = 0; a < 6; a++) {
@@ -90,7 +108,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     const userStr = localStorage.getItem('user');
-
+    this.Submit = false;
     if (userStr !== null) {
       const userData = JSON.parse(userStr);
       const userEmpId = userData.userEmpId;
@@ -101,20 +119,24 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     }
     this.timesheetHomeService.getAccounts(this.currentUser).subscribe(
       (resp) => {
+
+
         this.accounts = resp as any[];
       },
       (error) => {
         console.error(error);
       }
     );
+
     this.onSelectAttendanceType();
     this.calculateCurrentWeek();
   }
-
+  // accountSelected:boolean=false;
   OnSelectAccount(account: any) {
     this.selectedAccount = account.target.value;
     this.addbutton = true;
-    this.submit=true;
+    this.saveAndSubmit = false;
+    //this.accountSelected = true;
     this.everyRowRecord[(this.rownum, 21)] = Number(this.selectedAccount);
 
     this.timesheetHomeService
@@ -122,6 +144,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
       .subscribe(
         (resp) => {
           this.projects = resp as any[];
+
           console.log(this.projects);
         },
         (error) => {
@@ -131,11 +154,11 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    this.columnsumnew();
+    //this.columnsumnew();
+    // this.columnsum();
+    this.sumofields();
   }
   onSelect(projects: any, i: number) {
-    this.saveAndSubmit = true;
-
     this.selectedProjectId = projects.target.value;
     this.everyRowRecord[(this.rownum, 1)] = Number(this.selectedProjectId);
     this.timesheetHomeService
@@ -181,13 +204,14 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
 
   onselectAttendanceType(attendanceType: any, i: number) {
     const attendanceId = attendanceType.target.value;
-
+    this.selectedAttendanceType = attendanceType.target.value;
     this.everyRowRecord[(this.rownum, 4)] = Number(attendanceId);
   }
   showButtons: boolean = true;
   calculateWeek(offset: number = 0) {
     this.saveAndSubmit = false;
     this.showButtons = true;
+    this.addbutton = true;
     const today = new Date();
     const currentDay = today.getDay();
     const daysUntilMonday = currentDay === 0 ? 6 : currentDay - 1;
@@ -221,12 +245,13 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
         startDate: formattedDate,
         endDate: formattedDate,
       });
-      this.fetchWeekDayData(
-        this.currentUser,
-        this.selectedAccount,
-        this.startDate,
-        this.lastDate
-      );
+      // this.fetchWeekDayData(
+      //   this.currentUser,
+      //   this.selectedAccount,
+      //   this.startDate,
+      //   this.lastDate
+      // );
+      this.loadTimesheetData();
 
       this.everyRowRecord[(this.rownum, 5 + i)] = formattedDate1;
     }
@@ -256,35 +281,29 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
 
     this.tasks = [];
 
-    this.fetchWeekDayData(
-      this.currentUser,
-      this.selectedAccount,
-      this.startDate,
-      this.lastDate
-    );
+    this.loadTimesheetData();
     if (this.current != 0) {
       this.showButtons = false;
       this.addbutton = false;
       this.selectAccount = true;
       this.saveAndSubmit = false;
+      this.Submit = false;
     }
+
     this.getHolidayDetails(this.startDate);
   }
   showPreviousWeek() {
     this.calculateWeek(--this.current);
+
     this.tasks = [];
 
-    this.fetchWeekDayData(
-      this.currentUser,
-      this.selectedAccount,
-      this.startDate,
-      this.lastDate
-    );
+    this.loadTimesheetData();
+
     if (this.current != 0) {
       this.showButtons = false;
       this.addbutton = false;
       this.selectAccount = true;
-
+      this.Submit = false;
       this.saveAndSubmit = false;
     }
     this.getHolidayDetails(this.startDate);
@@ -292,29 +311,30 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
 
   totalvalue: number[] = [0, 0, 0, 0, 0, 0, 0];
   newrowTotal: number[] = [];
-  columnsumnew() {
-    this.totalvalue = [0, 0, 0, 0, 0, 0, 0];
-    for (let columnCount = 4; columnCount < 11; columnCount++) {
-      let sum: number = 0;
+  // columnsumnew() {
 
-      for (let rowCount = 0; rowCount < this.limitRow; rowCount++) {
-        const inputElement = document
-          .getElementById('data_' + rowCount + columnCount)
-          ?.querySelector('input');
-        if (inputElement instanceof HTMLInputElement) {
-          const inputValue = inputElement.value;
+  //   this.totalvalue = [0, 0, 0, 0, 0, 0, 0];
+  //   for (let columnCount = 4; columnCount < 11; columnCount++) {
+  //     let sum: number = 0;
 
-          sum += Number(inputValue);
-        }
-      }
+  //     for (let rowCount = 0; rowCount < this.limitRow; rowCount++) {
+  //       const inputElement = document
+  //         .getElementById('data_' + rowCount + columnCount)
+  //         ?.querySelector('input');
+  //       if (inputElement instanceof HTMLInputElement) {
+  //         const inputValue = inputElement.value;
 
-      this.totalvalue[columnCount - 4] = sum;
-    }
+  //         sum += Number(inputValue);
+  //       }
+  //     }
 
-    this.rowsumnew();
+  //     this.totalvalue[columnCount - 4] = sum;
+  //   }
 
-    return this.totalvalue;
-  }
+  //   this.rowsumnew();
+
+  //   return this.totalvalue;
+  // }
   rowsumnew() {
     for (let rowCount = 0; rowCount < this.limitRow; rowCount++) {
       let sum: number = 0;
@@ -331,25 +351,31 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
       this.newrowTotal[rowCount] = sum;
     }
   }
-  columnsum() {
-    for (let columnCount = 0; columnCount < 7; columnCount++) {
-      let sum: number = 0;
+  // columnsum() {
+  //   //this.totalvalue = [0, 0, 0, 0, 0, 0, 0];
+  //   for (let columnCount = 0; columnCount < 7; columnCount++) {
+  //     let sum: number = 0;
 
-      for (let rowCount = 0; rowCount < this.rownum; rowCount++) {
-        const inputValue = (
-          document.getElementById(
-            'input_' + rowCount + columnCount
-          ) as HTMLInputElement
-        ).value;
-        sum += Number(inputValue);
-        this.rowsum(rowCount);
-      }
+  //     for (let rowCount = 0; rowCount < this.rownum; rowCount++) {
+  // console.log( "ROWNUM" , this.rownum);
 
-      this.totalvalue[columnCount] += Number(sum);
-    }
+  //       const inputValue = (
+  //         document.getElementById(
+  //           'input_' + rowCount + columnCount
+  //         ) as HTMLInputElement
+  //       ).value;
+  //       sum += Number(inputValue);
+  //       console.log('input_' + rowCount + columnCount ,"--->" ,Number(inputValue));
+  //       console.log(rowCount);
 
-    return this.totalvalue;
-  }
+  //       this.rowsum(rowCount);
+  //     }
+
+  //     this.totalvalue[columnCount] += Number(sum);
+  //   }
+
+  //   return this.totalvalue;
+  // }
 
   rowsum(count: number) {
     let sum: number = 0;
@@ -376,50 +402,61 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
 
   allRows: TimesheetWeekDayBean[] = [];
   saveAndSubmit: boolean = false;
-  submit:boolean=false;
   saveWeekTableData() {
-    this.addDataToAllarows();
-
-    this.saveAndEditRecords.timesheetWeekDayDetailDto = this.allRows;
-    this.saveAndEditRecords.weekAndDayDto = this.editedArray;
-    if (!this.getworkingHours()) {
+    if (
+      !this.selectedAccount ||
+      !this.selectedProjectId ||
+      !this.selectedAttendanceType ||
+      !this.selectedTaskId
+    ) {
       Swal.fire({
-        title: 'Are you sure?',
-        text: 'working hour is less than 8 do you want to save',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes',
-        cancelButtonText: 'No',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.timesheetHomeService
-            .sendDataToBackend1(this.saveAndEditRecords, this.startDate)
-            .subscribe(
-              (response) => {
-                console.log('Backend response:', response);
-                const accountId = this.selectedAccount || this.defaultAccountId;
-                this.saveAndSubmit = true;
-                this.submit=true;
+        title: 'Enter required fields to save timesheet',
 
-                this.editedArray = [];
-                this.fetchWeekDayData(
-                  this.currentUser,
-                  accountId,
-                  this.startDate,
-                  this.lastDate
-                );
-              },
-              (error) => {
-                console.error('Error sending data to backend:', error);
-              }
-            );
-        } else {
-          if (result.isDismissed) {
-            console.log('else not saved');
-          }
-          console.log('save');
-        }
+        confirmButtonText: 'OK',
       });
+    } else {
+      this.addDataToAllarows();
+      console.log(this.saveAndEditRecords);
+
+      this.saveAndEditRecords.timesheetWeekDayDetailDto = this.allRows;
+      this.saveAndEditRecords.weekAndDayDto = this.editedArray;
+      if (!this.getworkingHours()) {
+        Swal.fire({
+          title: 'Are you sure?',
+          text: 'working hour is less than 8 do you want to save',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes',
+          cancelButtonText: 'No',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.timesheetHomeService
+              .sendDataToBackend1(this.saveAndEditRecords, this.startDate)
+              .subscribe(
+                (response) => {
+                  console.log('Backend response:', response);
+                  Swal.fire({
+                    title: 'Timesheet saved',
+
+                    confirmButtonText: 'OK',
+                  });
+                  this.saveAndSubmit = true;
+                  this.tasks = [];
+                  // this.editedArray = [];
+                  this.loadTimesheetData();
+                },
+                (error) => {
+                  console.error('Error sending data to backend:', error);
+                }
+              );
+          } else {
+            if (result.isDismissed) {
+              console.log('else not saved');
+            }
+            console.log('save');
+          }
+        });
+      }
     }
   }
 
@@ -481,6 +518,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     timesheetWeekDayBean.accountId = this.everyRowRecord[index++];
 
     if (timesheetWeekDayBean.accountProjectId != undefined) {
+      //  this.allRows[this.rownum - 1] = timesheetWeekDayBean;
       this.allRows[this.rownum - 1] = timesheetWeekDayBean;
     }
   }
@@ -508,9 +546,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     endDate: string
   ): void {
     this.saveAndSubmit = false;
-
-    this.submit=true;
-
+    this.Submit = true;
 
     this.timesheetHomeService
       .getWeekDayDetails(accountId, employeeId, startDate, endDate)
@@ -518,11 +554,24 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
         this.fetchedDetails = fetched as WeekAndDayDto[];
         this.limitRow = fetched.length;
 
+        if (this.fetchedDetails.length == 0) {
+          this.rownum = 1;
+          this.saveAndSubmit = true;
+        } else {
+          this.rownum = 0;
+          this.saveAndSubmit = false;
+          this.tasks = [];
+          // this.substractNum=-1;
+        }
+
         this.getHolidayDetails(this.startDate);
         this.disableInputField();
-        this.countofrow = 1;
+        // this.countofrow = 1;
         for (let i = 0; i < this.fetchedDetails.length; i++) {
           this.selectedTasks[i] = this.fetchedDetails[i].taskId;
+        }
+        if (this.fetchedDetails[0].timesheetStatusname === 'Submitted') {
+          this.saveAndSubmit = false;
         }
       });
   }
@@ -538,71 +587,79 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
   }
 
   deleteselected(index: number) {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'This action cannot be undone!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, keep it',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const selectedRowData = this.fetchedDetails[index];
-        const weekAndDayDto: WeekAndDayDto = {
-          timesheetWeekId: selectedRowData.timesheetWeekId,
-          accountId: selectedRowData.accountId,
 
-          employeeId: selectedRowData.employeeId,
-          accountProjectId: selectedRowData.accountProjectId,
-          projectName: selectedRowData.projectName,
-          taskTypeId: selectedRowData.taskTypeId,
-          taskTypeName: selectedRowData.taskTypeName,
-          taskId: selectedRowData.taskId,
-          taskName: selectedRowData.taskName,
-          attendanceType: selectedRowData.attendanceType,
-          attendanceTypeName: selectedRowData.attendanceTypeName,
-          weekStartDate: selectedRowData.weekStartDate,
-          dateMon: selectedRowData.dateMon,
-          dateTue: selectedRowData.dateTue,
-          dateWed: selectedRowData.dateWed,
-          dateThu: selectedRowData.dateThu,
-          dateFri: selectedRowData.dateFri,
-          dateSat: selectedRowData.dateSat,
-          dateSun: selectedRowData.dateSun,
-          hoursMon: selectedRowData.hoursMon,
-          hoursTue: selectedRowData.hoursTue,
-          hoursWed: selectedRowData.hoursWed,
-          hoursThu: selectedRowData.hoursThu,
-          hoursFri: selectedRowData.hoursFri,
-          hoursSat: selectedRowData.hoursSat,
-          hoursSun: selectedRowData.hoursSun,
-          comments: selectedRowData.comments,
-          timesheetStatus: 57,
-        };
+    if (this.fetchedDetails[0].timesheetStatusname === 'Submitted') {
+      Swal.fire({
+        text: 'timesheetalready submitted You cant delete',
+        icon: 'warning',
+        confirmButtonText: 'OK',
+      });
+    } else {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'This action cannot be undone!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, keep it',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const selectedRowData = this.fetchedDetails[index];
+          const weekAndDayDto: WeekAndDayDto = {
+            timesheetWeekId: selectedRowData.timesheetWeekId,
+            accountId: selectedRowData.accountId,
 
-        this.timesheetHomeService.deleteRecord(weekAndDayDto).subscribe(
-          (response) => {
-            Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
-            const accountId = this.selectedAccount || this.defaultAccountId;
-            this.fetchWeekDayData(
-              this.currentUser,
-              accountId,
-              this.startDate,
-              this.lastDate
-            );
-          },
-          (error) => {
-            Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
-          }
-        );
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-      }
-    });
+            employeeId: selectedRowData.employeeId,
+            accountProjectId: selectedRowData.accountProjectId,
+            projectName: selectedRowData.projectName,
+            taskTypeId: selectedRowData.taskTypeId,
+            taskTypeName: selectedRowData.taskTypeName,
+            taskId: selectedRowData.taskId,
+            taskName: selectedRowData.taskName,
+            attendanceType: selectedRowData.attendanceType,
+            attendanceTypeName: selectedRowData.attendanceTypeName,
+            weekStartDate: selectedRowData.weekStartDate,
+            dateMon: selectedRowData.dateMon,
+            dateTue: selectedRowData.dateTue,
+            dateWed: selectedRowData.dateWed,
+            dateThu: selectedRowData.dateThu,
+            dateFri: selectedRowData.dateFri,
+            dateSat: selectedRowData.dateSat,
+            dateSun: selectedRowData.dateSun,
+            hoursMon: selectedRowData.hoursMon,
+            hoursTue: selectedRowData.hoursTue,
+            hoursWed: selectedRowData.hoursWed,
+            hoursThu: selectedRowData.hoursThu,
+            hoursFri: selectedRowData.hoursFri,
+            hoursSat: selectedRowData.hoursSat,
+            hoursSun: selectedRowData.hoursSun,
+            comments: selectedRowData.comments,
+            timesheetStatus: 0,
+            timesheetStatusname: '',
+          };
+
+          this.timesheetHomeService.deleteRecord(weekAndDayDto).subscribe(
+            (response) => {
+              Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
+              this.loadTimesheetData();
+            },
+            (error) => {
+              Swal.fire(
+                'Failed to Delete',
+                'There was an error while deleting your record.',
+                'error'
+              );
+            }
+          );
+        }
+      });
+    }
+
+    this.loadTimesheetData();
   }
   convertedDate: string = '';
   onSubmit() {
     const currentWeekStartDate = this.startDate;
-    // const timesheetStatus = 58;
 
     const datePipe = new DatePipe('en-US');
 
@@ -610,51 +667,36 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
       ? datePipe.transform(currentWeekStartDate, 'yyyy-MM-dd HH:mm:ss') || ''
       : '';
 
-
-
-
-    if (!this.getWorkingHoursperWeek()) {
+    if (
+      this.fetchedDetails[0].timesheetStatusname === 'Pending' ||
+      this.fetchedDetails[0].timesheetStatusname === 'Rejected'
+    ) {
+      if (!this.getWorkingHoursperWeek()) {
+        Swal.fire({
+          title: 'Are you sure?',
+          text: 'working hour is more than 40 hours do you want to submit',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes',
+          cancelButtonText: 'No',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.onSubmit1(
+              this.currentUser,
+              this.selectedAccount,
+              formattedDatee
+            );
+          }
+        });
+      }
+    } else {
       Swal.fire({
-        title: 'Are you sure?',
-        text: 'working hour is more than 40 hours do you want to submit',
+        text: 'timesheetalready submitted',
         icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes',
-        cancelButtonText: 'No',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.onSubmit1(
-                      this.currentUser,
-                      this.selectedAccount,
-                      formattedDatee
-                    );
-        }
+        confirmButtonText: 'OK',
       });
     }
- //   this.getWorkingHoursperWeekcall();
   }
-
-  // getWorkingHoursperWeekcall() {
-  //   if (!this.getWorkingHoursperWeek) {
-  //     Swal.fire({
-  //       title: 'Are you sure?',
-  //       text: 'working hour is less than 40 do you want to submit',
-  //       icon: 'warning',
-  //       showCancelButton: true,
-  //       confirmButtonText: 'Yes',
-  //       cancelButtonText: 'No',
-  //     }).then((result) => {
-  //       if (result.isConfirmed) {
-  //         this.onSubmit1(
-  //           this.currentUser,
-  //           this.selectedAccount,
-  //           this.formattedDate
-  //         );
-  //       }
-  //     });
-  //   }
-  // }
-  submittioncount:number=0;
 
   onSubmit1(employeeId: number, accountId: number, weekStartDate: string) {
     this.timesheetHomeService
@@ -662,17 +704,23 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
       .subscribe(
         (response) => {
           this.saveAndSubmit = false;
-          this.submit=false;
-          this.submittioncount++;
 
+          Swal.fire({
+            title: 'Timesheet Submitted Successfully',
 
-          console.log('submitted successfully ' + response);
+            confirmButtonText: 'OK',
+          });
+          this.loadTimesheetData();
         },
         (error) => {
-          this.saveAndSubmit = false;
-          console.log('error in submitting ' + error);
+          Swal.fire({
+            title: 'Timesheet Submitted Successfully',
+
+            confirmButtonText: 'OK',
+          });
         }
       );
+    this.loadTimesheetData();
   }
 
   editedArray: WeekAndDayDto[] = [];
@@ -705,7 +753,8 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     0,
     0,
     '',
-    0
+    0,
+    ''
   );
 
   editMode: boolean = false;
@@ -752,7 +801,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     }
     this.fetchedDetails[j].hoursMon = Number(newHoursMon);
 
-    this.columnsumnew();
+    this.sumofields();
 
     this.editedHoursMonArray[j];
   }
@@ -769,7 +818,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
 
     this.fetchedDetails[j].hoursTue = Number(newHoursTue);
 
-    this.columnsumnew();
+    this.sumofields();
 
     this.editedHoursTueArray[j];
   }
@@ -785,7 +834,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     }
     this.fetchedDetails[j].hoursWed = Number(newHoursWed);
 
-    this.columnsumnew();
+    this.sumofields();
 
     this.editedHoursWedArray[j];
   }
@@ -800,7 +849,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
       this.editedHoursThuArray[j] = this.fetchedDetails[j].hoursThu;
     }
     this.fetchedDetails[j].hoursThu = Number(newHoursThu);
-
+    this.sumofields();
     this.editedHoursThuArray[j];
   }
 
@@ -814,7 +863,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
       this.editedHoursFriArray[j] = this.fetchedDetails[j].hoursFri;
     }
     this.fetchedDetails[j].hoursFri = Number(newHoursFri);
-
+    this.sumofields();
     this.editedHoursFriArray[j];
   }
 
@@ -892,7 +941,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
       this.hoursPerDay = Number(hours);
 
       this.hoursPerWeek = this.hoursPerDay * 5;
-      alert(this.hoursPerWeek);
+
     });
     var result = this.totalvalue.reduce((sum, num) => sum + num, 0);
 
@@ -929,5 +978,56 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
         this.holidays = [];
       }
     });
+  }
+
+  sumofields() {
+    this.totalvalue = [0, 0, 0, 0, 0, 0, 0];
+    for (let columnCount = 4; columnCount < 11; columnCount++) {
+      let sum: number = 0;
+
+      for (let rowCount = 0; rowCount < this.limitRow; rowCount++) {
+        const inputElement = document
+          .getElementById('data_' + rowCount + columnCount)
+          ?.querySelector('input');
+        if (inputElement instanceof HTMLInputElement) {
+          const inputValue = inputElement.value;
+
+          sum += Number(inputValue);
+        }
+      }
+
+      this.totalvalue[columnCount - 4] = sum;
+    }
+
+    this.rowsumnew();
+    for (let columnCount = 0; columnCount < 7; columnCount++) {
+      let sum: number = 0;
+
+      for (let rowCount = 0; rowCount < this.rownum; rowCount++) {
+        console.log('ROWNUM', this.rownum);
+
+        const inputValue = (
+          document.getElementById(
+            'input_' + rowCount + columnCount
+          ) as HTMLInputElement
+        ).value;
+        sum += Number(inputValue);
+        console.log(
+          'input_' + rowCount + columnCount,
+          '--->',
+          Number(inputValue)
+        );
+        console.log(rowCount);
+
+        this.rowsum(rowCount);
+      }
+
+      this.totalvalue[columnCount] += Number(sum);
+    }
+
+    return this.totalvalue;
+  }
+  isSubmitted(): boolean {
+    return this.fetchedDetails[0].timesheetStatusname === 'Submitted';
   }
 }
