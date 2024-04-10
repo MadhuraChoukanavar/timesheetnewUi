@@ -87,45 +87,12 @@ startDate: any = '';
 
 
   ngOnInit(): void {
-    console.log("000000000000000000000000");
-
-
     console.log("history.state.weekTimesheet:", history.state.weekTimesheet);
-
-
     if (history.state.weekTimesheet ) {
 
       console.log("123444445678");
       this.weekTimesheet = history.state.weekTimesheet;
-
-      // const firstTimesheet = history.state.weekTimesheet;
-      // this.weekTimesheet = new timesheetWeekApproval(
-
-
-      //   firstTimesheet.employeeId,
-      //   firstTimesheet.designation,
-      //   firstTimesheet.employeeCode,
-      //   firstTimesheet.firstName,
-      //   firstTimesheet.email,
-      //   firstTimesheet.approvedBy,
-      //   firstTimesheet.weekNumber,
-      //   firstTimesheet.projectName,
-      //   firstTimesheet.accountProjectId,
-      //   firstTimesheet.totalBillingHours,
-      //   firstTimesheet.totalNonBillingHours,
-      //   firstTimesheet.totalLeaveHours,
-      //   firstTimesheet.timesheetStatus,
-      //   new Date(firstTimesheet.weekStartDate),
-      //   new Date(firstTimesheet.weekEndDate),
-      //   new Date(firstTimesheet.plannedStartDate),
-      //   new Date(firstTimesheet.plannedEndDate),
-      //   firstTimesheet.accountId,
-      //   firstTimesheet.reportingManagerId
-      // );
       console.log(this.weekTimesheet);
-
-
-
 
       // Calculate currentWeek1
       const startDate1 = new Date(this.weekTimesheet.weekStartDate);
@@ -401,7 +368,7 @@ timesheetApprove(weekTimesheet: timesheetWeekApproval) {
   this.timesheetHomeService.updateTimesheetStatus(this.weekTimesheet.employeeId, this.weekTimesheet.accountId, startDate1)
     .subscribe((data) => {
       this.data = data;
-      this.router.navigate(['/DailyStatusComponent']);
+      this.router.navigate(['/dailyStatus']);
     });
 }
 
@@ -462,8 +429,6 @@ this.getEmployee();
  }
 
  getEmployee(){
-
-
    this.selectedAccount
    this.timesheetService.getAllEmployee(this.userEmpId,this.selectedAccount).subscribe((data: any[])=>{
    console.log("hlooooooooooooooooo")

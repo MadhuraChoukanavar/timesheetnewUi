@@ -10,10 +10,6 @@ import { NavigationEnd, Router } from '@angular/router';
 export class NavbarComponent {
   user: any;
 
-  // constructor(private router: Router) {
-  //   this.checkUser();
-
-  //  }
   constructor(private router: Router, private titleService: Title) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -74,34 +70,57 @@ export class NavbarComponent {
 
     // Define logic to set the title based on the last segment of the route URL
     switch (lastSegment) {
+      // Admin
+      case 'admin-profile':
+        this.title = 'Profile';
+        break;
+      case 'display-employee':
+        this.title = 'Display Employee';
+        break;
       case 'add-employee':
-        this.title = 'Add Employee';
+        this.title = 'Add New Employee';
         break;
-      case 'admin-home-page':
-        this.title = 'Home Page';
+      case'update-account/:id':
+        this.title='Update Account';
         break;
-      case 'timesheetapproval':
-        this.title = 'Timesheet Approval';
+      case 'projects':
+        this.title = 'All Projects';
         break;
-      case 'showEmpSkills':
-        this.title = 'Update Skills';
+      case 'account-display':
+        this.title = 'Account';
         break;
-      case 'employeeGap':
-        this.title = 'Skill Gap';
+      case 'holiday-list':
+        this.title = 'Holiday';
         break;
-      case 'training':
-        this.title = 'Training Recommendations';
+        // Employee
+      case 'emp-profile':
+        this.title = 'Profile';
         break;
-        case 'addSkills':
-          this.title = 'Add Skills';
+      case 'timesheet-home':
+        this.title = 'New Timesheet';
         break;
-        case 'empskillgap':
-          this.title = 'Employees Skill Gap';
+      case 'timsheet-history':
+        this.title = 'Timesheet History';
         break;
-        case 'trainingsrecommended':
-          this.title = 'Employees Recommended For Training';
+      case 'holiday-list':
+        this.title = 'Holidays';
         break;
-
+        // Manager
+      case 'manager-profile':
+          this.title = 'Profile';
+        break;
+      case 'timesheet-homemanager':
+          this.title = 'New Timesheet';
+        break;
+      case 'timsheet-historymanager':
+          this.title = 'Timesheet History';
+        break;
+      case 'timesheet-approval':
+          this.title = 'Timesheet For Approval';
+        break;
+      case 'dailyStatus':
+          this.title = 'Daily status';
+        break;
       default:
         this.title = 'Dashboard';
         break;

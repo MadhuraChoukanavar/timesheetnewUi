@@ -21,6 +21,7 @@ export class TimesheetHistoryComponent implements OnInit{
  public selectedYear: number;
 public selectedAccountName:string='';
 currentUser:number=0;
+
  ngOnInit(): void {
 
   const userStr = localStorage.getItem('user');

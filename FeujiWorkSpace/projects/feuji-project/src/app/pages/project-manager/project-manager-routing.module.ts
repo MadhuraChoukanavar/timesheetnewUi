@@ -12,7 +12,7 @@ import { HolidayComponent } from "./holiday/holiday.component";
 const routes: Routes = [
   { path: 'manager-profile',component: ManagerViewProfileComponent},
   { path: 'timesheet-approval', component: TimesheetapproveComponent },
-  { path: 'DailyStatusComponent',component:DailyStatusComponent},
+  { path: 'dailyStatus',component:DailyStatusComponent},
   { path: 'manager-home',component:ManagerLandingPageComponent},
 //   { path: 'daily-timesheet',component:TimesheetapproveComponent}
   { path: 'timesheet-homemanager', component: TimesheetHomeComponent},

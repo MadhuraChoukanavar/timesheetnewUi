@@ -114,6 +114,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
   OnSelectAccount(account: any) {
     this.selectedAccount = account.target.value;
     this.addbutton = true;
+    this.submit=true;
     this.everyRowRecord[(this.rownum, 21)] = Number(this.selectedAccount);
 
     this.timesheetHomeService
@@ -508,7 +509,7 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
   ): void {
     this.saveAndSubmit = false;
 
-
+    this.submit=true;
 
 
     this.timesheetHomeService

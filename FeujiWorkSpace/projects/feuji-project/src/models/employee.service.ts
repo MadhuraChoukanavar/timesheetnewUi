@@ -26,7 +26,7 @@ export class EmployeeService {
   //  Method to Save Employment
   saveEmployee(employeeData: EmployeeSaving): Observable<EmployeeSaving> {
     console.log(employeeData + "service method");
-    return this.http.post<EmployeeSaving>(`${this.apiUrl}/save`, employeeData);
+    return this.http.post<EmployeeSaving>(`${this.apiUrl}/employees`, employeeData);
   }
 
   //  Method to check EmployeCode
