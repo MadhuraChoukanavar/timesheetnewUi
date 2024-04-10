@@ -17,22 +17,32 @@ export class HolidayComponent  implements OnInit
 {
   public holidays: Holiday[] = [];
   public defaultYear: number;
-  holidayYears: number[] = [2022, 2023, 2024]; // Example years
+  // Example years
   public selectedYear!: number;
   public holidayDetails: Holiday[] = [];
   public selectedmonth!: string;
-
+  holidayYears: number[] = [];
   constructor(private repository: holidayRepo, private data: HolidayService, private router: Router) {
     const currentDate = new Date();
     this.defaultYear = currentDate.getFullYear(); // Set the default year to the current year
     this.selectedYear = this.defaultYear;
   }
 
+   generateHolidayYears() {
+    // Get the current year
+    const currentYear = new Date().getFullYear();
+
+    // Generate an array containing the previous two years and the current year
+    const holidayYears = [currentYear - 2, currentYear - 1, currentYear];
+
+   this.holidayYears=holidayYears;
+  }
 
 
 
   ngOnInit(): void {
     // this.getholiday()
+    this.generateHolidayYears()
     this.HolidaysByYear()
   }
 
@@ -50,7 +60,7 @@ export class HolidayComponent  implements OnInit
 
   }
 
-  
+
 
 
   HolidaysByYear() {

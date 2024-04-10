@@ -1,6 +1,7 @@
 /* Style for the container */
 .container-fluid {
-  padding: 20px;
+  position: relative;
+  left: 3%;
 }
 
 /* Style for the heading */
@@ -39,7 +40,7 @@
   text-align: center;
   padding: 8px;
 }
-/* 
+/*
 Style for buttons
 .btn {
   align-items: center;
@@ -48,14 +49,14 @@ Style for buttons
 } */
 
 .button-cell {
-  display: flex; 
-  justify-content: center; 
-  padding: 0; 
+  display: flex;
+  justify-content: center;
+  padding: 0;
 }
 
 .btn {
-  cursor: pointer; 
-  
+  cursor: pointer;
+
 }
 
 
@@ -81,7 +82,7 @@ Style for buttons
 }
 .text{
   font-size: smaller;
- 
+
 
   font-family:Arial, Helvetica, sans-serif ;
 
@@ -135,7 +136,7 @@ div {
 /* Style for the label */
 label {
   font-weight: bold;
- 
+
 }
 
 /* Style for the select element */
@@ -147,7 +148,7 @@ select {
   border-radius: 7px; /* Add border radius for rounded corners */
   box-sizing: border-box; /* Ensure the padding and border are included in the width */
   position: relative;
-  left: 10px; 
+  left: 10px;
 }
 
 /* Style for the option elements */
@@ -155,7 +156,7 @@ option {
   font-size: 16px; /* Adjust font size */
   display: flex;
   justify-content: center;
-  
+
 }
 
 
@@ -164,7 +165,7 @@ a {
   width: 50px; /* Circle diameter */
   height: 50px;
   background-color: rgb(164, 164, 236); /* Green background */
-  color: black; 
+  color: black;
   text-align: center;
   text-decoration: none;
   border-radius: 50%;

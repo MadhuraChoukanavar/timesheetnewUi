@@ -10,10 +10,6 @@ import { NavigationEnd, Router } from '@angular/router';
 export class NavbarComponent {
   user: any;
 
-  // constructor(private router: Router) {
-  //   this.checkUser();
-
-  //  }
   constructor(private router: Router, private titleService: Title) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -76,35 +72,29 @@ export class NavbarComponent {
     switch (lastSegment) {
       // Admin
       case 'admin-profile':
-        this.title = 'View Profile';
+        this.title = 'Profile';
         break;
       case 'display-employee':
         this.title = 'Display Employee';
         break;
-        case 'update-employee': // Check if the last segment is 'update-employee'
-        this.title = 'Update Employee';
+      case 'add-employee':
+        this.title = 'Add New Employee';
+        break;
+      case'update-account/:id':
+        this.title='Update Account';
         break;
       case 'projects':
         this.title = 'All Projects';
         break;
-        case 'add-projects':
-          this.title = 'Add Projects';
-          break;
       case 'account-display':
-        this.title = 'All Account';
-        break;
-        case 'update-account': // Check if the last segment is 'update-employee'
-        this.title = 'Update Account';
-        break;
-        case 'project-update': // Check if the last segment is 'update-employee'
-        this.title = 'Update Project';
+        this.title = 'Account';
         break;
       case 'holiday-list':
-        this.title = 'All Holiday';
+        this.title = 'Holiday';
         break;
         // Employee
       case 'emp-profile':
-        this.title = 'View Profile';
+        this.title = 'Profile';
         break;
       case 'timesheet-home':
         this.title = 'New Timesheet';
@@ -112,16 +102,12 @@ export class NavbarComponent {
       case 'timsheet-history':
         this.title = 'Timesheet History';
         break;
-      case 'add-holiday':
-        this.title = 'Add Holidays';
+      case 'holiday-list':
+        this.title = 'Holidays';
         break;
-        case 'edit-holiday':
-          this.title = 'Update Holidays';
-          break;
-      
         // Manager
       case 'manager-profile':
-          this.title = 'View Profile';
+          this.title = 'Profile';
         break;
       case 'timesheet-homemanager':
           this.title = 'New Timesheet';
@@ -132,19 +118,14 @@ export class NavbarComponent {
       case 'timesheet-approval':
           this.title = 'Timesheet For Approval';
         break;
-        case 'add-employee':
-          this.title = 'Add Employee';
-        break;
-        case 'add-Projects':
-          this.title = 'Add Project';
-        break;
-        case 'add-account':
-          this.title = 'Add Account';
+      case 'dailyStatus':
+          this.title = 'Daily status';
         break;
       default:
         this.title = 'Dashboard';
         break;
     }
+
 
     // Set the title in the browser tab
     this.titleService.setTitle(this.title);

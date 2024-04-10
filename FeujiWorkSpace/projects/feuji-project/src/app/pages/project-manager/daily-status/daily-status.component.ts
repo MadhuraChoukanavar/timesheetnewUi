@@ -134,7 +134,7 @@ export class DailyStatusComponent implements OnInit {
       console.log('Assigned weekTimesheet:', this.weekTimesheet);
       this.fetchWeekDayData();
       this.getTotalHours();
-   
+
       this.employeeName = this.weekTimesheet.fullName;
       this.Status = this.weekTimesheet.timesheetStatus;
       this.designation = this.weekTimesheet.designation;
@@ -180,7 +180,7 @@ export class DailyStatusComponent implements OnInit {
 
 
 
- 
+
   columnsumnew() {
     for (let columnCount = 4; columnCount < 11; columnCount++) {
       let sum: number = 0;
@@ -337,22 +337,20 @@ export class DailyStatusComponent implements OnInit {
   }
 
   fetchWeekDayData(): void {
-    
-
 
     console.log("Employee ID: " + this.weekTimesheet.employeeId);
     console.log("h2");
 
 
 
-    
+
 
     const startDate1 =
       this.datePipe.transform(
         this.weekTimesheet.weekStartDate,
         'dd-MMM-yyyy'
       ) || '';
-   
+
 
     const lastDate =
       this.datePipe.transform(this.weekTimesheet.weekEndDate, 'dd-MMM-yyyy') ||
@@ -376,7 +374,7 @@ export class DailyStatusComponent implements OnInit {
   }
 
   loadTimesheetData(): void {
-   
+
     this.fetchWeekDayData();
   }
 
@@ -498,9 +496,4 @@ export class DailyStatusComponent implements OnInit {
       });
   }
 }
-
-
-
-
-
 

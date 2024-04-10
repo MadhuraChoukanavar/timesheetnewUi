@@ -9,42 +9,42 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-add-employee',
   templateUrl: './add-employee.component.html',
-  styleUrls:[ './add-employee.component.css']
+  styleUrls: ['./add-employee.component.css']
 })
-export class AddEmployeeComponent implements OnInit{
-  referenceUrl:string;
-  genderReference:any
-  gender:any
-  businessUnitReference:any
-  businessUnit:any
-  deliveryUnitReference:any
-  deliveryUnit:any
-  statusReference:any
-  status:any
-  reportingManager:any
-  reportingManagerReference:any
-  public referenceData: SaveEmployee[]=[]
-  public employee:any=Employee;
-  public emplyoee1:any=[];
-  public employmentTypes: SaveEmployee[]=[]
+export class AddEmployeeComponent implements OnInit {
+  referenceUrl: string;
+  genderReference: any
+  gender: any
+  businessUnitReference: any
+  businessUnit: any
+  deliveryUnitReference: any
+  deliveryUnit: any
+  statusReference: any
+  status: any
+  reportingManager: any
+  reportingManagerReference: any
+  public referenceData: SaveEmployee[] = []
+  public employee: any = Employee;
+  public emplyoee1: any = [];
+  public employmentTypes: SaveEmployee[] = []
   public selectedEmploymentType: string = '';
 
 
   public businessUnitType: any[] = [];
-  public statusTypes:any[]=[];
+  public statusTypes: any[] = [];
 
-  emp:EmployeeSaving=new EmployeeSaving(0,'','','','','','','',0,new Date(),0,0,0,0,0,new Date(),'',false,'',new Date(),'',new Date);
+  emp: EmployeeSaving = new EmployeeSaving(0, '', '', '', '', '', '', '', 0, new Date(), 0, 0, 0, 0, 0, new Date(), '', false, '', new Date(), '', new Date);
   employeeTypeReference: any;
 
-  constructor(private empService:EmployeeService,private shared : SharedService) {
+  constructor(private empService: EmployeeService, private shared: SharedService) {
     this.getAllReferenceType();
-   this.referenceUrl = this.shared.referenceUrl
+    this.referenceUrl = this.shared.referenceUrl
   }
 
   ngOnInit() {
 
-   this.fetchReportingManager();
-   this.getStatusType();
+    this.fetchReportingManager();
+    this.getStatusType();
     this.getBusinessUnitType();
   }
 
@@ -64,11 +64,9 @@ export class AddEmployeeComponent implements OnInit{
   employeeCodeControl = new FormControl('', [Validators.required, this.checkForUniqueEmployeeCode()]);
 
   checkForUniqueEmployeeCode(): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} | null => {
-      const value = control.value; // Get the value of the control
-      // Implement your logic to check for uniqueness here
-      const isNotUnique = false; // Replace this with your actual logic
-      // If the employee code is not unique, return an error object
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const value = control.value;
+      const isNotUnique = false;
       return isNotUnique ? { notUnique: true } : null;
     };
   }
@@ -109,109 +107,89 @@ export class AddEmployeeComponent implements OnInit{
       });
   }
 
-  fetchReportingManager(){
+  fetchReportingManager() {
     this.empService.getReportingManager().subscribe(
-        (resp:any) => {
-            this.reportingManager=resp;
-            console.log("Reporting Manager: ", this.reportingManager);
-        },
-        (error) => {
-            console.error("Error fetching reporting managers:", error);
-        }
+      (resp: any) => {
+        this.reportingManager = resp;
+        console.log("Reporting Manager: ", this.reportingManager);
+      },
+      (error) => {
+        console.error("Error fetching reporting managers:", error);
+      }
     );
   }
 
   onSubmit() {
-    // Retrieve the selected reporting manager ID directly from the select element
     const selectedReportingManagerId = (document.getElementById('reportingManager') as HTMLSelectElement).value;
-    // Use the selectedReportingManagerId as needed, such as sending it to the server
     console.log("Selected Reporting Manager ID: ", selectedReportingManagerId);
-    // Other submission logic...
   }
 
-  getAllReferenceType(){
-    this.empService.getAllReferenceType().subscribe((resp:any)=>{
-      this.employeeTypeReference=resp.filter((item:any) => item.referenceTypeName === 'Employee Type').reverse().pop()
-        console.log("employee Type",this.employeeTypeReference);
-        if (this.employeeTypeReference.referenceTypeId) {
-            this.fetchEmploymentTypes(this.employeeTypeReference.referenceTypeId)
-        }
+  getAllReferenceType() {
+    this.empService.getAllReferenceType().subscribe((resp: any) => {
+      this.employeeTypeReference = resp.filter((item: any) => item.referenceTypeName === 'Employee Type').reverse().pop()
+      console.log("employee Type", this.employeeTypeReference);
+      if (this.employeeTypeReference.referenceTypeId) {
+        this.fetchEmploymentTypes(this.employeeTypeReference.referenceTypeId)
+      }
 
-        this.genderReference=resp.filter((item:any) => item.referenceTypeName === 'Gender').reverse().pop()
-        console.log("Gender",this.genderReference);
-        if (this.genderReference.referenceTypeId) {
-            this.fetchGender(this.genderReference.referenceTypeId)
-        }
+      this.genderReference = resp.filter((item: any) => item.referenceTypeName === 'Gender').reverse().pop()
+      console.log("Gender", this.genderReference);
+      if (this.genderReference.referenceTypeId) {
+        this.fetchGender(this.genderReference.referenceTypeId)
+      }
 
-        this.businessUnitReference=resp.filter((item:any) => item.referenceTypeName === 'Business Unit').reverse().pop()
-        console.log("Business Unit",this.businessUnitReference);
-        if (this.businessUnitReference.referenceTypeId) {
-            this.fetchBusinessUnit(this.businessUnitReference.referenceTypeId)
-        }
+      this.businessUnitReference = resp.filter((item: any) => item.referenceTypeName === 'Business Unit').reverse().pop()
+      console.log("Business Unit", this.businessUnitReference);
+      if (this.businessUnitReference.referenceTypeId) {
+        this.fetchBusinessUnit(this.businessUnitReference.referenceTypeId)
+      }
 
-        this.deliveryUnitReference=resp.filter((item:any) => item.referenceTypeName === 'Delivery Unit').reverse().pop()
-        console.log("Delivery Unit",this.deliveryUnitReference);
-        if (this.deliveryUnitReference.referenceTypeId) {
-            this.fetchDeliveryUnit(this.deliveryUnitReference.referenceTypeId)
-        }
-        this.statusReference=resp.filter((item:any) => item.referenceTypeName === 'Employee Status').reverse().pop()
-        console.log("Employee Status",this.statusReference);
-        if (this.statusReference.referenceTypeId) {
-            this.fetchStatus(this.statusReference.referenceTypeId)
-        }
+      this.deliveryUnitReference = resp.filter((item: any) => item.referenceTypeName === 'Delivery Unit').reverse().pop()
+      console.log("Delivery Unit", this.deliveryUnitReference);
+      if (this.deliveryUnitReference.referenceTypeId) {
+        this.fetchDeliveryUnit(this.deliveryUnitReference.referenceTypeId)
+      }
+      this.statusReference = resp.filter((item: any) => item.referenceTypeName === 'Employee Status').reverse().pop()
+      console.log("Employee Status", this.statusReference);
+      if (this.statusReference.referenceTypeId) {
+        this.fetchStatus(this.statusReference.referenceTypeId)
+      }
 
-        this.reportingManagerReference=resp.filter((item:any) => item.referenceTypeName === 'Employee Status').reverse().pop()
-        console.log("Employee Status",this.statusReference);
-        if (this.statusReference.referenceTypeId) {
-            this.fetchStatus(this.statusReference.referenceTypeId)
-        }
-
-
-
-      })
-    }
-
-    // checkEmailUnique(e:any){
-    //   console.log(e);
-    // }
-
-    checkEmailUnique(email: any) {
-      console.log(email);
-console.log(this.emp.email);
-
-      // this.empService.checkEmployeeEmail(email).subscribe(isUnique => {
-      //   if (isUnique) {
-      //     console.log('Email is unique.');
-      //   } else {
-      //     console.log('Email already exists.');
-      //   }
-      // });
-    }
-    getEmployeeDetails(){
-      this.empService.getEmployeeDetails().subscribe(data=>{
-       console.log(data);
-       this.emplyoee1=data;
-       console.log(this.emplyoee1);
-     })
+      this.reportingManagerReference = resp.filter((item: any) => item.referenceTypeName === 'Employee Status').reverse().pop()
+      console.log("Employee Status", this.statusReference);
+      if (this.statusReference.referenceTypeId) {
+        this.fetchStatus(this.statusReference.referenceTypeId)
+      }
+  })
   }
 
+  checkEmailUnique(email: any) {
+    console.log(email);
+    console.log(this.emp.email);
+  }
 
+  getEmployeeDetails() {
+    this.empService.getEmployeeDetails().subscribe(data => {
+      console.log(data);
+      this.emplyoee1 = data;
+      console.log(this.emplyoee1);
+    })
+  }
 
   getBusinessUnitType() {
-    this.empService.getBusinessUnitType().subscribe((businessUnit:any[]) => {
-      console.log(businessUnit+":::::::::");
+    this.empService.getBusinessUnitType().subscribe((businessUnit: any[]) => {
+      console.log(businessUnit + ":::::::::");
       this.businessUnitType = businessUnit;
     });
   }
-  // ..........................
 
   getStatusType() {
-    this.empService.getStatusType().subscribe((status:any[]) => {
+    this.empService.getStatusType().subscribe((status: any[]) => {
       console.log(status);
       console.log("status:::::::::");
 
       this.statusTypes = status;
     });
   }
-  }
+}
 

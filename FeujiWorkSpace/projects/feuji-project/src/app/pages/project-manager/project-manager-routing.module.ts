@@ -8,19 +8,17 @@ import { TimesheetHomeComponent } from "./timesheet-home/timesheet-home.componen
 import { HolidayComponent } from "./holiday/holiday.component";
 import { TimesheetHistoryComponent } from "./timesheet-history/timesheet-history.component";
 
-
-
 const routes: Routes = [
   { path: 'manager-profile',component: ManagerViewProfileComponent},
   { path: 'timesheet-approval', component: TimesheetapproveComponent },
-  { path: 'DailyStatusComponent',component:DailyStatusComponent},
+  { path: 'dailyStatus',component:DailyStatusComponent},
   { path: 'manager-home',component:ManagerLandingPageComponent},
 //   { path: 'daily-timesheet',component:TimesheetapproveComponent}
   { path: 'timesheet-homemanager', component: TimesheetHomeComponent},
   { path: 'timsheet-historymanager',component:TimesheetHistoryComponent},
   { path: 'holiday-list',component:HolidayComponent},
- 
-  
+
+
 ];
 
 @NgModule({

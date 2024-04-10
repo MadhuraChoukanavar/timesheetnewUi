@@ -19,13 +19,12 @@ import { DatePipe } from '@angular/common';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { LoginLayoutComponent } from './pages/loginPage/login-layout.component';
 
-import { SaveEmployee } from '../models/saveemployee.model';
 
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 import { TimesheetHomeService } from '../models/timesheetHomeService.service';
-import { DailyStatusComponent} from './pages/project-manager/daily-status/daily-status.component';
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 
 
 
@@ -42,8 +41,8 @@ import { DailyStatusComponent} from './pages/project-manager/daily-status/daily-
     PmoLayoutComponent,
     AuthLayoutComponent,
     LoginLayoutComponent,
-   
-  
+    ForgotPasswordComponent,
+
 
 
   ],
@@ -58,8 +57,8 @@ import { DailyStatusComponent} from './pages/project-manager/daily-status/daily-
 
   providers: [UserService,TimesheetHomeService,
   EmployeeService,DatePipe, provideAnimationsAsync()],
- 
- 
+
+
 
 
   bootstrap: [AppComponent],
