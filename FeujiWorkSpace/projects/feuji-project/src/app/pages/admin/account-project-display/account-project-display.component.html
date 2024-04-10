@@ -1,79 +1,66 @@
+<div class="container-fluid">
 
-    <div class="container mt-2">
-      <div class="row p-4 text-end ">
-        <div class=" d-flex justify-content-end ">
-         <!-- <div class="col-md-2 mb-3 me-3">
-                <label for="exitDate" class="form-label">Start Date:</label>
-                <input type="date" class="form-control" id="exitDate" >
+  <div class="row " style="height: 90px;">
 
-            </div> -->
-            <!-- <div class="col-md-2 mb-3 me-3">
-              <label for="exitDate" class="form-label">End Date:</label>
-              <input type="date" class="form-control" id="exitDate" >
+    <div class="input-group mt-5 justify-content-end">
+      <div class="input-group-append" style="display: flex">
+        <button class="btn btn-primary float-lg-end" routerLink="/admin/add-projects">
+          <i class="fa-solid fa-plus"></i>
 
-          </div> -->
-        <div class="col-md-1  ">
-          <button class="btn btn-primary float-lg-end" routerLink="/admin/add-projects">
-            <i class="fa-solid fa-plus"></i>
-          </button>
-          </div>
-        </div>
-      <table class="table table-bordered  mt-4">
-        <thead class="table-dark" >
-          <tr>
-            <th>Account Project Name</th>
-            <th>Account Name</th>
-            <th>Project Manager</th>
-            <th>Priority</th>
-            <th>Billing Hours</th>
-            <th>Planned Start Date</th>
-            <th>Planned End Date</th>
-            <th>Actual Start Date</th>
-            <th>Actual End Date</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody class="tbody" >
-          <tr *ngFor="let c of accountProject">
-            <td>{{c.projectName}}</td>
-            <td>{{c.accountName}}</td>
-            <td>{{c.firstName}}</td>
-            <td>{{c.referenceDetailValue}}</td>
-            <td>{{c.noOfBillingHours}}</td>
-            <td>{{c.plannedStartDate|date:'dd-MM-yyyy' }}</td>
-            <td>{{c.plannedEndDate |date:'dd-MM-yyyy'}}</td>
-            <td>{{c.actualStartDate |date:'dd-MM-yyyy'}}</td>
-            <td>{{c.actualEndDate |date:'dd-MM-yyyy'}}</td>
-            <td>
-              <!-- Add Remove button for each row -->
-              <i class="fa-regular fa-pen-to-square fa-fw" ></i>
-              <i class="fa-solid fa-trash-can fa-fw" style="color: red; cursor: pointer;" (click)="deleteProject(c.accountProjectId)"></i>
+        </button>
 
-
-            </td>
-          </tr>
-
-
-        </tbody>
-      </table>
+      </div>
     </div>
 
-    <!-- <td ><button type="button" class="btn btn-warning ml-2  bg bg-light" (click)="editItem(c.accountuuid)">
-      <i class="fas fa-edit"></i>
-    </button></td>
-</tr> -->
+    <div>
 
-
-      <!-- <div class="form-group">
-
-        <label for="submitButton "></label>
-        <button type="submit" class="btn btn-primary  float-lg-end" id="submitButton"  style="margin-right: 30px; font-size: medium;">Submit</button>
-
-        <label for="submitButton "></label>
-        <button type="submit" class="btn btn-primary  float-lg-end " id="submitButton" style="margin-right: 30px; font-size: medium;">Save</button>
-
-
-
-      </div> -->
 
     </div>
+
+
+    <table class="table mt-5">
+      <thead>
+        <tr class="table-dark">
+          
+         
+          <th class="text-center">Account Project Name</th>
+          <th class="text-center">Account Name</th>
+          <th class="text-center">Project Manager</th>
+          <th class="text-center">Priority</th>
+          <th class="text-center">Billing Hours</th>
+          <th class="text-center">Planned Start Date</th>
+          <th class="text-center">Planned End Date</th>
+          <th class="text-center">Actual Start Date</th>
+          <th class="text-center">Actual End Date</th>
+          <th class="text-center">Action</th>
+
+        </tr>
+      </thead>
+      <tbody class="tbody">
+       <tr *ngFor="let c of accountProject">
+          <td>{{ c.projectName }}</td>
+          <td>{{ c.accountName }}</td>
+          <td>{{ c.firstName }}</td>
+          <td>{{ c.referenceDetailValue }}</td>
+          <td>{{ c.noOfBillingHours }}</td>
+          <td>{{ c.plannedStartDate | date : "dd-MM-yyyy" }}</td>
+          <td>{{ c.plannedEndDate | date : "dd-MM-yyyy" }}</td>
+          <td>{{ c.actualStartDate | date : "dd-MM-yyyy" }}</td>
+          <td>{{ c.actualEndDate | date : "dd-MM-yyyy" }}</td>
+
+          <td class="rowbutton">
+            <button type="button" class="btn btn-warning ml-2 bg bg-light" (click)="editItem(c)">
+              <i class="fas fa-edit"></i>
+            </button>
+
+            <button type="button" class="btn btn-warning ml-2 bg bg-light">
+              <i class="fa-solid fa-trash-can fa-fw" style="color: red;" (click)="removeTask(c.accountProjectId)"></i>
+            </button>
+          </td>
+
+        </tr>
+
+
+      </tbody>
+    </table>
+  </div>

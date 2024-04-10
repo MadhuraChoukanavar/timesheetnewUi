@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
   styleUrl: './update-emlpoyee.component.css'
 })
 export class UpdateEmlpoyeeComponent implements OnInit {
-  constructor(private ref:ActivatedRoute,private empService: EmployeeService,private shared : SharedService){
+  constructor(private ref:ActivatedRoute,private empService: EmployeeService,private shared : SharedService,private activatedRoute: ActivatedRoute){
     this.referenceUrl = this.shared.referenceUrl
   }
   public empuuId:string="";
@@ -35,17 +35,24 @@ export class UpdateEmlpoyeeComponent implements OnInit {
   public employee:any=EmployeeSaving;
 
   ngOnInit(): void {
-    this.empuuId = "" +this.ref.snapshot.paramMap.get('id');
+    console.log(history.state);
+    
+    const employee = history.state.employee;
+    console.log(employee);
+    
+    this.empuuId  = history.state.employee.uuid;
+    console.log(this.empuuId);
+    
     this.send(this.empuuId);
     this.getAllReferenceType();
     this.fetchReportingManager();
+
+   
   }
 
 
 send(empuuId:string){
-  console.log("asdfghjkl;");
-  console.log(empuuId);
-  
+
   this.empService.getEmployeeDetailByUuId(this.empuuId).subscribe(
   (items)=>{
   this.emp=items[0];
@@ -60,7 +67,9 @@ send(empuuId:string){
 updateEmployee(emp: any, uuid: any, employeeId: number,isDeleted:boolean) {
   console.log("uuid................" + uuid);
   
-  emp.uuId = uuid;
+  emp.uuid = uuid;
+  console.log("uuid......................."+emp.uuid);
+  
   emp.employeeId = employeeId;
   emp.isDeleted=isDeleted;
   console.log(this.emp);
@@ -77,12 +86,7 @@ updateEmployee(emp: any, uuid: any, employeeId: number,isDeleted:boolean) {
       });
     },
     (error) => {
-      console.error('Error updating employee:', error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Update Error',
-        text: 'Failed to update employee. Please try again later.',
-      });
+  
     }
   );
 }

@@ -49,8 +49,11 @@
                 <select class="form-select" id="parentAccountId" placeholder="Enter Parent Account Id" [(ngModel)]="acc.parentAccountId" name="parentAccountId">            
                     <option [ngValue]="acc.parentAccountId">{{acc.parentAccountName}}
                 </option>
+                 <option *ngFor="let account1 of account1" [ngValue]="account1.accountId">{{account1.accountName}}</option>
                 </select>
             </div>
+           
+            
 
             <div class="col-md-4 mb-3">
                 <label for="accountBuId" class="form-label">Business Unit Name</label> 
@@ -64,23 +67,23 @@
         
 			  <div class="col-md-4 mb-3">
                 <label for="plannedStartDate" class="form-label">Planned Start Date:</label>
-                <input type="date" class="form-control" id="plannedStartDate" [(ngModel)]="acc.formattedPlannedStartDate" name="plannedStartDate">
+                <input type="date" class="form-control" id="plannedStartDate" [(ngModel)]="acc.plannedStartDate" name="plannedStartDate">
             </div>
   
   
             <div class="col-md-4 mb-3">
                 <label for="plannedEndDate" class="form-label">Planned Start Date:</label>
-                <input type="date" class="form-control" id="plannedEndDate" [(ngModel)]="acc.formattedPlannedEndDate" name="plannedEndDate">
+                <input type="date" class="form-control" id="plannedEndDate" [(ngModel)]="acc.plannedEndDate" name="plannedEndDate">
             </div>
   
   
             <div class="col-md-4 mb-3">
                 <label for="actualStartDate" class="form-label">actual Start Date:</label>
-                <input type="date" class="form-control" [(ngModel)]="acc.formattedActualStartDate" id="actualStartDate" name="actualStartDate">
+                <input type="date" class="form-control" [(ngModel)]="acc.actualStartDate" id="actualStartDate" name="actualStartDate">
             </div>
 			<div class="col-md-4 mb-3">
                 <label for="actualEndDate" class="form-label">actual End Date::</label>
-                <input type="date" class="form-control" id="actualEndDate" [(ngModel)]="acc.formattedActualEndDate" name="actualEndDate">
+                <input type="date" class="form-control" id="actualEndDate" [(ngModel)]="acc.actualEndDate" name="actualEndDate">
             </div>
             <div class="col-md-4 mb-3">
                 <label for="address" class="form-label">Address:</label>

@@ -24,10 +24,10 @@ export class AccountDisplayComponent implements OnInit {
 
 }
 
-editItem(id: string) {
-  console.log(id);
-  this.router.navigate(['/update-account', id]);
-  this.router.navigate(['/admin/update-account', id]);
+editItem(account: any) {
+  console.log("id...................",account);
+ 
+  this.router.navigate(['/admin/update-account'],{state: {account} });
 }
 removeTask(accountId:number) {
   Swal.fire({

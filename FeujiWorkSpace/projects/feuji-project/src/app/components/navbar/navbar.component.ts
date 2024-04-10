@@ -126,6 +126,7 @@ export class NavbarComponent {
         break;
     }
 
+
     // Set the title in the browser tab
     this.titleService.setTitle(this.title);
   }

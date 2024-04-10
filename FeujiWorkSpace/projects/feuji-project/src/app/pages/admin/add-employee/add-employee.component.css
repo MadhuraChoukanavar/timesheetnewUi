@@ -1,7 +1,6 @@
 .card{
   position: relative;
-  left: 3%;
-  bottom: 7%;
+  padding: 0;
   width:100%;
   background-color: rgb(229, 233, 234);
 }

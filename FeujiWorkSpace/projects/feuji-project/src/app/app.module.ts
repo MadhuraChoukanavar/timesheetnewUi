@@ -27,6 +27,8 @@ import { TimesheetHomeService } from '../models/timesheetHomeService.service';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 
 
+
+
 @NgModule({
   declarations: [
   AppComponent,
@@ -40,6 +42,7 @@ import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password
     AuthLayoutComponent,
     LoginLayoutComponent,
     ForgotPasswordComponent,
+
 
 
   ],

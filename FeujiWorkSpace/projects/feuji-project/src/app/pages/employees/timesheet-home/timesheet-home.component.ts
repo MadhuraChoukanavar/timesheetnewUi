@@ -92,7 +92,9 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     if (this.rownum > 0) {
       this.tasks.splice(index, 1);
 
+
       this.rownum--;
+
 
     }
 
@@ -119,8 +121,6 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     }
     this.timesheetHomeService.getAccounts(this.currentUser).subscribe(
       (resp) => {
-
-
         this.accounts = resp as any[];
       },
       (error) => {
@@ -298,7 +298,6 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
     this.tasks = [];
 
     this.loadTimesheetData();
-
     if (this.current != 0) {
       this.showButtons = false;
       this.addbutton = false;
@@ -941,7 +940,6 @@ export class TimesheetHomeComponent implements OnInit, AfterViewChecked {
       this.hoursPerDay = Number(hours);
 
       this.hoursPerWeek = this.hoursPerDay * 5;
-
     });
     var result = this.totalvalue.reduce((sum, num) => sum + num, 0);
 

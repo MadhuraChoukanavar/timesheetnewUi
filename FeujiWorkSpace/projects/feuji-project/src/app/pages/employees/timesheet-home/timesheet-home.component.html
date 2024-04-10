@@ -23,7 +23,6 @@
                   <option *ngFor="let acc of accounts" value="{{ acc.accountId }}">{{ acc.accountName }}</option>
                 </select>
 
-
                 <button class="btn btn-outline-primary" style="margin-right: 5px; margin-left: 5px" (click)="showPreviousWeek()">
                   <i class="fa-solid fa-angle-left"></i>
                 </button>
@@ -36,6 +35,7 @@
               <div class="col-md-7 d-flex justify-content-around">
                 <h6>{{ startDate }} To {{ lastDate }}</h6>
 
+                
                   <p class="custom-p">Timesheet-Status :
 
                   <span class="value  {{ fetchedDetails[0]?.timesheetStatusname }}">{{ fetchedDetails[0]?.timesheetStatusname }}</span>
@@ -114,6 +114,7 @@
               <span style=color:red>*</span>
               <select #taskselected="ngModel" id="tasktype_{{ i }}" name="tasktype_{{ i }}" class="sel-drop" (change)="onSelectTaskType($event, i)" [(ngModel)]="task.taskType">
                 <option value="" selected disabled>Select Type</option>
+
                 <option *ngFor="let tasktype of projectTaskType[i]" value="{{ tasktype.taskTypeId }}">{{tasktype.taskType}}</option>
               </select>
               <div *ngIf="!selectedProjectId && taskselected.touched"  class="text-danger">select project</div>

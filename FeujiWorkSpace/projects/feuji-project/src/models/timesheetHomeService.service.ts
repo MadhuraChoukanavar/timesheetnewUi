@@ -90,13 +90,13 @@ export class TimesheetHomeService {
     return this.http.get<WeekAndDayDto[]>(url);
   }
 
-  deleteRecord(weekdayDto: WeekAndDayDto): Observable<WeekAndDayDto> {
+  deleteRecord(weekdayDto: WeekAndDayDto): Observable<any> {
     const url = `${this.deleteUrl}/delete`;
-    console.log(weekdayDto);
-
-    return this.http.post<any>(url, weekdayDto);
+    console.log("hiiiiiii deleted");
+    
+    return this.http.request('delete', url, { body: weekdayDto });
   }
-
+ 
   submitData(employeeId: number,
     accountId: number,
     weekStartDate: string,

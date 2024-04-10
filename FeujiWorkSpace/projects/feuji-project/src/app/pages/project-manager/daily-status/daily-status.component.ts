@@ -338,8 +338,6 @@ export class DailyStatusComponent implements OnInit {
 
   fetchWeekDayData(): void {
 
-
-
     console.log("Employee ID: " + this.weekTimesheet.employeeId);
     console.log("h2");
 
@@ -498,3 +496,4 @@ export class DailyStatusComponent implements OnInit {
       });
   }
 }
+
